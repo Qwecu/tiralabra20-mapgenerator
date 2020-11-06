@@ -78,6 +78,6 @@ RATKAISU: lisätään kaarille tieto vasemmasta ja oikeasta rajasta, leftLimit j
 
 Vektorit: miten ilmaistaan suunta? Ratkaisu: Alku- ja suuntapiste, esim yksikkövektori (lähinnä kysymys onko tarkkuus riittävä, pitäisikö olla pidempi?)
 
-Sain algoritmin kaikki osat kirjoitettua ja ohjelman jopa ajettua kaatumatta muutamalla muutoksella. Algoritmi ei vielä toimi oikein, yhtään FinishedEdgeä ei muodostu. Tämä oli oletettavaa, sillä kirjoitin kaiken koodin ajamatta sitä kertaakaan välissä... Seuraavaksi sitten debuggerin kanssa pitää käydä koko homma läpi ja katsoa, mitä oikeasti tapahtuu.
+Sain algoritmin kaikki osat kirjoitettua lukuunottamatta viimeisten half edgejen päättelyä, ja ohjelman jopa ajettua kaatumatta muutamalla muutoksella. Algoritmi ei vielä toimi oikein, yhtään FinishedEdgeä ei muodostu. Tämä oli oletettavaa, sillä kirjoitin kaiken koodin ajamatta sitä kertaakaan välissä... Seuraavaksi sitten debuggerin kanssa pitää käydä koko homma läpi ja katsoa, mitä oikeasti tapahtuu.
 
 Käytetty aika tällä viikolla noin 10 h.
