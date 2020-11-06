@@ -4,19 +4,13 @@
  * and open the template in the editor.
  */
 
-package mapgenerator;
+package mapgenerator.domain;
 
 /**
  *
  * @author Aubergine
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class Event {
+    public void Suorita(){}
 
 }
