@@ -29,24 +29,22 @@ namespace mapseesharp
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
 
-            foreach(Site test in testsites) { events.Add(test.y, new EvntSite(test)); }
+            //Fill the event queue with site events for each input site.
+            //	-order by y-coordinate of the site
+            foreach (Site test in testsites) { events.Add(test.y, new EvntSite(test)); }
 
-            EvntSite first = (EvntSite)events[0];
+            EvntSite first = (EvntSite)events[events.Keys[0]];
 
             beachline.Add(new BeachArc(first.site));
 
 
-            //Fill the event queue with site events for each input site.
-            //	-order by y-coordinate of the site
 
-            foreach (Site s in testsites)
-            {
-                events.Add(s.y, new EvntSite(s));
-            }
+
+
             //While the event queue still has items in it:
             while (events.Count > 0)
             {
-                Evnt next = events[0];
+                Evnt next = events[events.Keys[0]];
                 //    If the next event on the queue is a site event:
                 if (next.IsSiteEvent)
                 {
@@ -190,6 +188,7 @@ namespace mapseesharp
                 //	-remaining collisions must only have one arc in between
             }
             //print
+            Console.Out.WriteLine("Valmis");
             foreach (Edge edge in FinishedEdges) {
                 Console.Out.WriteLine(
                     edge.StartingPoing.x + " " +

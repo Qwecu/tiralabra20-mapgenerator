@@ -8,12 +8,12 @@ namespace mapseesharp
 {
     class BeachArc : BeachObj
     {
-        private Site s;
+       // private Site s;
 
         //Tarvittaessa annetaan rajat, joihin paraabeli rajautuu oikealla ja vasemmalla
         public BeachArc(Site s, double limLeft = Double.NegativeInfinity, double limRight = Double.PositiveInfinity)
         {
-            this.s = s;
+            this.Homesite = s;
             LeftLimit = limLeft;
             RightLimit = limRight;
         }
@@ -29,8 +29,8 @@ namespace mapseesharp
         //https://jacquesheunis.com/post/fortunes-algorithm/
         internal double DistFromDirectrixX(Site newsite)
         {
-            double yf = s.y;
-            double xf = s.x;
+            double yf = Homesite.y;
+            double xf = Homesite.x;
             double yd = newsite.y;
             double x = newsite.x;
             return (1.0 / (2.0 * (yf - yd)))
