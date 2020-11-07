@@ -33,9 +33,11 @@ namespace mapseesharp
             double xf = Homesite.x;
             double yd = newsite.y;
             double x = newsite.x;
-            return (1.0 / (2.0 * (yf - yd)))
+            double yCoordinate = (1.0 / (2.0 * (yf - yd)))
                 * (x - xf) * (x - xf)
                 + ((yf + yd) / 2.0);
+            double distance = yCoordinate - yd;
+            return distance;
         }
     }
 }

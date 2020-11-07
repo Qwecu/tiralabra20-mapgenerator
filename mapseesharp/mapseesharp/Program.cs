@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace mapseesharp
 {
+
+
+    public class ReverseComparer : IComparer<double>
+    {
+        int IComparer<double>.Compare(double x, double y)
+        {
+            return -x.CompareTo(y);
+        }
+    }
     public class Program
     {
         static void Main(string[] args)
@@ -25,7 +34,10 @@ namespace mapseesharp
             var r = new Site(5, 1);
             ///TODO: Make sure that the sites can't be too near each other
 
-            SortedList<double, Evnt> events = new SortedList<double, Evnt>();
+
+            SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
+
+
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
 
@@ -37,7 +49,7 @@ namespace mapseesharp
 
             beachline.Add(new BeachArc(first.site));
 
-
+            events.Remove(events.Keys[0]);
 
 
 
@@ -56,10 +68,12 @@ namespace mapseesharp
                     BeachArc above = arcs[0];
                     double bestDistance = above.DistFromDirectrixX(currentSiteEvent.site);
 
+                    if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
+
                     foreach (BeachArc arc in arcs)
                     {
-                        //ensimmäinen ehto voi toteutua vain ekan kohdalla... seuraavat erottavat identtiset kaaret toisistaan
-                        if (above == arc || arc.LeftLimit > currentSiteEvent.x || arc.RightLimit < currentSiteEvent.x) continue;
+                        //erotetaan identtiset kaaret toisistaan
+                        if (arc.LeftLimit > currentSiteEvent.x || arc.RightLimit < currentSiteEvent.x) continue;
                         else
                         {
                             double distance = arc.DistFromDirectrixX(currentSiteEvent.site);
@@ -83,6 +97,7 @@ namespace mapseesharp
                     double startingX = currentSiteEvent.x;
                     double startingY = currentSiteEvent.y + bestDistance;
 
+                    //midway between new and old focus point
                     double midwayX = (above.HomeX + currentSiteEvent.x) / 2;
                     double midwayY = (above.HomeY + currentSiteEvent.y) / 2;
 
@@ -138,7 +153,7 @@ namespace mapseesharp
                             Point intersection = new Point(leftEdge, rightEdge);
                             //			-if yes, add circle event to queue
                             //			-y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
-                            //tsekataan että löytyy "tulevaisuudesta"
+                            //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
                             if (intersection.y < newarc.HomeY)
                             {
                                 //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
@@ -168,7 +183,7 @@ namespace mapseesharp
                         //		-add new single half-edge starting from intersection point
                         BeachArc futureLeft = (BeachArc)(beachline[(int)indexOnBeach - 2]);
                         BeachArc futureRight = (BeachArc)(beachline[(int)indexOnBeach + 2]);
-                        double xDirPoint = (futureLeft.HomeX + futureRight.HomeX)/ 2;
+                        double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
                         double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
 
                         BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
@@ -189,7 +204,8 @@ namespace mapseesharp
             }
             //print
             Console.Out.WriteLine("Valmis");
-            foreach (Edge edge in FinishedEdges) {
+            foreach (Edge edge in FinishedEdges)
+            {
                 Console.Out.WriteLine(
                     edge.StartingPoing.x + " " +
                     edge.StartingPoing.y + " " +
@@ -197,6 +213,7 @@ namespace mapseesharp
                     edge.EndingPoint.x + " "
                     );
             }
+            Console.ReadKey();
         }
     }
 }
