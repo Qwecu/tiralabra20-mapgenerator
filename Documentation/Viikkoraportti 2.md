@@ -72,12 +72,12 @@ Täydensin tätä vähän tutoriaalin perusteella. Tässä vaiheessa isoja ongel
 
 		-remaining collisions must only have one arc in between
 
-Tämän perusteella aloin siiten kirjoittaa C#-koodia rakkaalla Visual Studiolla päästäkseni nyt edes itse algoritmin kimppuun. Ensimmäinen ongelma on löytää site eventin yhteydessä oikea kaari uuden siten yläpuolelta. Tuolta demosivulta löytyi kaava, jolla oikea paraabeli löytyy, mutta identtisiä paraabeleja saattaa joskus olla beachlinessa useampi... no, päätin ratkaista ensin vain ne vaihtoehdot, joissa näin ei ole.
+Tämän perusteella aloin siiten kirjoittaa C#-koodia rakkaalla Visual Studiolla päästäkseni nyt edes itse algoritmin kimppuun. Lisäsin mapseesharp-kansioon tämän C#-projektin. Ensimmäinen ongelma on löytää site eventin yhteydessä oikea kaari uuden siten yläpuolelta. Tuolta demosivulta löytyi kaava, jolla oikea paraabeli löytyy, mutta identtisiä paraabeleja saattaa joskus olla beachlinessa useampi... no, päätin ratkaista ensin vain ne vaihtoehdot, joissa näin ei ole.
 
 RATKAISU: lisätään kaarille tieto vasemmasta ja oikeasta rajasta, leftLimit ja rightLimit tjsp. Näin yksiselitteinen kaari löytyy \o/
 
 Vektorit: miten ilmaistaan suunta? Ratkaisu: Alku- ja suuntapiste, esim yksikkövektori (lähinnä kysymys onko tarkkuus riittävä, pitäisikö olla pidempi?)
 
-Sain algoritmin kaikki osat kirjoitettua ja ohjelman jopa ajettua kaatumatta muutamalla muutoksella. Algoritmi ei vielä toimi oikein, yhtään FinishedEdgeä ei muodostu. Tämä oli oletettavaa, sillä kirjoitin kaiken koodin ajamatta sitä kertaakaan välissä... Seuraavaksi sitten debuggerin kanssa pitää käydä koko homma läpi ja katsoa, mitä oikeasti tapahtuu.
+Sain algoritmin kaikki osat kirjoitettua lukuunottamatta viimeisten half edgejen päättelyä, ja ohjelman jopa ajettua kaatumatta muutamalla muutoksella. Algoritmi ei vielä toimi oikein, yhtään FinishedEdgeä ei muodostu. Tämä oli oletettavaa, sillä kirjoitin kaiken koodin ajamatta sitä kertaakaan välissä... Seuraavaksi sitten debuggerin kanssa pitää käydä koko homma läpi ja katsoa, mitä oikeasti tapahtuu.
 
 Käytetty aika tällä viikolla noin 10 h.
