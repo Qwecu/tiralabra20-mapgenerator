@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mapseesharp
 {
-    class BeachHalfEdge : BeachObj
+    public class BeachHalfEdge : BeachObj
     {
         public double startingX { get; set; }
         public double startingY { get; set; }

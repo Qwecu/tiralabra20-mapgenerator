@@ -51,9 +51,11 @@
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultObject.cs" />
     <Compile Include="Site.cs" />
     <Compile Include="EvntSite.cs" />
     <Compile Include="BeachHalfEdge.cs" />
+    <Compile Include="VoronoiCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

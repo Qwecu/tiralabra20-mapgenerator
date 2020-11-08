@@ -1,6 +1,6 @@
 ﻿namespace mapseesharp
 {
-    internal abstract class BeachObj
+    public abstract class BeachObj
     {
     }
 }

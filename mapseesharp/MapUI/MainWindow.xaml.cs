@@ -56,8 +56,27 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
+            var prog = new mapseesharp.Program();
+            var res = prog.Calculate(testsites);
+            res.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
+            res.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
+            res.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasWidth)));
+            res.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasWidth)));
 
-            double[] testResult = new double[] {
+            foreach (Edge p in res)
+            {
+                var myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.MediumSlateBlue;
+                myLine.X1 = p.StartingPoing.x + xSiirto;
+                myLine.Y1 = p.StartingPoing.y + ySiirto;
+                myLine.X2 = p.EndingPoint.x + xSiirto;
+                myLine.Y2 = p.EndingPoint.y + ySiirto;
+                myLine.StrokeThickness = 1;
+                myGrid.Children.Add(myLine);
+            }
+
+
+            /*double[] testResult = new double[] {
                 23, 83.9074074074074, 41.9042553191489, 69.9042553191489,
                 62, 90, 41.9042553191489, 69.9042553191489,
                 41.9042553191489, 69.9042553191489, 46.1279069767442, 49.3139534883721,
@@ -80,7 +99,7 @@ namespace MapUI
 
             for (int i = 0; i < testResult.Length; i += 4) {
                 var myLine = new Line();
-                myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+                myLine.Stroke = System.Windows.Media.Brushes.MediumSlateBlue;
                 myLine.X1 = testResult[i] + xSiirto;
                 myLine.Y1 = testResult[i + 1] + ySiirto;
                 myLine.X2 = testResult[i+2] + xSiirto;
@@ -89,7 +108,9 @@ namespace MapUI
                 //myLine.VerticalAlignment = VerticalAlignment.Center;
                 myLine.StrokeThickness = 1;
                 myGrid.Children.Add(myLine);
-            }
+            } */
+
+
 
 
         }

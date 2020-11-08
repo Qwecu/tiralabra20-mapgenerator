@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mapseesharp
 {
-    class Edge
+    public class Edge
     {
         public Point StartingPoing { get; set; }
         public Point EndingPoint { get; set; }

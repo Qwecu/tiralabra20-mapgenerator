@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mapseesharp
 {
-    class Point
+    public class Point
     {
 
         public double x { get; set; }
