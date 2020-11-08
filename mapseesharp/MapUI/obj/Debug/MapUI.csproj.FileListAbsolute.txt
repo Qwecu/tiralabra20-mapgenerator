@@ -1,0 +1,16 @@
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\bin\Debug\MapUI.exe.config
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\bin\Debug\MapUI.exe
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\bin\Debug\MapUI.pdb
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI.csprojResolveAssemblyReference.cache
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MainWindow.g.cs
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\App.g.cs
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI_MarkupCompile.cache
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI_MarkupCompile.lref
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MainWindow.baml
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI.g.resources
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI.Properties.Resources.resources
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI.csproj.GenerateResource.Cache
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI.exe
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\obj\Debug\MapUI.pdb
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\bin\Debug\mapseesharp.exe
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\MapUI\bin\Debug\mapseesharp.pdb

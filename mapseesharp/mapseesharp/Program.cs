@@ -34,9 +34,7 @@ namespace mapseesharp
             var r = new Site(5, 1);
             ///TODO: Make sure that the sites can't be too near each other
 
-
             SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
-
 
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
