@@ -21,15 +21,32 @@ namespace MapUI
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        int xSiirto = 200;
+        int ySiirto = 200;
+
+        int canvasWidth = 100;
+        int canvasHeight = 100;
+
+        int windowWidth = 700;
+        int windowHeight = 700;
+        
+
+        //TODO käännetään koordinaatisto oikein päin ihmiselle...
+        /*
+        private double getY(double y)
+        {
+            return 0.0;
+        }
+
+        private double getX(double x)
+        {
+            return 0.0;
+        }*/
+
         public MainWindow()
         {
-            InitializeComponent();
-
-            int xSiirto = 200;
-            int ySiirto = 200;
-
-            int canvasWidth = 100;
-            int canvasHeight = 100;
+            InitializeComponent();            
 
             var testsites = new Site[] {
                 new Site(3,9),
@@ -58,12 +75,12 @@ namespace MapUI
 
             var prog = new mapseesharp.Program();
             var res = prog.Calculate(testsites);
-            res.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
-            res.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
-            res.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasWidth)));
-            res.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasWidth)));
+            res.finishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
+            res.finishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
+            res.finishedEdges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasWidth)));
+            res.finishedEdges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasWidth)));
 
-            foreach (Edge p in res)
+            foreach (Edge p in res.finishedEdges)
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.MediumSlateBlue;
@@ -71,6 +88,18 @@ namespace MapUI
                 myLine.Y1 = p.StartingPoing.y + ySiirto;
                 myLine.X2 = p.EndingPoint.x + xSiirto;
                 myLine.Y2 = p.EndingPoint.y + ySiirto;
+                myLine.StrokeThickness = 2;
+                myGrid.Children.Add(myLine);
+            }
+
+            foreach (BeachHalfEdge p in res.beachline.Where(x => (x.GetType()).Equals(typeof(BeachHalfEdge))).Select(x => (BeachHalfEdge)x))
+            {
+                var myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.Red;
+                myLine.X1 = p.startingX + xSiirto;
+                myLine.Y1 = p.startingY + ySiirto;
+                myLine.X2 = p.directionX + xSiirto;
+                myLine.Y2 = p.directionY + ySiirto;
                 myLine.StrokeThickness = 1;
                 myGrid.Children.Add(myLine);
             }
@@ -85,7 +114,7 @@ namespace MapUI
                 53, 45.3333333333333, 46.5243243243243, 50.7297297297297,
                 3, 39.7037037037037, 23.1193277310924, 32.2521008403361,
                 46.5243243243243, 50.7297297297297, 23.1193277310924, 32.2521008403361,
-                23.1193277310924, 32.2521008403361, -49.9999999999999, 260.75,
+                23.1193277310924, 32.2521008403361, -49.9999999999999, 260.75,   //näissä kolmessa jotain häikkää
                 38, 40.75, -49.9999999999999, 260.75,
                 -49.9999999999999, 260.75, 20.0357142857143, 15.625,
                 31, 11.3611111111111, 20.0357142857143, 15.625,

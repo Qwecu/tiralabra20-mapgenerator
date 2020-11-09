@@ -8,7 +8,7 @@ namespace mapseesharp
 {
     class VoronoiCalculator
     {
-        internal List<Edge> Calculate(Site[] sites)
+        internal ResultObject Calculate(Site[] sites)
         {
             ///TODO: Make sure that the sites can't be too near each other
 
@@ -223,7 +223,7 @@ namespace mapseesharp
                     );
             }
             //Console.ReadKey();
-            return FinishedEdges;
+            return new ResultObject(FinishedEdges, beachline);
         }
     }
 }

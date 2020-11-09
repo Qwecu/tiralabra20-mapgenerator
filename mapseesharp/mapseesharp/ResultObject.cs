@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace mapseesharp
 {
-    class ResultObject
+    public class ResultObject
     {
+        public List<BeachObj> beachline { get; set; }
+        public List<Edge> finishedEdges { get; set; }
+
+        public ResultObject(List<Edge> finishedEdges, List<BeachObj> beachline)
+        {
+            this.finishedEdges = finishedEdges;
+            this.beachline = beachline;
+        }
     }
 }

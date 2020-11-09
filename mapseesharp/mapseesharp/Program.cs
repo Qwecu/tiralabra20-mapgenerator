@@ -19,7 +19,7 @@ namespace mapseesharp
     {
         private VoronoiCalculator vCalc;
 
-        public List<Edge> Calculate(Site[] sites)
+        public ResultObject Calculate(Site[] sites)
         {
             vCalc = new VoronoiCalculator();
             return vCalc.Calculate(sites);
