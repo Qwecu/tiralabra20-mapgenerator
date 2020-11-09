@@ -1,6 +1,6 @@
 ﻿namespace mapseesharp
 {
-    internal class EvntCircle : Evnt
+    public class EvntCircle : Evnt
     {
         public BeachHalfEdge leftEdge { get; set; }
         public BeachArc DisappearingArc { get; set; }

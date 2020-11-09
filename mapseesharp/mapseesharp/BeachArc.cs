@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mapseesharp
 {
-    class BeachArc : BeachObj
+    public class BeachArc : BeachObj
     {
        // private Site s;
 

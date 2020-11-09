@@ -13,9 +13,9 @@ namespace mapseesharp
             ///TODO: Make sure that the sites can't be too near each other
 
             SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
-
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
+            List<EvntCircle> OldCircleEvents = new List<EvntCircle>();
 
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
@@ -206,6 +206,7 @@ namespace mapseesharp
 
                         }
                     }
+                    OldCircleEvents.Add(currentCircEv);
                 }
                 events.Remove(nextKey);
                 //Cleanup any remaining intermediate state
@@ -223,7 +224,7 @@ namespace mapseesharp
                     );
             }
             //Console.ReadKey();
-            return new ResultObject(FinishedEdges, beachline);
+            return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents);
         }
     }
 }

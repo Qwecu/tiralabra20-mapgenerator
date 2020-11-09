@@ -25,8 +25,8 @@ namespace MapUI
         int xSiirto = 200;
         int ySiirto = 200;
 
-        int canvasWidth = 100;
-        int canvasHeight = 100;
+        int canvasWidth = 200;
+        int canvasHeight = 200;
 
         int windowWidth = 700;
         int windowHeight = 700;
@@ -48,7 +48,7 @@ namespace MapUI
         {
             InitializeComponent();            
 
-            var testsites = new Site[] {
+            var testsites4 = new Site[] {
                 new Site(3,9),
                 new Site(43,90),
                 new Site(73,49),
@@ -59,7 +59,18 @@ namespace MapUI
                 new Site(62,71)
             };
 
-            foreach(Site site in testsites)
+            var testsites = new Site[] {
+                new Site(6,18),
+                new Site(86,180),
+                new Site(146,98),
+                new Site(106,50),
+                new Site(46,126),
+                new Site(76,38),
+                new Site(62,2),
+                new Site(124,142)
+            };
+
+            foreach (Site site in testsites)
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.Black;
@@ -75,15 +86,19 @@ namespace MapUI
 
             var prog = new mapseesharp.Program();
             var res = prog.Calculate(testsites);
-            res.finishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
-            res.finishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
-            res.finishedEdges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasWidth)));
-            res.finishedEdges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasWidth)));
+            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
+            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
+            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasWidth)));
+            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasWidth)));
 
-            foreach (Edge p in res.finishedEdges)
+            
+
+            
+
+            foreach (Edge p in res.FinishedEdges)
             {
                 var myLine = new Line();
-                myLine.Stroke = System.Windows.Media.Brushes.MediumSlateBlue;
+                myLine.Stroke = System.Windows.Media.Brushes.LightBlue;
                 myLine.X1 = p.StartingPoing.x + xSiirto;
                 myLine.Y1 = p.StartingPoing.y + ySiirto;
                 myLine.X2 = p.EndingPoint.x + xSiirto;
@@ -92,7 +107,7 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
-            foreach (BeachHalfEdge p in res.beachline.Where(x => (x.GetType()).Equals(typeof(BeachHalfEdge))).Select(x => (BeachHalfEdge)x))
+            foreach (BeachHalfEdge p in res.BeachHalfEdges)
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.Red;
@@ -139,7 +154,40 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             } */
 
+            foreach (EvntCircle ce in res.OldCircleEvents)
+            {
+                Canvas canvas = new Canvas();
+                myGrid.Children.Add(canvas);
 
+                var circle = new System.Windows.Shapes.Ellipse();
+                circle.Stroke = System.Windows.Media.Brushes.LightGreen;
+                circle.Width = circle.Height = 2 * (ce.CircleCentre.y - ce.PosEventY);
+
+                /*myLine.ali=
+                myLine.Y1 = p.StartingPoing.y + ySiirto;
+                myLine.X2 = p.EndingPoint.x + xSiirto;
+                myLine.Y2 = p.EndingPoint.y + ySiirto;*/
+
+                circle.StrokeThickness = 1;
+
+                //myGrid.Children.Add(myLine);
+                Canvas.SetLeft(circle, ce.CircleCentre.x - circle.Width/2 + xSiirto);
+                Canvas.SetTop(circle, ce.CircleCentre.y - circle.Height/2 + ySiirto);
+
+                canvas.Children.Add(circle);
+
+
+                var myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.HotPink;
+                myLine.X1 = ce.CircleCentre.x + xSiirto - 1;
+                myLine.Y1 = ce.CircleCentre.y + ySiirto - 1;
+                myLine.X2 = ce.CircleCentre.x + xSiirto + 1;
+                myLine.Y2 = ce.CircleCentre.y + ySiirto + 1;
+                //myLine.HorizontalAlignment = HorizontalAlignment.Left;
+                //myLine.VerticalAlignment = VerticalAlignment.Center;
+                myLine.StrokeThickness = 3;
+                myGrid.Children.Add(myLine);
+            }
 
 
         }
