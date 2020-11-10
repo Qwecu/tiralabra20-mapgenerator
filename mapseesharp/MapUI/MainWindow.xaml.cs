@@ -143,10 +143,11 @@ namespace MapUI
             foreach(var ba in result.BeachArcs)
             {
                 for (int i = 0; i < canvasWidth; i++)
-                    //for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
+                  //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
                 {
                     var myLine = new Line();
                     myLine.Stroke = System.Windows.Media.Brushes.Silver;
+                    if (i > ba.LeftLimit && i < ba.RightLimit) myLine.Stroke = Brushes.MediumSeaGreen;
 
                     double yf = ba.Homesite.y;
                     double xf = ba.Homesite.x;
