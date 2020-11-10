@@ -287,6 +287,7 @@ namespace MapUI
         {
             InitializeComponent();
             var prog = new mapseesharp.Program();
+            currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
             result = prog.Calculate(testsites);
             DrawEverything();
 
