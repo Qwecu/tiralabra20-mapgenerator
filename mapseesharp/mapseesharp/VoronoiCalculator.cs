@@ -44,6 +44,8 @@ namespace mapseesharp
                 beachline.Add(new BeachArc(first.site));
 
                 events.Remove(events.Keys[0]);
+
+                return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents);
             }
 
 
