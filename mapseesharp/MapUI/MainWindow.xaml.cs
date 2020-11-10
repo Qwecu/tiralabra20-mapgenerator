@@ -88,8 +88,8 @@ namespace MapUI
             var res = prog.Calculate(testsites);
             res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
             res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
-            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasWidth)));
-            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasWidth)));
+            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasHeight)));
+            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasHeight)));
 
             
 
