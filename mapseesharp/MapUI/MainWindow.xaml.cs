@@ -70,6 +70,24 @@ namespace MapUI
 
         private void DrawEverything()
         {
+            //myGrid.Children.Clear();
+
+            List<UIElement> badChildren = new List<UIElement>();
+
+            foreach(UIElement b in myGrid.Children)
+            {
+                if(!b.GetType().Equals(typeof(Button)))
+                {
+                    badChildren.Add(b);
+                    
+                }
+            }
+
+            foreach(UIElement b in badChildren)
+            {
+                myGrid.Children.Remove(b);
+            }
+
             foreach (Site site in testsites)
             {
                 var myLine = new Line();

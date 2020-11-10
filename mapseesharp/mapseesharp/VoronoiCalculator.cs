@@ -36,11 +36,15 @@ namespace mapseesharp
             //	-order by y-coordinate of the site
             //foreach (Site test in sites) { events.Add(test.y, new EvntSite(test)); }
 
-            EvntSite first = (EvntSite)events[events.Keys[0]];
+            if (beachline.Count == 0)
+            {
 
-            beachline.Add(new BeachArc(first.site));
+                EvntSite first = (EvntSite)events[events.Keys[0]];
 
-            events.Remove(events.Keys[0]);
+                beachline.Add(new BeachArc(first.site));
+
+                events.Remove(events.Keys[0]);
+            }
 
 
 

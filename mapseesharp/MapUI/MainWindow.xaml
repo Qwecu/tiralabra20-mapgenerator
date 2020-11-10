@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:MapUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="700">
+
     <Grid x:Name="myGrid">
         <Button x:Name="iterate" Content="Iterate" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="75" Click="iterate_Click"/>
-
     </Grid>
 </Window>
