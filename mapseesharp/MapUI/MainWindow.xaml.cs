@@ -31,6 +31,8 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
+        bool drawParabolas = false;
+
         double currentY = 0;
 
         ResultObject result;
@@ -76,20 +78,20 @@ namespace MapUI
 
             List<UIElement> badChildren = new List<UIElement>();
 
-            foreach(UIElement b in myGrid.Children)
+            foreach (UIElement b in myGrid.Children)
             {
-                if(!b.GetType().Equals(typeof(Button)))
+                if (!b.GetType().Equals(typeof(Button)))
                 {
-                    badChildren.Add(b);                    
+                    badChildren.Add(b);
                 }
             }
 
-            foreach(UIElement b in badChildren)
+            foreach (UIElement b in badChildren)
             {
                 myGrid.Children.Remove(b);
             }
 
-            foreach(var evnt in result.Events.Values)
+            foreach (var evnt in result.Events.Values)
             {
                 if (evnt.IsSiteEvent)
                 {
@@ -140,10 +142,11 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
-            foreach(var ba in result.BeachArcs)
+            if (drawParabolas) { 
+            foreach (var ba in result.BeachArcs)
             {
                 for (int i = 0; i < canvasWidth; i++)
-                  //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
+                //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
                 {
                     var myLine = new Line();
                     myLine.Stroke = System.Windows.Media.Brushes.Silver;
@@ -167,7 +170,7 @@ namespace MapUI
                     myLine.StrokeThickness = 1;
                     myGrid.Children.Add(myLine);
                 }
-            }
+            } }
 
             List<Edge> canvasedges = new List<Edge>();
 
@@ -287,10 +290,7 @@ namespace MapUI
         public MainWindow()
         {
             InitializeComponent();
-            var prog = new mapseesharp.Program();
-            currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
-            result = prog.Calculate(testsites);
-            DrawEverything();
+            SetUp();
 
         }
 
@@ -299,6 +299,19 @@ namespace MapUI
             if (result.Events.Count == 0) return;
             currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
             result = new mapseesharp.Program().Calculate(result);
+            DrawEverything();
+        }
+
+        private void reset_Click(object sender, RoutedEventArgs e)
+        {
+            SetUp();
+        }
+
+        private void SetUp()
+        {
+            var prog = new mapseesharp.Program();
+            currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
+            result = prog.Calculate(testsites);
             DrawEverything();
         }
     }

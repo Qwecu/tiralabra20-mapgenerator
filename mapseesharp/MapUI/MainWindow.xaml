@@ -9,5 +9,6 @@
 
     <Grid x:Name="myGrid">
         <Button x:Name="iterate" Content="Iterate" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="75" Click="iterate_Click"/>
+        <Button x:Name="reset" Content="Reset" HorizontalAlignment="Left" Margin="114,10,0,0" VerticalAlignment="Top" Width="75" Click="reset_Click"/>
     </Grid>
 </Window>
