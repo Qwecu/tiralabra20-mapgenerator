@@ -227,7 +227,7 @@ namespace mapseesharp
                 //{
                 //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
                 double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
-                var circleEvent = new EvntCircle(newarc.HomeY - distFromFocus, newarc, leftEdge, rightEdge, intersection);
+                var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
 
                 res = circleEvent;
                 //}

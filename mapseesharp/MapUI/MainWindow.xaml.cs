@@ -25,13 +25,13 @@ namespace MapUI
         int xSiirto = 200;
         int ySiirto = 200;
 
-        int canvasWidth = 200;
-        int canvasHeight = 200;
+        int canvasWidth = 400;
+        int canvasHeight = 400;
 
         int windowWidth = 700;
         int windowHeight = 700;
 
-        bool drawParabolas = false;
+        bool drawParabolas = true;
 
         double currentY = 0;
 
@@ -48,7 +48,7 @@ namespace MapUI
                 new Site(62,71)
             };
 
-        Site[] testsites = new Site[] {
+        Site[] testsites4e = new Site[] {
                 new Site(6,18),
                 new Site(86,180),
                 new Site(146,98),
@@ -57,6 +57,17 @@ namespace MapUI
                 new Site(76,38),
                 new Site(62,2),
                 new Site(124,142)
+            };
+
+        Site[] testsites = new Site[] {
+                new Site(12,36),
+                new Site(172,360),
+                new Site(292,196),
+                new Site(212,100),
+                new Site(92,252),
+                new Site(152,76),
+                new Site(124,4),
+                new Site(248,284)
             };
 
 
@@ -128,19 +139,7 @@ namespace MapUI
             myLinew.StrokeThickness = 3;
             myGrid.Children.Add(myLinew);
 
-            foreach (Site site in testsites)
-            {
-                var myLine = new Line();
-                myLine.Stroke = System.Windows.Media.Brushes.Black;
-                myLine.X1 = site.x + xSiirto;
-                myLine.Y1 = site.y + ySiirto;
-                myLine.X2 = site.x + xSiirto + 1;
-                myLine.Y2 = site.y + ySiirto + 1;
-                //myLine.HorizontalAlignment = HorizontalAlignment.Left;
-                //myLine.VerticalAlignment = VerticalAlignment.Center;
-                myLine.StrokeThickness = 2;
-                myGrid.Children.Add(myLine);
-            }
+           
 
             if (drawParabolas) { 
             foreach (var ba in result.BeachArcs)
@@ -251,13 +250,14 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             } */
 
-            foreach (EvntCircle ce in result.OldCircleEvents)
+            foreach (EvntCircle ce in (result.Events.Where(x => x.Value.IsSiteEvent == false)).Select(x => (EvntCircle)x.Value))
             {
                 Canvas canvas = new Canvas();
                 myGrid.Children.Add(canvas);
 
                 var circle = new System.Windows.Shapes.Ellipse();
-                circle.Stroke = System.Windows.Media.Brushes.LightGreen;
+                circle.Stroke = System.Windows.Media.Brushes.Yellow;
+                if(ce.CircleCentre.y >= ce.PosEventY)
                 circle.Width = circle.Height = 2 * (ce.CircleCentre.y - ce.PosEventY);
 
                 /*myLine.ali=
@@ -283,6 +283,56 @@ namespace MapUI
                 //myLine.HorizontalAlignment = HorizontalAlignment.Left;
                 //myLine.VerticalAlignment = VerticalAlignment.Center;
                 myLine.StrokeThickness = 3;
+                myGrid.Children.Add(myLine);
+            }
+
+            foreach (EvntCircle ce in result.OldCircleEvents)
+            {
+                Canvas canvas = new Canvas();
+                myGrid.Children.Add(canvas);
+
+                var circle = new System.Windows.Shapes.Ellipse();
+                circle.Stroke = System.Windows.Media.Brushes.LightGreen;
+                if (ce.CircleCentre.y >= ce.PosEventY)
+                    circle.Width = circle.Height = 2 * (ce.CircleCentre.y - ce.PosEventY);
+
+                /*myLine.ali=
+                myLine.Y1 = p.StartingPoing.y + ySiirto;
+                myLine.X2 = p.EndingPoint.x + xSiirto;
+                myLine.Y2 = p.EndingPoint.y + ySiirto;*/
+
+                circle.StrokeThickness = 1;
+
+                //myGrid.Children.Add(myLine);
+                Canvas.SetLeft(circle, ce.CircleCentre.x - circle.Width / 2 + xSiirto);
+                Canvas.SetTop(circle, ce.CircleCentre.y - circle.Height / 2 + ySiirto);
+
+                canvas.Children.Add(circle);
+
+
+                var myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.HotPink;
+                myLine.X1 = ce.CircleCentre.x + xSiirto - 1;
+                myLine.Y1 = ce.CircleCentre.y + ySiirto - 1;
+                myLine.X2 = ce.CircleCentre.x + xSiirto + 1;
+                myLine.Y2 = ce.CircleCentre.y + ySiirto + 1;
+                //myLine.HorizontalAlignment = HorizontalAlignment.Left;
+                //myLine.VerticalAlignment = VerticalAlignment.Center;
+                myLine.StrokeThickness = 3;
+                myGrid.Children.Add(myLine);
+            }
+
+            foreach (Site site in testsites)
+            {
+                var myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.Black;
+                myLine.X1 = site.x + xSiirto;
+                myLine.Y1 = site.y + ySiirto;
+                myLine.X2 = site.x + xSiirto + 1;
+                myLine.Y2 = site.y + ySiirto + 1;
+                //myLine.HorizontalAlignment = HorizontalAlignment.Left;
+                //myLine.VerticalAlignment = VerticalAlignment.Center;
+                myLine.StrokeThickness = 2;
                 myGrid.Children.Add(myLine);
             }
         }
