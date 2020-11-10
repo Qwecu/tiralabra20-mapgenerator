@@ -30,7 +30,31 @@ namespace MapUI
 
         int windowWidth = 700;
         int windowHeight = 700;
-        
+
+        ResultObject result;
+
+        Site[] testsites4 = new Site[] {
+                new Site(3,9),
+                new Site(43,90),
+                new Site(73,49),
+                new Site(53,25),
+                new Site(23,63),
+                new Site(38,19),
+                new Site(31,1),
+                new Site(62,71)
+            };
+
+        Site[] testsites = new Site[] {
+                new Site(6,18),
+                new Site(86,180),
+                new Site(146,98),
+                new Site(106,50),
+                new Site(46,126),
+                new Site(76,38),
+                new Site(62,2),
+                new Site(124,142)
+            };
+
 
         //TODO käännetään koordinaatisto oikein päin ihmiselle...
         /*
@@ -44,32 +68,8 @@ namespace MapUI
             return 0.0;
         }*/
 
-        public MainWindow()
+        private void DrawEverything()
         {
-            InitializeComponent();            
-
-            var testsites4 = new Site[] {
-                new Site(3,9),
-                new Site(43,90),
-                new Site(73,49),
-                new Site(53,25),
-                new Site(23,63),
-                new Site(38,19),
-                new Site(31,1),
-                new Site(62,71)
-            };
-
-            var testsites = new Site[] {
-                new Site(6,18),
-                new Site(86,180),
-                new Site(146,98),
-                new Site(106,50),
-                new Site(46,126),
-                new Site(76,38),
-                new Site(62,2),
-                new Site(124,142)
-            };
-
             foreach (Site site in testsites)
             {
                 var myLine = new Line();
@@ -84,18 +84,15 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
-            var prog = new mapseesharp.Program();
-            var res = prog.Calculate(testsites);
-            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
-            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
-            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasHeight)));
-            res.FinishedEdges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasHeight)));
+            List<Edge> canvasedges = new List<Edge>();
 
-            
+            canvasedges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
+            canvasedges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
+            canvasedges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasHeight)));
+            canvasedges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasHeight)));
 
-            
 
-            foreach (Edge p in res.FinishedEdges)
+            foreach (Edge p in result.FinishedEdges)
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.LightBlue;
@@ -107,7 +104,19 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
-            foreach (BeachHalfEdge p in res.BeachHalfEdges)
+            foreach (Edge p in canvasedges)
+            {
+                var myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.LightSeaGreen;
+                myLine.X1 = p.StartingPoing.x + xSiirto;
+                myLine.Y1 = p.StartingPoing.y + ySiirto;
+                myLine.X2 = p.EndingPoint.x + xSiirto;
+                myLine.Y2 = p.EndingPoint.y + ySiirto;
+                myLine.StrokeThickness = 2;
+                myGrid.Children.Add(myLine);
+            }
+
+            foreach (BeachHalfEdge p in result.BeachHalfEdges)
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.Red;
@@ -154,7 +163,7 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             } */
 
-            foreach (EvntCircle ce in res.OldCircleEvents)
+            foreach (EvntCircle ce in result.OldCircleEvents)
             {
                 Canvas canvas = new Canvas();
                 myGrid.Children.Add(canvas);
@@ -171,8 +180,8 @@ namespace MapUI
                 circle.StrokeThickness = 1;
 
                 //myGrid.Children.Add(myLine);
-                Canvas.SetLeft(circle, ce.CircleCentre.x - circle.Width/2 + xSiirto);
-                Canvas.SetTop(circle, ce.CircleCentre.y - circle.Height/2 + ySiirto);
+                Canvas.SetLeft(circle, ce.CircleCentre.x - circle.Width / 2 + xSiirto);
+                Canvas.SetTop(circle, ce.CircleCentre.y - circle.Height / 2 + ySiirto);
 
                 canvas.Children.Add(circle);
 
@@ -188,8 +197,22 @@ namespace MapUI
                 myLine.StrokeThickness = 3;
                 myGrid.Children.Add(myLine);
             }
+        }
 
+        public MainWindow()
+        {
+            InitializeComponent();
+            var prog = new mapseesharp.Program();
+            result = prog.Calculate(testsites);
+            DrawEverything();
 
+        }
+
+        private void iterate_Click(object sender, RoutedEventArgs e)
+        {
+            if (result.Events.Count == 0) return;
+            result = new mapseesharp.Program().Calculate(result);
+            DrawEverything();
         }
     }
 }

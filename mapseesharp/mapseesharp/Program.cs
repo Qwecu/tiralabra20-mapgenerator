@@ -22,7 +22,13 @@ namespace mapseesharp
         public ResultObject Calculate(Site[] sites)
         {
             vCalc = new VoronoiCalculator();
-            return vCalc.Calculate(sites);
+            return vCalc.Iterate(sites);
+        }
+
+        public ResultObject Calculate(ResultObject res)
+        {
+            vCalc = new VoronoiCalculator();
+            return vCalc.Iterate(res.Events, res.FinishedEdges, res.Beachline, res.OldCircleEvents);
         }
 
         static void Main(string[] args)

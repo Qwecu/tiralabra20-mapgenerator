@@ -8,10 +8,8 @@ namespace mapseesharp
 {
     class VoronoiCalculator
     {
-        internal ResultObject Calculate(Site[] sites)
+        internal ResultObject Iterate(Site[] sites)
         {
-            ///TODO: Make sure that the sites can't be too near each other
-
             SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
@@ -20,6 +18,23 @@ namespace mapseesharp
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
             foreach (Site test in sites) { events.Add(test.y, new EvntSite(test)); }
+            return Iterate(events, FinishedEdges, beachline, OldCircleEvents);
+
+        }
+
+        //internal ResultObject Calculate(Site[] sites)
+        internal ResultObject Iterate(SortedList<double, Evnt> events, List<Edge> FinishedEdges, List<BeachObj> beachline, List<EvntCircle> OldCircleEvents)
+        {
+            ///TODO: Make sure that the sites can't be too near each other
+
+            /*SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
+            List<BeachObj> beachline = new List<BeachObj>();
+            List<Edge> FinishedEdges = new List<Edge>();
+            List<EvntCircle> OldCircleEvents = new List<EvntCircle>();*/
+
+            //Fill the event queue with site events for each input site.
+            //	-order by y-coordinate of the site
+            //foreach (Site test in sites) { events.Add(test.y, new EvntSite(test)); }
 
             EvntSite first = (EvntSite)events[events.Keys[0]];
 
@@ -30,145 +45,145 @@ namespace mapseesharp
 
 
             //While the event queue still has items in it:
-            while (events.Count > 0)
+            //while (events.Count > 0)
+            //{
+            Evnt next = events[events.Keys[0]];
+
+            //tallennetaan oikea key jotta saadaan tämä event poistettua (TODO keksi tapa jossa ei synny clasheja)
+            double nextKey = events.Keys[0];
+
+            //    If the next event on the queue is a site event:
+            if (next.IsSiteEvent)
             {
-                Evnt next = events[events.Keys[0]];
+                EvntSite currentSiteEvent = (EvntSite)next;
+                //        Add the new site to the beachline
+                //		-search for arc above the point
+                //filtteröidään pelkät kaaret listalle
+                List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
+                BeachArc above = arcs[0];
+                double bestDistance = above.DistFromDirectrixX(currentSiteEvent.site);
 
-                //tallennetaan oikea key jotta saadaan tämä event poistettua (TODO keksi tapa jossa ei synny clasheja)
-                double nextKey = events.Keys[0];
+                if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
 
-                //    If the next event on the queue is a site event:
-                if (next.IsSiteEvent)
+                foreach (BeachArc arc in arcs)
                 {
-                    EvntSite currentSiteEvent = (EvntSite)next;
-                    //        Add the new site to the beachline
-                    //		-search for arc above the point
-                    //filtteröidään pelkät kaaret listalle
-                    List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
-                    BeachArc above = arcs[0];
-                    double bestDistance = above.DistFromDirectrixX(currentSiteEvent.site);
-
-                    if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
-
-                    foreach (BeachArc arc in arcs)
-                    {
-                        //erotetaan identtiset kaaret toisistaan
-                        if (arc.LeftLimit > currentSiteEvent.x || arc.RightLimit < currentSiteEvent.x) continue;
-                        else
-                        {
-                            double distance = arc.DistFromDirectrixX(currentSiteEvent.site);
-                            if (distance < bestDistance) { bestDistance = distance; above = arc; }
-                        }
-                    }
-
-                    int indexOfBest = beachline.IndexOf(above);
-
-                    //sopivaan indeksiin:/beachline.Add(new BeachArc(se.s));
-                    //		-remove the arc right above it
-                    beachline.Remove(above);
-                    //		-add new arc
-                    BeachArc newbornArc = new BeachArc(currentSiteEvent.site);
-                    //		-add two copies of the removed arc
-                    BeachArc newLeftSideArc = new BeachArc(above.Homesite, limLeft: above.LeftLimit, limRight: currentSiteEvent.x);
-                    BeachArc newRightSideArc = new BeachArc(above.Homesite, limLeft: currentSiteEvent.x, limRight: above.RightLimit);
-                    //		-add two half-edges starting from the point in the original arc right above the new site
-                    //          -starting point is straight above the new site, using the shortest distance to the parable above
-                    //          -suuntavektori saadaan pisteiden puolivälin avulla (x- ja y-koordinaattien on oltava eri)
-                    double startingX = currentSiteEvent.x;
-                    double startingY = currentSiteEvent.y + bestDistance;
-
-                    //midway between new and old focus point
-                    double midwayX = (above.HomeX + currentSiteEvent.x) / 2;
-                    double midwayY = (above.HomeY + currentSiteEvent.y) / 2;
-
-                    //suuntavektorit uusille kaarille
-                    double directionLeftX = 0;
-                    double directionLeftY = 0;
-                    double directionRightX = 0;
-                    double directionRightY = 0;
-
-                    //keskikohta löytyi vasemmalta                   
-                    if (midwayX < startingX)
-                    {
-                        directionLeftX = midwayX;
-                        directionLeftY = midwayY;
-                        directionRightX = startingX + (startingX - midwayX);
-                        directionRightY = startingY + (startingY - midwayY);
-                    }
-                    //jos ei löydy vasemmalta, löytyy varmasti oikealta
+                    //erotetaan identtiset kaaret toisistaan
+                    if (arc.LeftLimit > currentSiteEvent.x || arc.RightLimit < currentSiteEvent.x) continue;
                     else
                     {
-                        directionRightX = midwayX;
-                        directionRightY = midwayY;
-                        directionLeftX = startingX + (startingX - midwayX);
-                        directionLeftY = startingY + (startingY - midwayY);
+                        double distance = arc.DistFromDirectrixX(currentSiteEvent.site);
+                        if (distance < bestDistance) { bestDistance = distance; above = arc; }
                     }
+                }
 
-                    BeachHalfEdge edgeToLeft = new BeachHalfEdge(startingX, startingY, directionLeftX, directionLeftY);
-                    BeachHalfEdge edgeToRight = new BeachHalfEdge(startingX, startingY, directionRightX, directionRightY);
+                int indexOfBest = beachline.IndexOf(above);
 
-                    beachline.InsertRange(indexOfBest,
-                        new List<BeachObj> {
+                //sopivaan indeksiin:/beachline.Add(new BeachArc(se.s));
+                //		-remove the arc right above it
+                beachline.Remove(above);
+                //		-add new arc
+                BeachArc newbornArc = new BeachArc(currentSiteEvent.site);
+                //		-add two copies of the removed arc
+                BeachArc newLeftSideArc = new BeachArc(above.Homesite, limLeft: above.LeftLimit, limRight: currentSiteEvent.x);
+                BeachArc newRightSideArc = new BeachArc(above.Homesite, limLeft: currentSiteEvent.x, limRight: above.RightLimit);
+                //		-add two half-edges starting from the point in the original arc right above the new site
+                //          -starting point is straight above the new site, using the shortest distance to the parable above
+                //          -suuntavektori saadaan pisteiden puolivälin avulla (x- ja y-koordinaattien on oltava eri)
+                double startingX = currentSiteEvent.x;
+                double startingY = currentSiteEvent.y + bestDistance;
+
+                //midway between new and old focus point
+                double midwayX = (above.HomeX + currentSiteEvent.x) / 2;
+                double midwayY = (above.HomeY + currentSiteEvent.y) / 2;
+
+                //suuntavektorit uusille kaarille
+                double directionLeftX = 0;
+                double directionLeftY = 0;
+                double directionRightX = 0;
+                double directionRightY = 0;
+
+                //keskikohta löytyi vasemmalta                   
+                if (midwayX < startingX)
+                {
+                    directionLeftX = midwayX;
+                    directionLeftY = midwayY;
+                    directionRightX = startingX + (startingX - midwayX);
+                    directionRightY = startingY + (startingY - midwayY);
+                }
+                //jos ei löydy vasemmalta, löytyy varmasti oikealta
+                else
+                {
+                    directionRightX = midwayX;
+                    directionRightY = midwayY;
+                    directionLeftX = startingX + (startingX - midwayX);
+                    directionLeftY = startingY + (startingY - midwayY);
+                }
+
+                BeachHalfEdge edgeToLeft = new BeachHalfEdge(startingX, startingY, directionLeftX, directionLeftY);
+                BeachHalfEdge edgeToRight = new BeachHalfEdge(startingX, startingY, directionRightX, directionRightY);
+
+                beachline.InsertRange(indexOfBest,
+                    new List<BeachObj> {
                             newLeftSideArc,
                             edgeToLeft,
                             newbornArc,
                             edgeToRight,
                             newRightSideArc
-                    });
-                    //		-add possible circle events to the event queue
-                    //			-check if the lines next to the new arcs are going to intersect
-                    List<BeachArc> noobs = new List<BeachArc> { newLeftSideArc, newRightSideArc };
+                });
+                //		-add possible circle events to the event queue
+                //			-check if the lines next to the new arcs are going to intersect
+                List<BeachArc> noobs = new List<BeachArc> { newLeftSideArc, newRightSideArc };
+                foreach (BeachArc newarc in noobs)
+                {
+                    EvntCircle newevent = TryAddCircleEvent(newarc, beachline);
+                    if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
+                }
+
+            }
+
+            //    Otherwise it must be an edge-intersection (circle) event:
+            else
+            {
+                EvntCircle currentCircEv = (EvntCircle)next;
+                //       check validity TODO tässä voi piillä bugi lähtöisin siitä kun kaaria korvataan uusilla
+                BeachArc disappArc = currentCircEv.DisappearingArc;
+                int? indexOnBeach = beachline.IndexOf(disappArc);
+                if (indexOnBeach != null && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
+                {
+
+                    //        Remove the squeezed cell from the beachline
+                    //		-remove arc
+                    beachline.Remove(disappArc);
+                    //		-add new single half-edge starting from intersection point
+                    BeachArc futureLeft = (BeachArc)(beachline[(int)indexOnBeach - 2]);
+                    BeachArc futureRight = (BeachArc)(beachline[(int)indexOnBeach + 1]);
+                    double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
+                    double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
+
+                    BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
+                    beachline.Insert((int)indexOnBeach, singleHalfEdge);
+
+                    //		-the half-edges become finished edges, remove from beachline
+                    beachline.Remove(currentCircEv.leftEdge);
+                    beachline.Remove(currentCircEv.rightEdge);
+                    //add finished edges
+                    FinishedEdges.Add(new Edge(new Point(currentCircEv.leftEdge.startingX, currentCircEv.leftEdge.startingY), currentCircEv.CircleCentre));
+                    FinishedEdges.Add(new Edge(new Point(currentCircEv.rightEdge.startingX, currentCircEv.rightEdge.startingY), currentCircEv.CircleCentre));
+                    //-check both arcs for new future intersections
+
+                    List<BeachArc> noobs = new List<BeachArc> { futureLeft, futureRight };
                     foreach (BeachArc newarc in noobs)
                     {
-                       EvntCircle newevent = TryAddCircleEvent(newarc, beachline);
-                        if(newevent != null) { events.Add(newevent.PosEventY, newevent); }
+                        EvntCircle newevent = TryAddCircleEvent(newarc, beachline);
+                        if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
                     }
-
                 }
-
-                //    Otherwise it must be an edge-intersection (circle) event:
-                else
-                {
-                    EvntCircle currentCircEv = (EvntCircle)next;
-                    //       check validity TODO tässä voi piillä bugi lähtöisin siitä kun kaaria korvataan uusilla
-                    BeachArc disappArc = currentCircEv.DisappearingArc;
-                    int? indexOnBeach = beachline.IndexOf(disappArc);
-                    if (indexOnBeach != null && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
-                    {
-
-                        //        Remove the squeezed cell from the beachline
-                        //		-remove arc
-                        beachline.Remove(disappArc);
-                        //		-add new single half-edge starting from intersection point
-                        BeachArc futureLeft = (BeachArc)(beachline[(int)indexOnBeach - 2]);
-                        BeachArc futureRight = (BeachArc)(beachline[(int)indexOnBeach + 1]);
-                        double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
-                        double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
-
-                        BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
-                        beachline.Insert((int)indexOnBeach, singleHalfEdge);
-
-                        //		-the half-edges become finished edges, remove from beachline
-                        beachline.Remove(currentCircEv.leftEdge);
-                        beachline.Remove(currentCircEv.rightEdge);
-                        //add finished edges
-                        FinishedEdges.Add(new Edge(new Point(currentCircEv.leftEdge.startingX, currentCircEv.leftEdge.startingY), currentCircEv.CircleCentre));
-                        FinishedEdges.Add(new Edge(new Point(currentCircEv.rightEdge.startingX, currentCircEv.rightEdge.startingY), currentCircEv.CircleCentre));
-                        //-check both arcs for new future intersections
-
-                        List<BeachArc> noobs = new List<BeachArc> { futureLeft, futureRight };
-                        foreach (BeachArc newarc in noobs)
-                        {
-                            EvntCircle newevent = TryAddCircleEvent(newarc, beachline);
-                            if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
-                        }
-                    }
-                    OldCircleEvents.Add(currentCircEv);
-                }
-                events.Remove(nextKey);
-                //Cleanup any remaining intermediate state
-                //	-remaining collisions must only have one arc in between
+                OldCircleEvents.Add(currentCircEv);
             }
+            events.Remove(nextKey);
+            //Cleanup any remaining intermediate state
+            //	-remaining collisions must only have one arc in between
+            //}
             //print
             Console.Out.WriteLine("Valmis");
             foreach (Edge edge in FinishedEdges)
