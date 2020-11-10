@@ -31,6 +31,8 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
+        double currentY = 0;
+
         ResultObject result;
 
         Site[] testsites4 = new Site[] {
@@ -78,8 +80,7 @@ namespace MapUI
             {
                 if(!b.GetType().Equals(typeof(Button)))
                 {
-                    badChildren.Add(b);
-                    
+                    badChildren.Add(b);                    
                 }
             }
 
@@ -87,6 +88,43 @@ namespace MapUI
             {
                 myGrid.Children.Remove(b);
             }
+
+            foreach(var evnt in result.Events.Values)
+            {
+                if (evnt.IsSiteEvent)
+                {
+                    var myLine = new Line();
+                    myLine.Stroke = Brushes.LightGray;
+                    var e = (EvntSite)evnt;
+                    myLine.X1 = 0 + xSiirto;
+                    myLine.Y1 = e.y + ySiirto;
+                    myLine.X2 = canvasWidth + xSiirto;
+                    myLine.Y2 = e.y + ySiirto;
+                    myLine.StrokeThickness = 1;
+                    myGrid.Children.Add(myLine);
+                }
+                else
+                {
+                    var myLine = new Line();
+                    myLine.Stroke = Brushes.LightSalmon;
+                    var e = (EvntCircle)evnt;
+                    myLine.X1 = 0 + xSiirto;
+                    myLine.Y1 = e.PosEventY + ySiirto;
+                    myLine.X2 = canvasWidth + xSiirto;
+                    myLine.Y2 = e.PosEventY + ySiirto;
+                    myLine.StrokeThickness = 1;
+                    myGrid.Children.Add(myLine);
+                }
+            }
+
+            var myLinew = new Line();
+            myLinew.Stroke = Brushes.LightGray;
+            myLinew.X1 = 0 + xSiirto;
+            myLinew.Y1 = currentY + ySiirto;
+            myLinew.X2 = canvasWidth + xSiirto;
+            myLinew.Y2 = currentY + ySiirto;
+            myLinew.StrokeThickness = 3;
+            myGrid.Children.Add(myLinew);
 
             foreach (Site site in testsites)
             {
@@ -98,8 +136,36 @@ namespace MapUI
                 myLine.Y2 = site.y + ySiirto + 1;
                 //myLine.HorizontalAlignment = HorizontalAlignment.Left;
                 //myLine.VerticalAlignment = VerticalAlignment.Center;
-                myLine.StrokeThickness = 1;
+                myLine.StrokeThickness = 2;
                 myGrid.Children.Add(myLine);
+            }
+
+            foreach(var ba in result.BeachArcs)
+            {
+                for (int i = 0; i < canvasWidth; i++)
+                    //for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
+                {
+                    var myLine = new Line();
+                    myLine.Stroke = System.Windows.Media.Brushes.Silver;
+
+                    double yf = ba.Homesite.y;
+                    double xf = ba.Homesite.x;
+                    double yd = currentY;
+                    double x = i;
+                    double yCoordinate = (1.0 / (2.0 * (yf - yd)))
+                        * (x - xf) * (x - xf)
+                        + ((yf + yd) / 2.0);
+                    double distance = yCoordinate - yd;
+
+                    if (double.IsInfinity(yCoordinate) || yf == yd) { continue; }
+
+                    myLine.X1 = x + xSiirto;
+                    myLine.Y1 = yCoordinate + ySiirto;
+                    myLine.X2 = x + xSiirto + 1;
+                    myLine.Y2 = yCoordinate + ySiirto + 1;
+                    myLine.StrokeThickness = 1;
+                    myGrid.Children.Add(myLine);
+                }
             }
 
             List<Edge> canvasedges = new List<Edge>();
@@ -229,6 +295,7 @@ namespace MapUI
         private void iterate_Click(object sender, RoutedEventArgs e)
         {
             if (result.Events.Count == 0) return;
+            currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
             result = new mapseesharp.Program().Calculate(result);
             DrawEverything();
         }

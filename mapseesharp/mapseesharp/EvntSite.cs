@@ -1,11 +1,21 @@
-﻿namespace mapseesharp
+﻿using System;
+
+namespace mapseesharp
 {
-    internal class EvntSite : Evnt
+    public class EvntSite : Evnt
     {
         public Site site { get; private set; }
 
         public double x { get { return site.x; } }
         public double y { get { return site.y; } }
+
+        public override double YToHappen
+        {
+            get
+            {
+                return y;
+            }
+        }
 
         public EvntSite(Site s)
         {

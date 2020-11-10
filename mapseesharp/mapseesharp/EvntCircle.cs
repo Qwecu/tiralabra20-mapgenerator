@@ -1,4 +1,6 @@
-﻿namespace mapseesharp
+﻿using System;
+
+namespace mapseesharp
 {
     public class EvntCircle : Evnt
     {
@@ -8,6 +10,14 @@
         public Site site { get { return DisappearingArc.Homesite; } }
         public double PosEventY { get; set; }
         public Point CircleCentre { get; set; }
+
+        public override double YToHappen
+        {
+            get
+            {
+                return PosEventY;
+            }
+        }
 
         public EvntCircle(double positionY, BeachArc newarc, BeachHalfEdge leftEdge, BeachHalfEdge rightEdge, Point circleCentre)
         {
