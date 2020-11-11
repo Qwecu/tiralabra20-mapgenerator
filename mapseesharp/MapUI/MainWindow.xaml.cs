@@ -148,8 +148,10 @@ namespace MapUI
                 //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
                 {
                     var myLine = new Line();
-                    myLine.Stroke = System.Windows.Media.Brushes.Silver;
-                    if (i > ba.LeftLimit && i < ba.RightLimit) myLine.Stroke = Brushes.MediumSeaGreen;
+                        myLine.StrokeThickness = 1;
+                        myLine.Stroke = System.Windows.Media.Brushes.Beige;
+                        //myLine.Stroke = System.Windows.Media.Brushes.Silver;
+                        if (i > ba.LeftLimit && i < ba.RightLimit) { myLine.Stroke = Brushes.Violet; myLine.StrokeThickness = 3; }
 
                     double yf = ba.Homesite.y;
                     double xf = ba.Homesite.x;
@@ -166,7 +168,7 @@ namespace MapUI
                     myLine.Y1 = yCoordinate + ySiirto;
                     myLine.X2 = x + xSiirto + 1;
                     myLine.Y2 = yCoordinate + ySiirto + 1;
-                    myLine.StrokeThickness = 1;
+                    
                     myGrid.Children.Add(myLine);
                 }
             } }
