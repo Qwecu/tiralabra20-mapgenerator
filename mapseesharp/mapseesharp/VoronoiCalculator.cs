@@ -154,7 +154,7 @@ namespace mapseesharp
                 //       check validity TODO tässä voi piillä bugi lähtöisin siitä kun kaaria korvataan uusilla
                 BeachArc disappArc = currentCircEv.DisappearingArc;
                 int? indexOnBeach = beachline.IndexOf(disappArc);
-                if (indexOnBeach != null && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
+                if (indexOnBeach != -1 && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
                 {
 
                     //        Remove the squeezed cell from the beachline
@@ -204,6 +204,53 @@ namespace mapseesharp
             //Console.ReadKey();
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents);
         }
+
+        /*
+        private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
+        {
+            EvntCircle res = null;
+            int noobindex = beachline.IndexOf(newarc);
+
+            if (noobindex - 1 >= 0 && noobindex + 1 <= beachline.Count - 1
+                && beachline[noobindex - 1].GetType().Equals(typeof(BeachHalfEdge))
+                && beachline[noobindex + 1].GetType().Equals(typeof(BeachHalfEdge))
+               && !(  ((BeachHalfEdge)beachline[noobindex - 1]).PointingLeft && ((BeachHalfEdge)beachline[noobindex + 1]).PointingRight)
+                )
+            {
+                BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
+                BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[noobindex + 1];
+                Point intersection = new Point(leftEdge, rightEdge);
+
+                List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
+                BeachArc above = arcs[0];
+                double bestDistance = above.DistFromDirectrixX(intersection);
+
+                if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
+                foreach (BeachArc arc in arcs)
+                {
+                    //erotetaan identtiset kaaret toisistaan
+                    if (arc.LeftLimit > intersection.x || arc.RightLimit < intersection.x) continue;
+                    else
+                    {
+                        double distance = arc.DistFromDirectrixX(intersection);
+                        if (distance < bestDistance) { bestDistance = distance; above = arc; }
+                    }
+                }
+                //			-if yes, add circle event to queue
+                //			-y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
+                //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
+                if (intersection.y < newarc.HomeY)
+                {
+                //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
+                double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
+                var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
+
+                res = circleEvent;
+                }
+            }
+            return res;
+        }*/
+
 
         private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
         {

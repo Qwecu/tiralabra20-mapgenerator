@@ -21,6 +21,11 @@ namespace mapseesharp
             this.directionY = directionY;
         }
 
+        public override string ToString()
+        {
+            return "HalfEdge (" + startingX + "; " + startingY + ") (" + directionX + "; " + directionY + ")";
+        }
+
         public bool PointingLeft { get { return (directionX < startingX); } }
         public bool PointingRight { get { return (directionX > startingX); } }
     }

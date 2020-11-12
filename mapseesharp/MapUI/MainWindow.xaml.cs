@@ -37,6 +37,8 @@ namespace MapUI
 
         ResultObject result;
 
+        Stack<ResultObject> history = new Stack<ResultObject>();
+
         Site[] testsites4 = new Site[] {
                 new Site(3,9),
                 new Site(43,90),
@@ -62,7 +64,7 @@ namespace MapUI
         Site[] testsites = new Site[] {
                 new Site(12,36),
                 new Site(172,360),
-                new Site(292,196),
+                new Site(302,196),
                 new Site(212,100),
                 new Site(92,252),
                 new Site(152,76),
@@ -350,6 +352,10 @@ namespace MapUI
         {
             if (result.Events.Count == 0) return;
             currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
+            if(result != null)
+            {
+                history.Push(result);
+            }
             result = new mapseesharp.Program().Calculate(result);
             DrawEverything();
         }
@@ -364,6 +370,15 @@ namespace MapUI
             var prog = new mapseesharp.Program();
             currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
             result = prog.Calculate(testsites);
+            DrawEverything();
+        }
+
+        //TODO make deep copies for this to work
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            if (history.Count == 0) return;
+            var prev = history.Pop();
+            result = prev;
             DrawEverything();
         }
     }
