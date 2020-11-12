@@ -131,7 +131,7 @@ namespace mapseesharp
                 List<BeachArc> noobs = new List<BeachArc> { newLeftSideArc, newRightSideArc };
                 foreach (BeachArc newarc in noobs)
                 {
-                    EvntCircle newevent = TryAddCircleEvent(newarc, beachline);
+                    EvntCircle newevent = TryAddCircleEvent(newarc, beachline, currentEventPosY);
                     if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
                 }
 
@@ -144,7 +144,7 @@ namespace mapseesharp
                 //       check validity TODO tässä voi piillä bugi lähtöisin siitä kun kaaria korvataan uusilla
                 BeachArc disappArc = currentCircEv.DisappearingArc;
                 int? indexOnBeach = beachline.IndexOf(disappArc);
-                if (indexOnBeach != -1 && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
+                if (indexOnBeach != -1 && indexOnBeach > 0 && indexOnBeach <beachline.Count - 1 && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
                 {
 
                     //        Remove the squeezed cell from the beachline
@@ -170,7 +170,7 @@ namespace mapseesharp
                     List<BeachArc> noobs = new List<BeachArc> { futureLeft, futureRight };
                     foreach (BeachArc newarc in noobs)
                     {
-                        EvntCircle newevent = TryAddCircleEvent(newarc, beachline);
+                        EvntCircle newevent = TryAddCircleEvent(newarc, beachline, currentEventPosY);
                         if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
                     }
                 }
@@ -219,8 +219,8 @@ namespace mapseesharp
         }
         
 
-        /*
-        private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
+        
+        private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline, double directrixY)
         {
             EvntCircle res = null;
             int noobindex = beachline.IndexOf(newarc);
@@ -236,24 +236,13 @@ namespace mapseesharp
                 Point intersection = new Point(leftEdge, rightEdge);
 
                 List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
-                BeachArc above = arcs[0];
-                double bestDistance = above.DistFromDirectrixX(intersection);
 
-                if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
-                foreach (BeachArc arc in arcs)
-                {
-                    //erotetaan identtiset kaaret toisistaan
-                    if (arc.LeftLimit > intersection.x || arc.RightLimit < intersection.x) continue;
-                    else
-                    {
-                        double distance = arc.DistFromDirectrixX(intersection);
-                        if (distance < bestDistance) { bestDistance = distance; above = arc; }
-                    }
-                }
+                var aboves = GetArcAbove(arcs, new Site(intersection.x, directrixY));
+
                 //			-if yes, add circle event to queue
                 //			-y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
                 //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
-                if (intersection.y < newarc.HomeY)
+                if (intersection.y < directrixY + aboves.Item2)
                 {
                 //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
                 double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
@@ -263,9 +252,9 @@ namespace mapseesharp
                 }
             }
             return res;
-        }*/
+        }
 
-
+            /*
         private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
         {
             EvntCircle res = null;
@@ -295,5 +284,6 @@ namespace mapseesharp
             }
             return res;
         }
+        */
     }
 }
