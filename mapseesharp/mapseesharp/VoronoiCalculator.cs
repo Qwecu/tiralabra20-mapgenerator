@@ -54,6 +54,7 @@ namespace mapseesharp
             //while (events.Count > 0)
             //{
             Evnt next = events[events.Keys[0]];
+            double currentEventPosY = next.YToHappen;
 
             //tallennetaan oikea key jotta saadaan tämä event poistettua (TODO keksi tapa jossa ei synny clasheja)
             double nextKey = events.Keys[0];
@@ -178,9 +179,21 @@ namespace mapseesharp
             events.Remove(nextKey);
             //Cleanup any remaining intermediate state
             //	-remaining collisions must only have one arc in between
-            //too many edges are not needed
 
 
+            //Remove the arcs and edges that are left out of scope (outside canvas)
+            var arcAtLefttEdge = GetArcAbove(beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList(), new Site(0, currentEventPosY));
+            int indexAtBeachL = beachline.IndexOf(arcAtLefttEdge.Item1);
+            var arcAtRightEdge = GetArcAbove(beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList(), new Site(width, currentEventPosY));
+            int indexAtBeachR = beachline.IndexOf(arcAtRightEdge.Item1);
+
+            List<BeachObj> cleanedbeach = new List<BeachObj>();
+            for(int i = indexAtBeachL; i <= indexAtBeachR; i++)
+            {
+                cleanedbeach.Add(beachline[i]);
+            }
+
+            beachline = cleanedbeach;
             
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
         }
