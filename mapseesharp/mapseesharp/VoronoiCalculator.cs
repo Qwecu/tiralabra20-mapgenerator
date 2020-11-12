@@ -66,8 +66,9 @@ namespace mapseesharp
                 //		-search for arc above the point
                 //filtteröidään pelkät kaaret listalle
                 List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
-                BeachArc above = arcs[0];
-                double bestDistance = above.DistFromDirectrixX(currentSiteEvent.site);
+
+                BeachArc above = null;
+                double bestDistance = -1;
 
                 if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
 
@@ -78,7 +79,7 @@ namespace mapseesharp
                     else
                     {
                         double distance = arc.DistFromDirectrixX(currentSiteEvent.site);
-                        if (distance < bestDistance) { bestDistance = distance; above = arc; }
+                        if (bestDistance == -1 || distance < bestDistance) { bestDistance = distance; above = arc; }
                     }
                 }
 
