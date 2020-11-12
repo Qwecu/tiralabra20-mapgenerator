@@ -31,6 +31,7 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
+
         bool drawParabolas = true;
 
         double currentY = 0;
@@ -369,7 +370,7 @@ namespace MapUI
         {
             var prog = new mapseesharp.Program();
             currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
-            result = prog.Calculate(testsites);
+            result = prog.Calculate(testsites, canvasWidth, canvasHeight);
             DrawEverything();
         }
 

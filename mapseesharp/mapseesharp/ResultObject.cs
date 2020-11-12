@@ -20,8 +20,11 @@ namespace mapseesharp
         public List<EvntCircle> OldCircleEvents { get; set; }
         public List<BeachObj> Beachline { get; set; }
 
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
-        public ResultObject(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents)
+
+        public ResultObject(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height)
         {
             this.Events = events;
 
@@ -31,6 +34,8 @@ namespace mapseesharp
             this.BeachHalfEdges = beachline.Where(x => x.GetType().Equals(typeof(BeachHalfEdge))).Select(x => (BeachHalfEdge)x).ToList();
             this.OldCircleEvents = oldCircleEvents;
             this.Beachline = beachline;
+            this.Width = width;
+            this.Height = height;
         }
     }
 }

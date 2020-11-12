@@ -8,7 +8,7 @@ namespace mapseesharp
 {
     class VoronoiCalculator
     {
-        internal ResultObject Iterate(Site[] sites)
+        internal ResultObject Iterate(Site[] sites, int width, int height)
         {
             SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
             List<BeachObj> beachline = new List<BeachObj>();
@@ -18,12 +18,12 @@ namespace mapseesharp
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
             foreach (Site test in sites) { events.Add(test.y, new EvntSite(test)); }
-            return Iterate(events, FinishedEdges, beachline, OldCircleEvents);
+            return Iterate(events, FinishedEdges, beachline, OldCircleEvents, width, height);
 
         }
 
         //internal ResultObject Calculate(Site[] sites)
-        internal ResultObject Iterate(SortedList<double, Evnt> events, List<Edge> FinishedEdges, List<BeachObj> beachline, List<EvntCircle> OldCircleEvents)
+        internal ResultObject Iterate(SortedList<double, Evnt> events, List<Edge> FinishedEdges, List<BeachObj> beachline, List<EvntCircle> OldCircleEvents, int width, int height)
         {
             ///TODO: Make sure that the sites can't be too near each other
 
@@ -45,7 +45,7 @@ namespace mapseesharp
 
                 events.Remove(events.Keys[0]);
 
-                return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents);
+                return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
             }
 
 
@@ -182,7 +182,7 @@ namespace mapseesharp
 
 
             
-            return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents);
+            return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
         }
 
         private Tuple<BeachArc, double> GetArcAbove(List<BeachArc> arcs, Site site)
