@@ -144,7 +144,7 @@ namespace mapseesharp
                 //       check validity TODO tässä voi piillä bugi lähtöisin siitä kun kaaria korvataan uusilla
                 BeachArc disappArc = currentCircEv.DisappearingArc;
                 int? indexOnBeach = beachline.IndexOf(disappArc);
-                if (indexOnBeach != -1 && indexOnBeach > 0 && indexOnBeach <beachline.Count - 1 && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
+                if (indexOnBeach != -1 && indexOnBeach > 0 && indexOnBeach < beachline.Count - 1 && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
                 {
 
                     //        Remove the squeezed cell from the beachline
@@ -157,6 +157,11 @@ namespace mapseesharp
                     double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
 
                     BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
+                    if (singleHalfEdge.startingY < singleHalfEdge.directionY)
+                    {
+                        singleHalfEdge = new BeachHalfEdge(singleHalfEdge.startingX, singleHalfEdge.startingY,
+                            singleHalfEdge.startingX - (singleHalfEdge.directionX - singleHalfEdge.startingX), singleHalfEdge.startingY - (singleHalfEdge.directionY - singleHalfEdge.startingY));
+                    }
                     beachline.Insert((int)indexOnBeach, singleHalfEdge);
 
                     //		-the half-edges become finished edges, remove from beachline
@@ -188,13 +193,13 @@ namespace mapseesharp
             int indexAtBeachR = beachline.IndexOf(arcAtRightEdge.Item1);
 
             List<BeachObj> cleanedbeach = new List<BeachObj>();
-            for(int i = indexAtBeachL; i <= indexAtBeachR; i++)
+            for (int i = indexAtBeachL; i <= indexAtBeachR; i++)
             {
                 cleanedbeach.Add(beachline[i]);
             }
 
             beachline = cleanedbeach;
-            
+
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
         }
 
@@ -217,9 +222,9 @@ namespace mapseesharp
             }
             return new Tuple<BeachArc, double>(above, bestDistance);
         }
-        
 
-        
+
+
         private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline, double directrixY)
         {
             EvntCircle res = null;
@@ -228,7 +233,7 @@ namespace mapseesharp
             if (noobindex - 1 >= 0 && noobindex + 1 <= beachline.Count - 1
                 && beachline[noobindex - 1].GetType().Equals(typeof(BeachHalfEdge))
                 && beachline[noobindex + 1].GetType().Equals(typeof(BeachHalfEdge))
-               && !(  ((BeachHalfEdge)beachline[noobindex - 1]).PointingLeft && ((BeachHalfEdge)beachline[noobindex + 1]).PointingRight)
+               && !(((BeachHalfEdge)beachline[noobindex - 1]).PointingLeft && ((BeachHalfEdge)beachline[noobindex + 1]).PointingRight)
                 )
             {
                 BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
@@ -244,46 +249,46 @@ namespace mapseesharp
                 //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
                 if (intersection.y < directrixY + aboves.Item2)
                 {
-                //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
-                double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
-                var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
+                    //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
+                    double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
+                    var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
 
-                res = circleEvent;
+                    res = circleEvent;
                 }
             }
             return res;
         }
 
-            /*
-        private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
+        /*
+    private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
+    {
+        EvntCircle res = null;
+        int noobindex = beachline.IndexOf(newarc);
+
+        if (noobindex - 1 >= 0 && noobindex + 1 <= beachline.Count - 1
+            && beachline[noobindex - 1].GetType().Equals(typeof(BeachHalfEdge))
+            && beachline[noobindex + 1].GetType().Equals(typeof(BeachHalfEdge))
+            && ((BeachHalfEdge)beachline[noobindex - 1]).PointingRight
+            && ((BeachHalfEdge)beachline[noobindex + 1]).PointingLeft //VÄÄRÄ OLETUS
+            )
         {
-            EvntCircle res = null;
-            int noobindex = beachline.IndexOf(newarc);
+            BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
+            BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[noobindex + 1];
+            Point intersection = new Point(leftEdge, rightEdge);
+            //			-if yes, add circle event to queue
+            //			-y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
+            //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
+            //if (intersection.y < newarc.HomeY)
+            //{
+            //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
+            double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
+            var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
 
-            if (noobindex - 1 >= 0 && noobindex + 1 <= beachline.Count - 1
-                && beachline[noobindex - 1].GetType().Equals(typeof(BeachHalfEdge))
-                && beachline[noobindex + 1].GetType().Equals(typeof(BeachHalfEdge))
-                && ((BeachHalfEdge)beachline[noobindex - 1]).PointingRight
-                && ((BeachHalfEdge)beachline[noobindex + 1]).PointingLeft //VÄÄRÄ OLETUS
-                )
-            {
-                BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
-                BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[noobindex + 1];
-                Point intersection = new Point(leftEdge, rightEdge);
-                //			-if yes, add circle event to queue
-                //			-y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
-                //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
-                //if (intersection.y < newarc.HomeY)
-                //{
-                //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
-                double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
-                var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
-
-                res = circleEvent;
-                //}
-            }
-            return res;
+            res = circleEvent;
+            //}
         }
-        */
+        return res;
+    }
+    */
     }
 }
