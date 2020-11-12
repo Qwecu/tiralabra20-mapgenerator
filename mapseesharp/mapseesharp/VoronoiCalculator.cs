@@ -261,7 +261,7 @@ namespace mapseesharp
                 && beachline[noobindex - 1].GetType().Equals(typeof(BeachHalfEdge))
                 && beachline[noobindex + 1].GetType().Equals(typeof(BeachHalfEdge))
                 && ((BeachHalfEdge)beachline[noobindex - 1]).PointingRight
-                && ((BeachHalfEdge)beachline[noobindex + 1]).PointingLeft
+                && ((BeachHalfEdge)beachline[noobindex + 1]).PointingLeft //VÄÄRÄ OLETUS
                 )
             {
                 BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
