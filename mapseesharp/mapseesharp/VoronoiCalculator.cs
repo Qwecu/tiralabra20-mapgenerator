@@ -67,21 +67,9 @@ namespace mapseesharp
                 //filtteröidään pelkät kaaret listalle
                 List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
 
-                BeachArc above = null;
-                double bestDistance = -1;
-
-                if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
-
-                foreach (BeachArc arc in arcs)
-                {
-                    //erotetaan identtiset kaaret toisistaan
-                    if (arc.LeftLimit > currentSiteEvent.x || arc.RightLimit < currentSiteEvent.x) continue;
-                    else
-                    {
-                        double distance = arc.DistFromDirectrixX(currentSiteEvent.site);
-                        if (bestDistance == -1 || distance < bestDistance) { bestDistance = distance; above = arc; }
-                    }
-                }
+                Tuple<BeachArc, double> aboves = GetArcAbove(arcs, currentSiteEvent.site);
+                BeachArc above = aboves.Item1;
+                double bestDistance = aboves.Item2;
 
                 int indexOfBest = beachline.IndexOf(above);
 
@@ -190,21 +178,33 @@ namespace mapseesharp
             events.Remove(nextKey);
             //Cleanup any remaining intermediate state
             //	-remaining collisions must only have one arc in between
-            //}
-            //print
-            Console.Out.WriteLine("Valmis");
-            foreach (Edge edge in FinishedEdges)
-            {
-                Console.Out.WriteLine(
-                    edge.StartingPoing.x + " " +
-                    edge.StartingPoing.y + " " +
-                    edge.EndingPoint.x + " " +
-                    edge.EndingPoint.y + " "
-                    );
-            }
-            //Console.ReadKey();
+            //too many edges are not needed
+
+
+            
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents);
         }
+
+        private Tuple<BeachArc, double> GetArcAbove(List<BeachArc> arcs, Site site)
+        {
+            double bestDistance = -1;
+            BeachArc above = null;
+
+            if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
+
+            foreach (BeachArc arc in arcs)
+            {
+                //erotetaan identtiset kaaret toisistaan
+                if (arc.LeftLimit > site.x || arc.RightLimit < site.x) continue;
+                else
+                {
+                    double distance = arc.DistFromDirectrixX(site);
+                    if (bestDistance == -1 || distance < bestDistance) { bestDistance = distance; above = arc; }
+                }
+            }
+            return new Tuple<BeachArc, double>(above, bestDistance);
+        }
+        
 
         /*
         private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
