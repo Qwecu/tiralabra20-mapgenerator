@@ -16,4 +16,9 @@ Loin testiprojektin ja kirjoitin siihen yhden testin.
 
 Mietin nyt, että teenkö projektin loppuun C#:lla vai yritänkö saada Javan toimimaan. Olen kyllä kirjoittanut testejä C#:lle aiemminkin työn puolesta, Java on itselle vieraampi. Testikattavuutta en ole aiemmin raportoinut C#:lla. Se pitää ilmeiseti tehdä jollain ulkoisella työkalulla, koska testikattavuusraportointi Visual Studiossa on Enterprise-tason ominaisuus... (selvittely 2 h)
 
+
+Suoritettava tiedosto löytyy polulta mapseesharp\MapUI\bin\Debug\MapUI.exe
+
+Nappulat Iterate ja Reset toimivat, Back bugaa, koska "historia" sisältää viittaustyyppejä, jotka muuttuvat iteraatioden edetessä
+
 Yhteensä noin 21 h työtä
