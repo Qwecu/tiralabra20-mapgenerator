@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mapseesharp", "mapseesharp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapUI", "MapUI\MapUI.csproj", "{F56EEEF8-B3BD-4685-9F69-BEBCEFF14097}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestMapseesharp", "UnitTestMapseesharp\UnitTestMapseesharp.csproj", "{C3000529-324F-4276-9F68-7AA5FE6E72CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F56EEEF8-B3BD-4685-9F69-BEBCEFF14097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F56EEEF8-B3BD-4685-9F69-BEBCEFF14097}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F56EEEF8-B3BD-4685-9F69-BEBCEFF14097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3000529-324F-4276-9F68-7AA5FE6E72CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3000529-324F-4276-9F68-7AA5FE6E72CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3000529-324F-4276-9F68-7AA5FE6E72CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3000529-324F-4276-9F68-7AA5FE6E72CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
