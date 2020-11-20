@@ -28,5 +28,7 @@ namespace mapseesharp
 
         public bool PointingLeft { get { return (directionX < startingX); } }
         public bool PointingRight { get { return (directionX > startingX); } }
+        public bool PointingUp { get { return (directionY > startingY); } }
+        public bool PointingDown { get { return (directionY < startingY); } }
     }
 }

@@ -26,7 +26,7 @@ namespace mapseesharp
         public double RightLimit { get; set; }
 
         //Paraabelin etäisyys annetusta pisteestä swipelinella
-        //https://jacquesheunis.com/post/fortunes-algorithm/
+        //kaava johdettu kauniisti sivulla https://jacquesheunis.com/post/fortunes-algorithm/
         internal double DistFromDirectrixX(Site newsite)
         {
             double yf = Homesite.y;

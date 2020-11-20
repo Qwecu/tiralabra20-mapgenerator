@@ -27,11 +27,6 @@ namespace mapseesharp
         {
             ///TODO: Make sure that the sites can't be too near each other
 
-            /*SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
-            List<BeachObj> beachline = new List<BeachObj>();
-            List<Edge> FinishedEdges = new List<Edge>();
-            List<EvntCircle> OldCircleEvents = new List<EvntCircle>();*/
-
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
             //foreach (Site test in sites) { events.Add(test.y, new EvntSite(test)); }
@@ -48,11 +43,16 @@ namespace mapseesharp
                 return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
             }
 
+            //if all the events are done, there is just the last trimming left to do
+            else if(events.Count == 0)
+            {
+                return TrimLastHalfEdges(events, FinishedEdges, beachline, OldCircleEvents, width, height);
+            }
+
 
 
             //While the event queue still has items in it:
-            //while (events.Count > 0)
-            //{
+
             Evnt next = events[events.Keys[0]];
             double currentEventPosY = next.YToHappen;
 
@@ -193,14 +193,197 @@ namespace mapseesharp
             int indexAtBeachR = beachline.IndexOf(arcAtRightEdge.Item1);
 
             List<BeachObj> cleanedbeach = new List<BeachObj>();
-            for (int i = indexAtBeachL; i <= indexAtBeachR; i++)
+            
+            for(int i = 0; i < beachline.Count; i++)
+            {
+                if(i >= indexAtBeachL && i <= indexAtBeachR)
+                {
+                    cleanedbeach.Add(beachline[i]);
+                }
+                else
+                {
+                    var thing = beachline[i];
+                    if(thing is BeachHalfEdge)
+                    {
+                        BeachHalfEdge he = thing as BeachHalfEdge;
+                        if (he.PointingLeft)
+                        {
+                            BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
+                            Point isct = new Point(he, leftWall);
+                            if (isct.y <= height && isct.y >= 0)
+                            {
+                                FinishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                            }
+                        }
+                        if (he.PointingRight)
+                        {
+                            BeachHalfEdge rightWall = new BeachHalfEdge(width, 0, width, height);
+                            Point isct = new Point(he, rightWall);
+                            if (isct.y <= height && isct.y >= 0)
+                            {
+                                FinishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                            }
+                        }
+                        if (he.PointingUp)
+                        {
+                            BeachHalfEdge ceiling = new BeachHalfEdge(0, height, width, height);
+                            Point isct = new Point(he, ceiling);
+                            if (isct.x <= width && isct.x >= 0)
+                            {
+                                FinishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                            }
+                        }
+                        if (he.PointingDown)
+                        {
+                            BeachHalfEdge floor = new BeachHalfEdge(0, 0, width, 0);
+                            Point isct = new Point(he, floor);
+                            if (isct.x <= width && isct.x >= 0)
+                            {
+                                FinishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                            }
+                        }
+                    }
+                }
+
+            }
+            /*for (int i = indexAtBeachL; i <= indexAtBeachR; i++)
             {
                 cleanedbeach.Add(beachline[i]);
-            }
+            }*/
 
             beachline = cleanedbeach;
 
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
+        }
+
+        private ResultObject TrimLastHalfEdges(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height)
+        {
+            //var edges = finishedEdges;
+            Dictionary<Point, int> count = new Dictionary<Point, int>();
+
+            foreach(Edge edge in finishedEdges)
+            {
+                if (count.ContainsKey(edge.StartingPoint))
+                {
+                    count[edge.StartingPoint] = count[edge.StartingPoint] + 1;
+                }
+                else
+                {
+                    count.Add(edge.StartingPoint, 1);
+                }
+                if (count.ContainsKey(edge.EndingPoint))
+                {
+                    count[edge.EndingPoint] = count[edge.EndingPoint] + 1;
+                }
+                else
+                {
+                    count.Add(edge.EndingPoint, 1);
+                }
+            }
+
+            List<Edge> loners = new List<Edge>();
+            foreach(Edge edge in finishedEdges)
+            {
+                if (count[edge.EndingPoint] == 1)
+                {
+                    loners.Add(edge);
+                } else if( count[edge.StartingPoint] == 1)
+                {
+                    loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
+                }
+            }
+
+            foreach (Edge he in loners)
+            {
+                if (he.PointingLeft)
+                {
+                    BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
+                    Point isct = new Point(he, leftWall);
+                    if (isct.y <= height && isct.y >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        continue;
+                    }
+                }
+                if (he.PointingRight)
+                {
+                    BeachHalfEdge rightWall = new BeachHalfEdge(width, 0, width, height);
+                    Point isct = new Point(he, rightWall);
+                    if (isct.y <= height && isct.y >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        continue;
+                    }
+                }
+                if (he.PointingUp)
+                {
+                    BeachHalfEdge ceiling = new BeachHalfEdge(0, height, width, height);
+                    Point isct = new Point(he, ceiling);
+                    if (isct.x <= width && isct.x >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        continue;
+                    }
+                }
+                if (he.PointingDown)
+                {
+                    BeachHalfEdge floor = new BeachHalfEdge(0, 0, width, 0);
+                    Point isct = new Point(he, floor);
+                    if (isct.x <= width && isct.x >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        continue;
+                    }
+                }
+            }
+            return new ResultObject(events, finishedEdges, beachline, oldCircleEvents, width, height, ready: true);
+
+
+            /*var HalfEdges = beachline.Where(x => x.GetType().Equals(typeof(BeachHalfEdge))).Select(x => (BeachHalfEdge)x).ToList();
+            foreach(BeachHalfEdge he in HalfEdges)
+            {
+                if (he.PointingLeft)
+                {
+                    BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
+                    Point isct = new Point(he, leftWall);
+                    if(isct.y <= height && isct.y >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                        continue;
+                    }
+                }
+                if (he.PointingRight)
+                {
+                    BeachHalfEdge rightWall = new BeachHalfEdge(width, 0, width, height);
+                    Point isct = new Point(he, rightWall);
+                    if (isct.y <= height && isct.y >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                        continue;
+                    }
+                }
+                if (he.PointingUp)
+                {
+                    BeachHalfEdge ceiling = new BeachHalfEdge(0, height, width, height);
+                    Point isct = new Point(he, ceiling);
+                    if (isct.x <= width && isct.x >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                        continue;
+                    }
+                }
+                if (he.PointingDown)
+                {
+                    BeachHalfEdge floor = new BeachHalfEdge(0, 0, width, 0);
+                    Point isct = new Point(he, floor);
+                    if (isct.x <= width && isct.x >= 0)
+                    {
+                        finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                        continue;
+                    }
+                }
+            }
+            return new ResultObject(events, finishedEdges, beachline, oldCircleEvents, width, height);*/
         }
 
         private Tuple<BeachArc, double> GetArcAbove(List<BeachArc> arcs, Site site)

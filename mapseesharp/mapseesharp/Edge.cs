@@ -8,13 +8,23 @@ namespace mapseesharp
 {
     public class Edge
     {
-        public Point StartingPoing { get; set; }
+        public Point StartingPoint { get; set; }
         public Point EndingPoint { get; set; }
 
-        public Edge(Point startingPoing, Point endingPoint)
+        public bool PointingLeft { get { return (EndingPoint.x < StartingPoint.x); } }
+        public bool PointingRight { get { return (EndingPoint.x > StartingPoint.x); } }
+        public bool PointingUp { get { return (EndingPoint.y > StartingPoint.y); } }
+        public bool PointingDown { get { return (EndingPoint.y < StartingPoint.y); } }
+
+        public Edge(Point startingPoint, Point endingPoint)
         {
-            this.StartingPoing = startingPoing;
+            this.StartingPoint = startingPoint;
             this.EndingPoint = endingPoint;
+        }
+
+        public override string ToString()
+        {
+            return "Edge (" + StartingPoint.x + "; " + StartingPoint.y + ") (" + EndingPoint.x + "; " + EndingPoint.y + ")";
         }
     }
 }

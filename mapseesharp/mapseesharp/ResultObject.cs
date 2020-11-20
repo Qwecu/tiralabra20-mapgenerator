@@ -22,9 +22,9 @@ namespace mapseesharp
 
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public bool Ready { get; set; }
 
-
-        public ResultObject(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height)
+        public ResultObject(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height, bool ready = false)
         {
             this.Events = events;
 
@@ -36,6 +36,7 @@ namespace mapseesharp
             this.Beachline = beachline;
             this.Width = width;
             this.Height = height;
+            this.Ready = ready;
         }
     }
 }

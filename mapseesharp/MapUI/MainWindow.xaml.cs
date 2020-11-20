@@ -188,8 +188,8 @@ namespace MapUI
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.LightBlue;
-                myLine.X1 = p.StartingPoing.x + xSiirto;
-                myLine.Y1 = p.StartingPoing.y + ySiirto;
+                myLine.X1 = p.StartingPoint.x + xSiirto;
+                myLine.Y1 = p.StartingPoint.y + ySiirto;
                 myLine.X2 = p.EndingPoint.x + xSiirto;
                 myLine.Y2 = p.EndingPoint.y + ySiirto;
                 myLine.StrokeThickness = 2;
@@ -200,8 +200,8 @@ namespace MapUI
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.LightSeaGreen;
-                myLine.X1 = p.StartingPoing.x + xSiirto;
-                myLine.Y1 = p.StartingPoing.y + ySiirto;
+                myLine.X1 = p.StartingPoint.x + xSiirto;
+                myLine.Y1 = p.StartingPoint.y + ySiirto;
                 myLine.X2 = p.EndingPoint.x + xSiirto;
                 myLine.Y2 = p.EndingPoint.y + ySiirto;
                 myLine.StrokeThickness = 2;
@@ -351,8 +351,11 @@ namespace MapUI
 
         private void iterate_Click(object sender, RoutedEventArgs e)
         {
-            if (result.Events.Count == 0) return;
-            currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
+            if (result.Events.Count == 0 && result.Ready) return;
+            if (result.Events.Count > 0)
+            {
+                currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
+            }
             if(result != null)
             {
                 history.Push(result);
