@@ -283,14 +283,15 @@ namespace mapseesharp
                 }
             }
 
+            //edges with one endpoint that is not shared with others (not created by a circle event)
             List<Edge> loners = new List<Edge>();
-            List<Edge> outsiders = new List<Edge>();
+            List<Edge> toBeDeleted = new List<Edge>();
             foreach (Edge edge in finishedEdges)
             {
                 if (edge.BothEndpointsOutsideMap(width, height))
                 {
                     //edge is totally out of scope, it will be removed from the graph
-                    outsiders.Add(edge);
+                    toBeDeleted.Add(edge);
                     continue;
                 }
 
@@ -299,26 +300,26 @@ namespace mapseesharp
                 {
                     loners.Add(edge);
                     //let's remove the original anyway because a new edge will be added in its place
-                    outsiders.Add(edge);
+                    toBeDeleted.Add(edge);
                 }
                 else if (count[edge.StartingPoint] == 1)
                 {
                     loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
                     //let's remove the original anyway because a new edge will be added in its place
-                    outsiders.Add(edge);
+                    toBeDeleted.Add(edge);
                 }
 
                 //if both ends are connected but one falls outside map, the edge needs trimming
                 else if (!edge.StartingPoint.OnMap(width, height))
                 {
                     loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
-                    outsiders.Add(edge);
+                    toBeDeleted.Add(edge);
                 }
 
                 else if (!edge.EndingPoint.OnMap(width, height))
                 {
                     loners.Add(edge);
-                    outsiders.Add(edge);
+                    toBeDeleted.Add(edge);
                 }
             }
 
@@ -366,7 +367,7 @@ namespace mapseesharp
                 }
             }
 
-            foreach (Edge os in outsiders)
+            foreach (Edge os in toBeDeleted)
             {
                 finishedEdges.Remove(os);
             }
