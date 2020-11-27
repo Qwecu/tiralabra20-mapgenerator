@@ -44,7 +44,7 @@ namespace mapseesharp
             }
 
             //if all the events are done, there is just the last trimming left to do
-            else if(events.Count == 0)
+            else if (events.Count == 0)
             {
                 return TrimLastHalfEdges(events, FinishedEdges, beachline, OldCircleEvents, width, height);
             }
@@ -167,9 +167,11 @@ namespace mapseesharp
                     //		-the half-edges become finished edges, remove from beachline
                     beachline.Remove(currentCircEv.leftEdge);
                     beachline.Remove(currentCircEv.rightEdge);
+
                     //add finished edges
                     FinishedEdges.Add(new Edge(new Point(currentCircEv.leftEdge.startingX, currentCircEv.leftEdge.startingY), currentCircEv.CircleCentre));
                     FinishedEdges.Add(new Edge(new Point(currentCircEv.rightEdge.startingX, currentCircEv.rightEdge.startingY), currentCircEv.CircleCentre));
+
                     //-check both arcs for new future intersections
 
                     List<BeachArc> noobs = new List<BeachArc> { futureLeft, futureRight };
@@ -193,17 +195,17 @@ namespace mapseesharp
             int indexAtBeachR = beachline.IndexOf(arcAtRightEdge.Item1);
 
             List<BeachObj> cleanedbeach = new List<BeachObj>();
-            
-            for(int i = 0; i < beachline.Count; i++)
+
+            for (int i = 0; i < beachline.Count; i++)
             {
-                if(i >= indexAtBeachL && i <= indexAtBeachR)
+                if (i >= indexAtBeachL && i <= indexAtBeachR)
                 {
                     cleanedbeach.Add(beachline[i]);
                 }
                 else
                 {
                     var thing = beachline[i];
-                    if(thing is BeachHalfEdge)
+                    if (thing is BeachHalfEdge)
                     {
                         BeachHalfEdge he = thing as BeachHalfEdge;
                         if (he.PointingLeft)
@@ -261,7 +263,7 @@ namespace mapseesharp
             //var edges = finishedEdges;
             Dictionary<Point, int> count = new Dictionary<Point, int>();
 
-            foreach(Edge edge in finishedEdges)
+            foreach (Edge edge in finishedEdges)
             {
                 if (count.ContainsKey(edge.StartingPoint))
                 {
@@ -282,14 +284,39 @@ namespace mapseesharp
             }
 
             List<Edge> loners = new List<Edge>();
-            foreach(Edge edge in finishedEdges)
+            List<Edge> outsiders = new List<Edge>();
+            foreach (Edge edge in finishedEdges)
             {
+                if (edge.BothEndpointsOutsideMap(width, height))
+                {
+                    //edge is totally out of scope, it will be removed from the graph
+                    outsiders.Add(edge);
+                    continue;
+                }
+
+                else if(!edge.StartingPoint.OnMap(width, height))
+                {
+                    loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
+                    outsiders.Add(edge);
+                }
+                else if (!edge.EndingPoint.OnMap(width, height))
+                {
+                    loners.Add(edge);
+                    outsiders.Add(edge);
+                }
+
+
                 if (count[edge.EndingPoint] == 1)
                 {
                     loners.Add(edge);
-                } else if( count[edge.StartingPoint] == 1)
+                    //let's remove the original anyway because a new edge will be added in its place
+                    outsiders.Add(edge);
+                }
+                else if (count[edge.StartingPoint] == 1)
                 {
                     loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
+                    //let's remove the original anyway because a new edge will be added in its place
+                    outsiders.Add(edge);
                 }
             }
 
@@ -336,6 +363,12 @@ namespace mapseesharp
                     }
                 }
             }
+
+            foreach (Edge os in outsiders)
+            {
+                finishedEdges.Remove(os);
+            }
+
             return new ResultObject(events, finishedEdges, beachline, oldCircleEvents, width, height, ready: true);
 
 

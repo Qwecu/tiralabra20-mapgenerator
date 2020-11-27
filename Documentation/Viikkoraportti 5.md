@@ -1,0 +1,1 @@
+Woohoo! Sain asennettua Visual Studioon OpenCover-plugarin, joka näyttää testikattavuden. 3 h

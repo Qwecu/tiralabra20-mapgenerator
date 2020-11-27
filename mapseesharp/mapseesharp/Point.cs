@@ -33,6 +33,11 @@ namespace mapseesharp
             y = k1 * x + b1;
         }
 
+        internal bool OnMap(int width, int height)
+        {
+            return (x > 0 && x < width && y > 0 && y < height);
+        }
+
         public Point(double x, double y)
         {
             this.x = x;

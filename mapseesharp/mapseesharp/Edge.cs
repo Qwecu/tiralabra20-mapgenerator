@@ -26,5 +26,10 @@ namespace mapseesharp
         {
             return "Edge (" + StartingPoint.x + "; " + StartingPoint.y + ") (" + EndingPoint.x + "; " + EndingPoint.y + ")";
         }
+
+        internal bool BothEndpointsOutsideMap(int width, int height)
+        {
+            return !(StartingPoint.OnMap(width, height) || EndingPoint.OnMap(width, height));
+        }
     }
 }
