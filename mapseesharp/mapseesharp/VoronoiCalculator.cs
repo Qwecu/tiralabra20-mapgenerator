@@ -294,17 +294,6 @@ namespace mapseesharp
                     continue;
                 }
 
-                else if(!edge.StartingPoint.OnMap(width, height))
-                {
-                    loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
-                    outsiders.Add(edge);
-                }
-                else if (!edge.EndingPoint.OnMap(width, height))
-                {
-                    loners.Add(edge);
-                    outsiders.Add(edge);
-                }
-
 
                 if (count[edge.EndingPoint] == 1)
                 {
@@ -316,6 +305,19 @@ namespace mapseesharp
                 {
                     loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
                     //let's remove the original anyway because a new edge will be added in its place
+                    outsiders.Add(edge);
+                }
+
+                //if both ends are connected but one falls outside map, the edge needs trimming
+                else if (!edge.StartingPoint.OnMap(width, height))
+                {
+                    loners.Add(new Edge(edge.EndingPoint, edge.StartingPoint));
+                    outsiders.Add(edge);
+                }
+
+                else if (!edge.EndingPoint.OnMap(width, height))
+                {
+                    loners.Add(edge);
                     outsiders.Add(edge);
                 }
             }
