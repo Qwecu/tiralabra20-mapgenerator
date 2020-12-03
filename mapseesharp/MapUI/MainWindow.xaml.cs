@@ -372,6 +372,9 @@ namespace MapUI
         private void SetUp()
         {
             var prog = new mapseesharp.Program();
+
+            testsites = InputRandomizer.RandomInput(20, 400, 400);
+
             currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
             result = prog.Calculate(testsites, canvasWidth, canvasHeight);
             DrawEverything();

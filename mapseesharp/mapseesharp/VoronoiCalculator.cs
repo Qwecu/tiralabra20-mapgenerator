@@ -10,7 +10,7 @@ namespace mapseesharp
     {
         internal ResultObject Iterate(Site[] sites, int width, int height)
         {
-            SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer());
+            SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer()); //ongelma jos tulee kaksi eventtiä samalla y-koordinaatilla
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
             List<EvntCircle> OldCircleEvents = new List<EvntCircle>();
