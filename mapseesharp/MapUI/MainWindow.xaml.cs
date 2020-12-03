@@ -31,6 +31,9 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
+        int siteAmount = 10;
+
+        bool showCircles = false;
 
         bool drawParabolas = true;
 
@@ -40,29 +43,7 @@ namespace MapUI
 
         Stack<ResultObject> history = new Stack<ResultObject>();
 
-        Site[] testsites4 = new Site[] {
-                new Site(3,9),
-                new Site(43,90),
-                new Site(73,49),
-                new Site(53,25),
-                new Site(23,63),
-                new Site(38,19),
-                new Site(31,1),
-                new Site(62,71)
-            };
-
-        Site[] testsites4e = new Site[] {
-                new Site(6,18),
-                new Site(86,180),
-                new Site(146,98),
-                new Site(106,50),
-                new Site(46,126),
-                new Site(76,38),
-                new Site(62,2),
-                new Site(124,142)
-            };
-
-        Site[] testsites = new Site[] {
+        Site[] inputSites = new Site[] {
                 new Site(12,36),
                 new Site(172,360),
                 new Site(302,196),
@@ -72,19 +53,6 @@ namespace MapUI
                 new Site(124,4),
                 new Site(248,284)
             };
-
-
-        //TODO käännetään koordinaatisto oikein päin ihmiselle...
-        /*
-        private double getY(double y)
-        {
-            return 0.0;
-        }
-
-        private double getX(double x)
-        {
-            return 0.0;
-        }*/
 
         private void DrawEverything()
         {
@@ -220,41 +188,28 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
+            if (showCircles)
+            {
+                DrawCircles();
+            }
 
-            /*double[] testResult = new double[] {
-                23, 83.9074074074074, 41.9042553191489, 69.9042553191489,
-                62, 90, 41.9042553191489, 69.9042553191489,
-                41.9042553191489, 69.9042553191489, 46.1279069767442, 49.3139534883721,
-                73, 62.75, 46.1279069767442, 49.3139534883721,
-                46.1279069767442, 49.3139534883721, 46.5243243243243, 50.7297297297297,
-                53, 45.3333333333333, 46.5243243243243, 50.7297297297297,
-                3, 39.7037037037037, 23.1193277310924, 32.2521008403361,
-                46.5243243243243, 50.7297297297297, 23.1193277310924, 32.2521008403361,
-                23.1193277310924, 32.2521008403361, -49.9999999999999, 260.75,   //näissä kolmessa jotain häikkää
-                38, 40.75, -49.9999999999999, 260.75,
-                -49.9999999999999, 260.75, 20.0357142857143, 15.625,
-                31, 11.3611111111111, 20.0357142857143, 15.625,
-
-                0,0,canvasWidth,0,
-                0,0,0,canvasHeight,
-                canvasWidth,0,canvasWidth,canvasHeight,
-               0,canvasHeight,canvasWidth,canvasHeight
-
-            };
-
-            for (int i = 0; i < testResult.Length; i += 4) {
+            foreach (Site site in inputSites)
+            {
                 var myLine = new Line();
-                myLine.Stroke = System.Windows.Media.Brushes.MediumSlateBlue;
-                myLine.X1 = testResult[i] + xSiirto;
-                myLine.Y1 = testResult[i + 1] + ySiirto;
-                myLine.X2 = testResult[i+2] + xSiirto;
-                myLine.Y2 = testResult[i + 3] + ySiirto;
+                myLine.Stroke = System.Windows.Media.Brushes.Black;
+                myLine.X1 = site.x + xSiirto;
+                myLine.Y1 = site.y + ySiirto;
+                myLine.X2 = site.x + xSiirto + 1;
+                myLine.Y2 = site.y + ySiirto + 1;
                 //myLine.HorizontalAlignment = HorizontalAlignment.Left;
                 //myLine.VerticalAlignment = VerticalAlignment.Center;
-                myLine.StrokeThickness = 1;
+                myLine.StrokeThickness = 2;
                 myGrid.Children.Add(myLine);
-            } */
+            }
+        }
 
+        private void DrawCircles()
+        {
             foreach (EvntCircle ce in (result.Events.Where(x => x.Value.IsSiteEvent == false)).Select(x => (EvntCircle)x.Value))
             {
                 Canvas canvas = new Canvas();
@@ -262,8 +217,8 @@ namespace MapUI
 
                 var circle = new System.Windows.Shapes.Ellipse();
                 circle.Stroke = System.Windows.Media.Brushes.Yellow;
-                if(ce.CircleCentre.y >= ce.PosEventY)
-                circle.Width = circle.Height = 2 * (ce.CircleCentre.y - ce.PosEventY);
+                if (ce.CircleCentre.y >= ce.PosEventY)
+                    circle.Width = circle.Height = 2 * (ce.CircleCentre.y - ce.PosEventY);
 
                 /*myLine.ali=
                 myLine.Y1 = p.StartingPoing.y + ySiirto;
@@ -326,20 +281,6 @@ namespace MapUI
                 myLine.StrokeThickness = 3;
                 myGrid.Children.Add(myLine);
             }
-
-            foreach (Site site in testsites)
-            {
-                var myLine = new Line();
-                myLine.Stroke = System.Windows.Media.Brushes.Black;
-                myLine.X1 = site.x + xSiirto;
-                myLine.Y1 = site.y + ySiirto;
-                myLine.X2 = site.x + xSiirto + 1;
-                myLine.Y2 = site.y + ySiirto + 1;
-                //myLine.HorizontalAlignment = HorizontalAlignment.Left;
-                //myLine.VerticalAlignment = VerticalAlignment.Center;
-                myLine.StrokeThickness = 2;
-                myGrid.Children.Add(myLine);
-            }
         }
 
         public MainWindow()
@@ -349,18 +290,23 @@ namespace MapUI
 
         }
 
-        private void iterate_Click(object sender, RoutedEventArgs e)
+        private void iterateResult()
         {
             if (result.Events.Count == 0 && result.Ready) return;
             if (result.Events.Count > 0)
             {
                 currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
             }
-            if(result != null)
+            if (result != null)
             {
                 history.Push(result);
             }
             result = new mapseesharp.Program().Calculate(result);
+        }
+
+        private void iterate_Click(object sender, RoutedEventArgs e)
+        {
+            iterateResult();
             DrawEverything();
         }
 
@@ -373,10 +319,10 @@ namespace MapUI
         {
             var prog = new mapseesharp.Program();
 
-            testsites = InputRandomizer.RandomInput(20, 400, 400);
+            inputSites = InputRandomizer.RandomInput(siteAmount, canvasWidth, canvasHeight);
 
-            currentY = testsites.OrderByDescending(x => x.y).Select(x => x.y).First();
-            result = prog.Calculate(testsites, canvasWidth, canvasHeight);
+            currentY = inputSites.OrderByDescending(x => x.y).Select(x => x.y).First();
+            result = prog.Calculate(inputSites, canvasWidth, canvasHeight);
             DrawEverything();
         }
 
@@ -386,6 +332,40 @@ namespace MapUI
             if (history.Count == 0) return;
             var prev = history.Pop();
             result = prev;
+            DrawEverything();
+        }
+
+        private void toggleCircles_Click(object sender, RoutedEventArgs e)
+        {
+            showCircles = !showCircles;
+            DrawEverything();
+        }
+
+        private void toEnd_Click(object sender, RoutedEventArgs e)
+        {
+            while(result.Ready == false)
+            {
+                iterateResult();
+            }
+            DrawEverything();
+        }
+
+        private void showInput_Click(object sender, RoutedEventArgs e)
+        {
+            string message = "Input: \n";
+
+            foreach(Site site in inputSites)
+            {
+                message += site + "\n";
+            }
+            Clipboard.SetText(message);
+
+            MessageBox.Show(message);
+        }
+
+        private void showParabolas_Click(object sender, RoutedEventArgs e)
+        {
+            drawParabolas = !drawParabolas;
             DrawEverything();
         }
     }
