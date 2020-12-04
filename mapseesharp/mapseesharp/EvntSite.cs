@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mapseesharp
+namespace Mapseesharp
 {
     public class EvntSite : Evnt
     {

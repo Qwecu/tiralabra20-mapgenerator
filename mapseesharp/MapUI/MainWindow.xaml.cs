@@ -1,4 +1,4 @@
-﻿using mapseesharp;
+﻿using Mapseesharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,10 +146,10 @@ namespace MapUI
 
             List<Edge> canvasedges = new List<Edge>();
 
-            canvasedges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(canvasWidth, 0)));
-            canvasedges.Add(new Edge(new mapseesharp.Point(0, 0), new mapseesharp.Point(0, canvasHeight)));
-            canvasedges.Add(new Edge(new mapseesharp.Point(canvasWidth, 0), new mapseesharp.Point(canvasWidth, canvasHeight)));
-            canvasedges.Add(new Edge(new mapseesharp.Point(0, canvasHeight), new mapseesharp.Point(canvasWidth, canvasHeight)));
+            canvasedges.Add(new Edge(new Mapseesharp.Point(0, 0), new Mapseesharp.Point(canvasWidth, 0)));
+            canvasedges.Add(new Edge(new Mapseesharp.Point(0, 0), new Mapseesharp.Point(0, canvasHeight)));
+            canvasedges.Add(new Edge(new Mapseesharp.Point(canvasWidth, 0), new Mapseesharp.Point(canvasWidth, canvasHeight)));
+            canvasedges.Add(new Edge(new Mapseesharp.Point(0, canvasHeight), new Mapseesharp.Point(canvasWidth, canvasHeight)));
 
 
             foreach (Edge p in result.FinishedEdges)
@@ -301,7 +301,7 @@ namespace MapUI
             {
                 history.Push(result);
             }
-            result = new mapseesharp.Program().Calculate(result);
+            result = new Mapseesharp.Program().Calculate(result);
         }
 
         private void iterate_Click(object sender, RoutedEventArgs e)
@@ -317,7 +317,7 @@ namespace MapUI
 
         private void SetUp()
         {
-            var prog = new mapseesharp.Program();
+            var prog = new Mapseesharp.Program();
 
             inputSites = InputRandomizer.RandomInput(siteAmount, canvasWidth, canvasHeight);
 

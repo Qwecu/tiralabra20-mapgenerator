@@ -1,4 +1,4 @@
-﻿namespace mapseesharp
+﻿namespace Mapseesharp
 {
     public abstract class BeachObj
     {

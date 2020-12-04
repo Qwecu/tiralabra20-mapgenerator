@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace mapseesharp
+namespace Mapseesharp
 {
     public class ResultObject
     {
-       
-
         public List<BeachArc> BeachArcs { get; set; }
+
         public List<BeachHalfEdge> BeachHalfEdges { get; set; }
 
         public List<Edge> FinishedEdges { get; set; }
@@ -18,10 +14,13 @@ namespace mapseesharp
         public SortedList<double, Evnt> Events { get; set; }
 
         public List<EvntCircle> OldCircleEvents { get; set; }
+
         public List<BeachObj> Beachline { get; set; }
 
         public int Width { get; private set; }
+
         public int Height { get; private set; }
+
         public bool Ready { get; set; }
 
         public ResultObject(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height, bool ready = false)

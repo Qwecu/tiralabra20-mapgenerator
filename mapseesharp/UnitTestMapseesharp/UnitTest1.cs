@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using mapseesharp;
+using Mapseesharp;
 
 namespace UnitTestMapseesharp
 {
@@ -22,7 +22,7 @@ namespace UnitTestMapseesharp
                 new Site(248,284)
             };
 
-            var pr = new mapseesharp.Program();
+            var pr = new Mapseesharp.Program();
             ResultObject result = pr.Calculate(testsites, 400, 400);
 
             Assert.AreEqual(7, result.Events.Count);
@@ -65,7 +65,7 @@ namespace UnitTestMapseesharp
                 new Site(248,284)
             };
 
-            var pr = new mapseesharp.Program();
+            var pr = new Mapseesharp.Program();
             ResultObject result = pr.Calculate(testsites, 400, 400);
 
 
