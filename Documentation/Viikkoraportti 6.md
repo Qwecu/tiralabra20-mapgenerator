@@ -5,3 +5,5 @@ Lisäsin UI:hin nappulan, jolla käytetyn inputin saa tallennettua leikepöydäl
 Asensin StyleCop-lisäosan Visual Studioon. Se tekee siis koodin laaduntarkistusta vastaavasti kuin Checkstyle.
 
 Kahden pienen lapsen kanssa kotona ollessa on edelleen vaikea löytää tarpeeksi häiriötöntä työskentelyaikaa, joten muistutan taas itselleni, että ykkönen riittää hyvin ja kaikki sen päälle on plussaa. Ilmeisesti läpipääsyn estäviä juttuja on vielä tuo omien tietorakenteiden toteutus? Nyt on vielä käytössä valmis List<> ja SortedSet<>.
+
+Käytetty aika yhteensä noin 5 h
