@@ -124,8 +124,8 @@ namespace MapUI
                         //myLine.Stroke = System.Windows.Media.Brushes.Silver;
                         if (i > ba.LeftLimit && i < ba.RightLimit) { myLine.Stroke = Brushes.Violet; myLine.StrokeThickness = 3; }
 
-                    double yf = ba.Homesite.y;
-                    double xf = ba.Homesite.x;
+                    double yf = ba.Homesite.Y;
+                    double xf = ba.Homesite.X;
                     double yd = currentY;
                     double x = i;
                     double yCoordinate = (1.0 / (2.0 * (yf - yd)))
@@ -197,10 +197,10 @@ namespace MapUI
             {
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.Black;
-                myLine.X1 = site.x + xSiirto;
-                myLine.Y1 = site.y + ySiirto;
-                myLine.X2 = site.x + xSiirto + 1;
-                myLine.Y2 = site.y + ySiirto + 1;
+                myLine.X1 = site.X + xSiirto;
+                myLine.Y1 = site.Y + ySiirto;
+                myLine.X2 = site.X + xSiirto + 1;
+                myLine.Y2 = site.Y + ySiirto + 1;
                 //myLine.HorizontalAlignment = HorizontalAlignment.Left;
                 //myLine.VerticalAlignment = VerticalAlignment.Center;
                 myLine.StrokeThickness = 2;
@@ -321,7 +321,7 @@ namespace MapUI
 
             inputSites = InputRandomizer.RandomInput(siteAmount, canvasWidth, canvasHeight);
 
-            currentY = inputSites.OrderByDescending(x => x.y).Select(x => x.y).First();
+            currentY = inputSites.OrderByDescending(x => x.Y).Select(x => x.Y).First();
             result = prog.Calculate(inputSites, canvasWidth, canvasHeight);
             DrawEverything();
         }

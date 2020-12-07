@@ -17,7 +17,7 @@ namespace Mapseesharp
 
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
-            foreach (Site test in sites) { events.Add(test.y, new EvntSite(test)); }
+            foreach (Site test in sites) { events.Add(test.Y, new EvntSite(test)); }
             return Iterate(events, FinishedEdges, beachline, OldCircleEvents, width, height);
 
         }
@@ -144,7 +144,7 @@ namespace Mapseesharp
                 //       check validity TODO tässä voi piillä bugi lähtöisin siitä kun kaaria korvataan uusilla
                 BeachArc disappArc = currentCircEv.DisappearingArc;
                 int? indexOnBeach = beachline.IndexOf(disappArc);
-                if (indexOnBeach != -1 && indexOnBeach > 0 && indexOnBeach < beachline.Count - 1 && beachline[(int)indexOnBeach - 1] == currentCircEv.leftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.rightEdge)
+                if (indexOnBeach != -1 && indexOnBeach > 0 && indexOnBeach < beachline.Count - 1 && beachline[(int)indexOnBeach - 1] == currentCircEv.LeftEdge && beachline[(int)indexOnBeach + 1] == currentCircEv.RightEdge)
                 {
 
                     //        Remove the squeezed cell from the beachline
@@ -165,12 +165,12 @@ namespace Mapseesharp
                     beachline.Insert((int)indexOnBeach, singleHalfEdge);
 
                     //		-the half-edges become finished edges, remove from beachline
-                    beachline.Remove(currentCircEv.leftEdge);
-                    beachline.Remove(currentCircEv.rightEdge);
+                    beachline.Remove(currentCircEv.LeftEdge);
+                    beachline.Remove(currentCircEv.RightEdge);
 
                     //add finished edges
-                    FinishedEdges.Add(new Edge(new Point(currentCircEv.leftEdge.startingX, currentCircEv.leftEdge.startingY), currentCircEv.CircleCentre));
-                    FinishedEdges.Add(new Edge(new Point(currentCircEv.rightEdge.startingX, currentCircEv.rightEdge.startingY), currentCircEv.CircleCentre));
+                    FinishedEdges.Add(new Edge(new Point(currentCircEv.LeftEdge.startingX, currentCircEv.LeftEdge.startingY), currentCircEv.CircleCentre));
+                    FinishedEdges.Add(new Edge(new Point(currentCircEv.RightEdge.startingX, currentCircEv.RightEdge.startingY), currentCircEv.CircleCentre));
 
                     //-check both arcs for new future intersections
 
@@ -432,7 +432,7 @@ namespace Mapseesharp
             foreach (BeachArc arc in arcs)
             {
                 //erotetaan identtiset kaaret toisistaan
-                if (arc.LeftLimit > site.x || arc.RightLimit < site.x) continue;
+                if (arc.LeftLimit > site.X || arc.RightLimit < site.X) continue;
                 else
                 {
                     double distance = arc.DistFromDirectrixX(site);

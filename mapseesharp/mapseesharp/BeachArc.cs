@@ -19,8 +19,8 @@ namespace Mapseesharp
         }
 
         public Site Homesite { get; set; }
-        public double HomeX { get { return Homesite.x; } }
-        public double HomeY { get { return Homesite.y; } }
+        public double HomeX { get { return Homesite.X; } }
+        public double HomeY { get { return Homesite.Y; } }
 
         public double LeftLimit { get; set; }
         public double RightLimit { get; set; }
@@ -29,10 +29,10 @@ namespace Mapseesharp
         //kaava johdettu kauniisti sivulla https://jacquesheunis.com/post/fortunes-algorithm/
         internal double DistFromDirectrixX(Site newsite)
         {
-            double yf = Homesite.y;
-            double xf = Homesite.x;
-            double yd = newsite.y;
-            double x = newsite.x;
+            double yf = Homesite.Y;
+            double xf = Homesite.X;
+            double yd = newsite.Y;
+            double x = newsite.X;
             double yCoordinate = (1.0 / (2.0 * (yf - yd)))
                 * (x - xf) * (x - xf)
                 + ((yf + yd) / 2.0);
@@ -47,8 +47,8 @@ namespace Mapseesharp
 
         internal double DistFromDirectrixX(Point intersection)
         {
-            double yf = Homesite.y;
-            double xf = Homesite.x;
+            double yf = Homesite.Y;
+            double xf = Homesite.X;
             double yd = intersection.y;
             double x = intersection.x;
             double yCoordinate = (1.0 / (2.0 * (yf - yd)))

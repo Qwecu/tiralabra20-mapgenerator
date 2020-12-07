@@ -1,24 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mapseesharp
+﻿namespace Mapseesharp
 {
+    /// <summary>
+    /// A site.
+    /// </summary>
     public class Site
     {
-        public double x { get; set; }
-        public double y { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Site"/> class.
+        /// </summary>
+        /// <param name="x">X position.</param>
+        /// <param name="y">Y position.</param>
         public Site(double x, double y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
+
+        /// <summary>
+        /// Gets or sets x position.
+        /// </summary>
+        public double X { get; set; }
+
+        /// <summary>
+        /// Gets or sets y position.
+        /// </summary>
+        public double Y { get; set; }
+
+        /// <inheritdoc/>
         public override string ToString()
         {
-            return "Site " +  x + "; " + y;
+            return "Site " + this.X + "; " + this.Y;
         }
     }
 }

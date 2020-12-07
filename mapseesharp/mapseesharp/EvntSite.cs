@@ -6,8 +6,8 @@ namespace Mapseesharp
     {
         public Site site { get; private set; }
 
-        public double x { get { return site.x; } }
-        public double y { get { return site.y; } }
+        public double x { get { return site.X; } }
+        public double y { get { return site.Y; } }
 
         public override double YToHappen
         {

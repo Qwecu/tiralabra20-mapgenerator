@@ -2,20 +2,29 @@
 
 namespace Mapseesharp
 {
+    /// <summary>
+    /// A circle event.
+    /// </summary>
     public class EvntCircle : Evnt
     {
-        public BeachHalfEdge leftEdge { get; set; }
+        public BeachHalfEdge LeftEdge { get; set; }
+
         public BeachArc DisappearingArc { get; set; }
-        public BeachHalfEdge rightEdge { get; set; }
-        public Site site { get { return DisappearingArc.Homesite; } }
+
+        public BeachHalfEdge RightEdge { get; set; }
+
+        public Site site { get { return this.DisappearingArc.Homesite; } }
+
         public double PosEventY { get; set; }
+
         public Point CircleCentre { get; set; }
 
+        /// <inheritdoc/>
         public override double YToHappen
         {
             get
             {
-                return PosEventY;
+                return this.PosEventY;
             }
         }
 
@@ -24,9 +33,9 @@ namespace Mapseesharp
             this.IsSiteEvent = false;
             this.PosEventY = positionY;
             this.DisappearingArc = newarc;
-            this.leftEdge = leftEdge;
-            this.rightEdge = rightEdge;
-            CircleCentre = circleCentre;
+            this.LeftEdge = leftEdge;
+            this.RightEdge = rightEdge;
+            this.CircleCentre = circleCentre;
         }
     }
 }
