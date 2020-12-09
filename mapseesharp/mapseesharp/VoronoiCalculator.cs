@@ -10,20 +10,20 @@ namespace Mapseesharp
     {
         internal ResultObject Iterate(Site[] sites, int width, int height)
         {
-            SortedList<double, Evnt> events = new SortedList<double, Evnt>(new ReverseComparer()); //ongelma jos tulee kaksi eventtiä samalla y-koordinaatilla
+            var events = new MaxHeap<Evnt>(); // ongelma jos tulee kaksi eventtiä samalla y-koordinaatilla
             List<BeachObj> beachline = new List<BeachObj>();
             List<Edge> FinishedEdges = new List<Edge>();
             List<EvntCircle> OldCircleEvents = new List<EvntCircle>();
 
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
-            foreach (Site test in sites) { events.Add(test.Y, new EvntSite(test)); }
+            foreach (Site test in sites) { events.Add(new EvntSite(test)); }
             return Iterate(events, FinishedEdges, beachline, OldCircleEvents, width, height);
 
         }
 
         //internal ResultObject Calculate(Site[] sites)
-        internal ResultObject Iterate(SortedList<double, Evnt> events, List<Edge> FinishedEdges, List<BeachObj> beachline, List<EvntCircle> OldCircleEvents, int width, int height)
+        internal ResultObject Iterate(MaxHeap<Evnt> events, List<Edge> FinishedEdges, List<BeachObj> beachline, List<EvntCircle> OldCircleEvents, int width, int height)
         {
             ///TODO: Make sure that the sites can't be too near each other
 
@@ -34,11 +34,12 @@ namespace Mapseesharp
             if (beachline.Count == 0)
             {
 
-                EvntSite first = (EvntSite)events[events.Keys[0]];
+                EvntSite first = (EvntSite)events.PeakMax();
 
-                beachline.Add(new BeachArc(first.site));
+                beachline.Add(new BeachArc(first.Site));
 
-                events.Remove(events.Keys[0]);
+                //events.Remove(events.Keys[0]);
+                events.PopMax();
 
                 return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
             }
@@ -53,11 +54,12 @@ namespace Mapseesharp
 
             //While the event queue still has items in it:
 
-            Evnt next = events[events.Keys[0]];
+            Evnt next = events.PeakMax();
             double currentEventPosY = next.YToHappen;
 
-            //tallennetaan oikea key jotta saadaan tämä event poistettua (TODO keksi tapa jossa ei synny clasheja)
-            double nextKey = events.Keys[0];
+            // tallennetaan oikea key jotta saadaan tämä event poistettua (TODO keksi tapa jossa ei synny clasheja)
+            // double nextKey = events.Keys[0];
+            double nextKey = next.YToHappen;
 
             //    If the next event on the queue is a site event:
             if (next.IsSiteEvent)
@@ -68,7 +70,7 @@ namespace Mapseesharp
                 //filtteröidään pelkät kaaret listalle
                 List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
 
-                Tuple<BeachArc, double> aboves = GetArcAbove(arcs, currentSiteEvent.site);
+                Tuple<BeachArc, double> aboves = GetArcAbove(arcs, currentSiteEvent.Site);
                 BeachArc above = aboves.Item1;
                 double bestDistance = aboves.Item2;
 
@@ -78,19 +80,19 @@ namespace Mapseesharp
                 //		-remove the arc right above it
                 beachline.Remove(above);
                 //		-add new arc
-                BeachArc newbornArc = new BeachArc(currentSiteEvent.site);
+                BeachArc newbornArc = new BeachArc(currentSiteEvent.Site);
                 //		-add two copies of the removed arc
-                BeachArc newLeftSideArc = new BeachArc(above.Homesite, limLeft: above.LeftLimit, limRight: currentSiteEvent.x);
-                BeachArc newRightSideArc = new BeachArc(above.Homesite, limLeft: currentSiteEvent.x, limRight: above.RightLimit);
+                BeachArc newLeftSideArc = new BeachArc(above.Homesite, limLeft: above.LeftLimit, limRight: currentSiteEvent.X);
+                BeachArc newRightSideArc = new BeachArc(above.Homesite, limLeft: currentSiteEvent.X, limRight: above.RightLimit);
                 //		-add two half-edges starting from the point in the original arc right above the new site
                 //          -starting point is straight above the new site, using the shortest distance to the parable above
                 //          -suuntavektori saadaan pisteiden puolivälin avulla (x- ja y-koordinaattien on oltava eri)
-                double startingX = currentSiteEvent.x;
-                double startingY = currentSiteEvent.y + bestDistance;
+                double startingX = currentSiteEvent.X;
+                double startingY = currentSiteEvent.Y + bestDistance;
 
                 //midway between new and old focus point
-                double midwayX = (above.HomeX + currentSiteEvent.x) / 2;
-                double midwayY = (above.HomeY + currentSiteEvent.y) / 2;
+                double midwayX = (above.HomeX + currentSiteEvent.X) / 2;
+                double midwayY = (above.HomeY + currentSiteEvent.Y) / 2;
 
                 //suuntavektorit uusille kaarille
                 double directionLeftX = 0;
@@ -132,7 +134,7 @@ namespace Mapseesharp
                 foreach (BeachArc newarc in noobs)
                 {
                     EvntCircle newevent = TryAddCircleEvent(newarc, beachline, currentEventPosY);
-                    if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
+                    if (newevent != null) { events.Add(newevent); }
                 }
 
             }
@@ -178,12 +180,14 @@ namespace Mapseesharp
                     foreach (BeachArc newarc in noobs)
                     {
                         EvntCircle newevent = TryAddCircleEvent(newarc, beachline, currentEventPosY);
-                        if (newevent != null) { events.Add(newevent.PosEventY, newevent); }
+                        if (newevent != null) { events.Add(newevent); }
                     }
                 }
                 OldCircleEvents.Add(currentCircEv);
             }
-            events.Remove(nextKey);
+            var gone = events.PopMax();
+            if(gone.YToHappen != nextKey) { throw new Exception("key mismatch"); }
+            //events.Remove(nextKey);
             //Cleanup any remaining intermediate state
             //	-remaining collisions must only have one arc in between
 
@@ -258,7 +262,7 @@ namespace Mapseesharp
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
         }
 
-        private ResultObject TrimLastHalfEdges(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height)
+        private ResultObject TrimLastHalfEdges(MaxHeap<Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height)
         {
             //var edges = finishedEdges;
             Dictionary<Point, int> count = new Dictionary<Point, int>();

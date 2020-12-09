@@ -2,25 +2,33 @@
 
 namespace Mapseesharp
 {
+    /// <summary>
+    /// A site event.
+    /// </summary>
     public class EvntSite : Evnt
     {
-        public Site site { get; private set; }
+        public Site Site { get; private set; }
 
-        public double x { get { return site.X; } }
-        public double y { get { return site.Y; } }
+        public double X { get { return this.Site.X; } }
+
+        public double Y { get { return this.Site.Y; } }
 
         public override double YToHappen
         {
             get
             {
-                return y;
+                return this.Y;
             }
         }
 
         public EvntSite(Site s)
         {
-            this.site = s;
-            this.IsSiteEvent = true;
+            this.Site = s;
+        }
+
+        public override string ToString()
+        {
+            return "Site event at (" + X + "; " + Y + ")";
         }
     }
 }

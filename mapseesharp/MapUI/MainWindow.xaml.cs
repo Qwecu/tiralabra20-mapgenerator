@@ -53,10 +53,13 @@ namespace MapUI
                 new Site(124,4),
                 new Site(248,284)
             };
+        private bool randomStart = false;
 
         private void DrawEverything()
         {
             //myGrid.Children.Clear();
+
+            var eventsToDraw = result.Events.GetAllAsArray();
 
             List<UIElement> badChildren = new List<UIElement>();
 
@@ -73,7 +76,7 @@ namespace MapUI
                 myGrid.Children.Remove(b);
             }
 
-            foreach (var evnt in result.Events.Values)
+            foreach (var evnt in eventsToDraw)
             {
                 if (evnt.IsSiteEvent)
                 {
@@ -81,9 +84,9 @@ namespace MapUI
                     myLine.Stroke = Brushes.LightGray;
                     var e = (EvntSite)evnt;
                     myLine.X1 = 0 + xSiirto;
-                    myLine.Y1 = e.y + ySiirto;
+                    myLine.Y1 = e.Y + ySiirto;
                     myLine.X2 = canvasWidth + xSiirto;
-                    myLine.Y2 = e.y + ySiirto;
+                    myLine.Y2 = e.Y + ySiirto;
                     myLine.StrokeThickness = 1;
                     myGrid.Children.Add(myLine);
                 }
@@ -190,7 +193,7 @@ namespace MapUI
 
             if (showCircles)
             {
-                DrawCircles();
+                DrawCircles(eventsToDraw);
             }
 
             foreach (Site site in inputSites)
@@ -208,9 +211,9 @@ namespace MapUI
             }
         }
 
-        private void DrawCircles()
+        private void DrawCircles(Evnt[] eventsToDraw)
         {
-            foreach (EvntCircle ce in (result.Events.Where(x => x.Value.IsSiteEvent == false)).Select(x => (EvntCircle)x.Value))
+            foreach (EvntCircle ce in (eventsToDraw.Where(x => x.IsSiteEvent == false)).Select(x => (EvntCircle)x))
             {
                 Canvas canvas = new Canvas();
                 myGrid.Children.Add(canvas);
@@ -295,7 +298,7 @@ namespace MapUI
             if (result.Events.Count == 0 && result.Ready) return;
             if (result.Events.Count > 0)
             {
-                currentY = (result.Events[result.Events.Keys[0]]).YToHappen;
+                currentY = result.Events.PeakMax().YToHappen;
             }
             if (result != null)
             {
@@ -319,7 +322,7 @@ namespace MapUI
         {
             var prog = new Mapseesharp.Program();
 
-            inputSites = InputRandomizer.RandomInput(siteAmount, canvasWidth, canvasHeight);
+            if (randomStart) inputSites = InputRandomizer.RandomInput(siteAmount, canvasWidth, canvasHeight);
 
             currentY = inputSites.OrderByDescending(x => x.Y).Select(x => x.Y).First();
             result = prog.Calculate(inputSites, canvasWidth, canvasHeight);

@@ -30,12 +30,16 @@ namespace Mapseesharp
 
         public EvntCircle(double positionY, BeachArc newarc, BeachHalfEdge leftEdge, BeachHalfEdge rightEdge, Point circleCentre)
         {
-            this.IsSiteEvent = false;
             this.PosEventY = positionY;
             this.DisappearingArc = newarc;
             this.LeftEdge = leftEdge;
             this.RightEdge = rightEdge;
             this.CircleCentre = circleCentre;
+        }
+
+        public override string ToString()
+        {
+            return "Circle event, happening " + PosEventY + ", CircleCentre " + CircleCentre + ", site " + site;
         }
     }
 }

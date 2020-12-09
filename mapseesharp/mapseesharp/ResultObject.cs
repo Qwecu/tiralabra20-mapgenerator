@@ -11,7 +11,7 @@ namespace Mapseesharp
 
         public List<Edge> FinishedEdges { get; set; }
 
-        public SortedList<double, Evnt> Events { get; set; }
+        public MaxHeap<Evnt> Events { get; set; }
 
         public List<EvntCircle> OldCircleEvents { get; set; }
 
@@ -23,7 +23,7 @@ namespace Mapseesharp
 
         public bool Ready { get; set; }
 
-        public ResultObject(SortedList<double, Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height, bool ready = false)
+        public ResultObject(MaxHeap<Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height, bool ready = false)
         {
             this.Events = events;
 
