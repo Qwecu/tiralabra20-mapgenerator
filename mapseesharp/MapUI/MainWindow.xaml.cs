@@ -116,7 +116,7 @@ namespace MapUI
            
 
             if (drawParabolas) { 
-            foreach (var ba in result.BeachArcs)
+            foreach (BeachArc ba in result.BeachArcs)
             {
                 for (int i = 0; i < canvasWidth; i++)
                 //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)

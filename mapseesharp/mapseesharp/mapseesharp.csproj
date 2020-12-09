@@ -58,6 +58,7 @@
     <Compile Include="EvntSite.cs" />
     <Compile Include="BeachHalfEdge.cs" />
     <Compile Include="VoronoiCalculator.cs" />
+    <Compile Include="VoronoiList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

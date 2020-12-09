@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mapseesharp
 {
@@ -11,9 +9,11 @@ namespace Mapseesharp
         internal ResultObject Iterate(Site[] sites, int width, int height)
         {
             var events = new MaxHeap<Evnt>(); // ongelma jos tulee kaksi eventtiä samalla y-koordinaatilla
-            List<BeachObj> beachline = new List<BeachObj>();
-            List<Edge> FinishedEdges = new List<Edge>();
-            List<EvntCircle> OldCircleEvents = new List<EvntCircle>();
+            VoronoiList<BeachObj> beachline = new VoronoiList<BeachObj>();
+
+            VoronoiList<Edge> FinishedEdges = new VoronoiList<Edge>();
+
+            VoronoiList<EvntCircle> OldCircleEvents = new VoronoiList<EvntCircle>();
 
             //Fill the event queue with site events for each input site.
             //	-order by y-coordinate of the site
@@ -23,7 +23,7 @@ namespace Mapseesharp
         }
 
         //internal ResultObject Calculate(Site[] sites)
-        internal ResultObject Iterate(MaxHeap<Evnt> events, List<Edge> FinishedEdges, List<BeachObj> beachline, List<EvntCircle> OldCircleEvents, int width, int height)
+        internal ResultObject Iterate(MaxHeap<Evnt> events, VoronoiList<Edge> FinishedEdges, VoronoiList<BeachObj> beachline, VoronoiList<EvntCircle> OldCircleEvents, int width, int height)
         {
             ///TODO: Make sure that the sites can't be too near each other
 
@@ -68,7 +68,7 @@ namespace Mapseesharp
                 //        Add the new site to the beachline
                 //		-search for arc above the point
                 //filtteröidään pelkät kaaret listalle
-                List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
+                VoronoiList<BeachArc> arcs = beachline.GetElementsOfTypeBeachArc();
 
                 Tuple<BeachArc, double> aboves = GetArcAbove(arcs, currentSiteEvent.Site);
                 BeachArc above = aboves.Item1;
@@ -121,7 +121,7 @@ namespace Mapseesharp
                 BeachHalfEdge edgeToRight = new BeachHalfEdge(startingX, startingY, directionRightX, directionRightY);
 
                 beachline.InsertRange(indexOfBest,
-                    new List<BeachObj> {
+                    new BeachObj[] {
                             newLeftSideArc,
                             edgeToLeft,
                             newbornArc,
@@ -130,7 +130,7 @@ namespace Mapseesharp
                 });
                 //		-add possible circle events to the event queue
                 //			-check if the lines next to the new arcs are going to intersect
-                List<BeachArc> noobs = new List<BeachArc> { newLeftSideArc, newRightSideArc };
+                var noobs = new BeachArc[] { newLeftSideArc, newRightSideArc };
                 foreach (BeachArc newarc in noobs)
                 {
                     EvntCircle newevent = TryAddCircleEvent(newarc, beachline, currentEventPosY);
@@ -176,7 +176,7 @@ namespace Mapseesharp
 
                     //-check both arcs for new future intersections
 
-                    List<BeachArc> noobs = new List<BeachArc> { futureLeft, futureRight };
+                    BeachArc[] noobs = new BeachArc[] { futureLeft, futureRight };
                     foreach (BeachArc newarc in noobs)
                     {
                         EvntCircle newevent = TryAddCircleEvent(newarc, beachline, currentEventPosY);
@@ -187,18 +187,17 @@ namespace Mapseesharp
             }
             var gone = events.PopMax();
             if(gone.YToHappen != nextKey) { throw new Exception("key mismatch"); }
-            //events.Remove(nextKey);
-            //Cleanup any remaining intermediate state
-            //	-remaining collisions must only have one arc in between
+            // events.Remove(nextKey);
+            // Cleanup any remaining intermediate state
+            // -remaining collisions must only have one arc in between
 
-
-            //Remove the arcs and edges that are left out of scope (outside canvas)
-            var arcAtLefttEdge = GetArcAbove(beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList(), new Site(0, currentEventPosY));
+            // Remove the arcs and edges that are left out of scope (outside canvas)
+            var arcAtLefttEdge = GetArcAbove(beachline.GetElementsOfTypeBeachArc(), new Site(0, currentEventPosY));
             int indexAtBeachL = beachline.IndexOf(arcAtLefttEdge.Item1);
-            var arcAtRightEdge = GetArcAbove(beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList(), new Site(width, currentEventPosY));
+            var arcAtRightEdge = GetArcAbove(beachline.GetElementsOfTypeBeachArc(), new Site(width, currentEventPosY));
             int indexAtBeachR = beachline.IndexOf(arcAtRightEdge.Item1);
 
-            List<BeachObj> cleanedbeach = new List<BeachObj>();
+            VoronoiList<BeachObj> cleanedbeach = new VoronoiList<BeachObj>();
 
             for (int i = 0; i < beachline.Count; i++)
             {
@@ -262,7 +261,7 @@ namespace Mapseesharp
             return new ResultObject(events, FinishedEdges, beachline, OldCircleEvents, width, height);
         }
 
-        private ResultObject TrimLastHalfEdges(MaxHeap<Evnt> events, List<Edge> finishedEdges, List<BeachObj> beachline, List<EvntCircle> oldCircleEvents, int width, int height)
+        private ResultObject TrimLastHalfEdges(MaxHeap<Evnt> events, VoronoiList<Edge> finishedEdges, VoronoiList<BeachObj> beachline, VoronoiList<EvntCircle> oldCircleEvents, int width, int height)
         {
             //var edges = finishedEdges;
             Dictionary<Point, int> count = new Dictionary<Point, int>();
@@ -288,8 +287,8 @@ namespace Mapseesharp
             }
 
             //edges with one endpoint that is not shared with others (not created by a circle event)
-            List<Edge> loners = new List<Edge>();
-            List<Edge> toBeDeleted = new List<Edge>();
+            VoronoiList<Edge> loners = new VoronoiList<Edge>();
+            VoronoiList<Edge> toBeDeleted = new VoronoiList<Edge>();
             foreach (Edge edge in finishedEdges)
             {
                 if (edge.BothEndpointsOutsideMap(width, height))
@@ -426,7 +425,7 @@ namespace Mapseesharp
             return new ResultObject(events, finishedEdges, beachline, oldCircleEvents, width, height);*/
         }
 
-        private Tuple<BeachArc, double> GetArcAbove(List<BeachArc> arcs, Site site)
+        private Tuple<BeachArc, double> GetArcAbove(VoronoiList<BeachArc> arcs, Site site)
         {
             double bestDistance = -1;
             BeachArc above = null;
@@ -448,7 +447,7 @@ namespace Mapseesharp
 
 
 
-        private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline, double directrixY)
+        private EvntCircle TryAddCircleEvent(BeachArc newarc, VoronoiList<BeachObj> beachline, double directrixY)
         {
             EvntCircle res = null;
             int noobindex = beachline.IndexOf(newarc);
@@ -463,7 +462,7 @@ namespace Mapseesharp
                 BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[noobindex + 1];
                 Point intersection = new Point(leftEdge, rightEdge);
 
-                List<BeachArc> arcs = beachline.Where(x => x.GetType().Equals(typeof(BeachArc))).Select(x => (BeachArc)x).ToList();
+                VoronoiList<BeachArc> arcs = beachline.GetElementsOfTypeBeachArc();
 
                 var aboves = GetArcAbove(arcs, new Site(intersection.x, directrixY));
 
@@ -479,39 +478,8 @@ namespace Mapseesharp
                     res = circleEvent;
                 }
             }
+
             return res;
         }
-
-        /*
-    private EvntCircle TryAddCircleEvent(BeachArc newarc, List<BeachObj> beachline)
-    {
-        EvntCircle res = null;
-        int noobindex = beachline.IndexOf(newarc);
-
-        if (noobindex - 1 >= 0 && noobindex + 1 <= beachline.Count - 1
-            && beachline[noobindex - 1].GetType().Equals(typeof(BeachHalfEdge))
-            && beachline[noobindex + 1].GetType().Equals(typeof(BeachHalfEdge))
-            && ((BeachHalfEdge)beachline[noobindex - 1]).PointingRight
-            && ((BeachHalfEdge)beachline[noobindex + 1]).PointingLeft //VÄÄRÄ OLETUS
-            )
-        {
-            BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
-            BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[noobindex + 1];
-            Point intersection = new Point(leftEdge, rightEdge);
-            //			-if yes, add circle event to queue
-            //			-y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
-            //tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
-            //if (intersection.y < newarc.HomeY)
-            //{
-            //pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
-            double distFromFocus = Math.Sqrt(Math.Pow((newarc.HomeX - intersection.x), 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
-            var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
-
-            res = circleEvent;
-            //}
-        }
-        return res;
-    }
-    */
     }
 }
