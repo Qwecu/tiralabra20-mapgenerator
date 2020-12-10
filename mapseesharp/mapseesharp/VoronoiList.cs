@@ -20,12 +20,22 @@ namespace Mapseesharp
             tempList = new List<T>();
         }
 
+        /// <summary>
+        /// Indexer.
+        /// </summary>
+        /// <param name="i">index.</param>
+        /// <returns>Element at index.</returns>
         public T this[int i]
         {
             get { return tempList[i]; }
-            set { tempList[i] = value; }
+
+            // set { tempList[i] = value; } not needed atm
         }
 
+        /// <summary>
+        /// Adds an element to the list.
+        /// </summary>
+        /// <param name="toAdd">Element to be added.</param>
         public void Add(T toAdd)
         {
             tempList.Add(toAdd);
@@ -60,11 +70,20 @@ namespace Mapseesharp
             return tempList.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns first index of item or -1 if not found.
+        /// </summary>
+        /// <param name="item">Item to be searched.</param>
+        /// <returns>Index of first occurrence.</returns>
         internal int IndexOf(T item)
         {
             return tempList.IndexOf(item);
         }
 
+        /// <summary>
+        /// Removes the first occurrence of the item from the list.
+        /// </summary>
+        /// <param name="item">Item to be removed.</param>
         internal void Remove(T item)
         {
             tempList.Remove(item);
