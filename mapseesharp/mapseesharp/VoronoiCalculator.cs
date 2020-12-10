@@ -186,7 +186,7 @@ namespace Mapseesharp
                 OldCircleEvents.Add(currentCircEv);
             }
             var gone = events.PopMax();
-            if(gone.YToHappen != nextKey) { throw new Exception("key mismatch"); }
+            if (gone.YToHappen != nextKey) { throw new Exception("key mismatch"); }
             // events.Remove(nextKey);
             // Cleanup any remaining intermediate state
             // -remaining collisions must only have one arc in between
@@ -266,8 +266,12 @@ namespace Mapseesharp
             //var edges = finishedEdges;
             Dictionary<Point, int> count = new Dictionary<Point, int>();
 
-            foreach (Edge edge in finishedEdges)
+
+            for (int j = 0; j < finishedEdges.Count; j++)
             {
+                Edge edge = finishedEdges[j];
+
+
                 if (count.ContainsKey(edge.StartingPoint))
                 {
                     count[edge.StartingPoint] = count[edge.StartingPoint] + 1;
@@ -289,8 +293,9 @@ namespace Mapseesharp
             //edges with one endpoint that is not shared with others (not created by a circle event)
             VoronoiList<Edge> loners = new VoronoiList<Edge>();
             VoronoiList<Edge> toBeDeleted = new VoronoiList<Edge>();
-            foreach (Edge edge in finishedEdges)
+            for (int j = 0; j < finishedEdges.Count; j++)
             {
+                Edge edge = finishedEdges[j];
                 if (edge.BothEndpointsOutsideMap(width, height))
                 {
                     //edge is totally out of scope, it will be removed from the graph
@@ -326,8 +331,10 @@ namespace Mapseesharp
                 }
             }
 
-            foreach (Edge he in loners)
+            for (int j = 0; j < loners.Count; j++)
             {
+                Edge he = loners[j];
+
                 if (he.PointingLeft)
                 {
                     BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
@@ -370,8 +377,10 @@ namespace Mapseesharp
                 }
             }
 
-            foreach (Edge os in toBeDeleted)
+            for (int j = 0; j < toBeDeleted.Count; j++)
             {
+                Edge os = toBeDeleted[j];
+
                 finishedEdges.Remove(os);
             }
 
@@ -432,8 +441,10 @@ namespace Mapseesharp
 
             if (double.IsNaN(bestDistance)) { throw new Exception("Etäisyyden laskemisessa virhe"); }
 
-            foreach (BeachArc arc in arcs)
+            for (int j = 0; j < arcs.Count; j++)
             {
+                BeachArc arc = arcs[j];
+
                 //erotetaan identtiset kaaret toisistaan
                 if (arc.LeftLimit > site.X || arc.RightLimit < site.X) continue;
                 else

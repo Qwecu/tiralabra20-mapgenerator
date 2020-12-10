@@ -74,8 +74,10 @@ namespace UnitTestMapseesharp
                 result = pr.Calculate(result);
             }
 
-            foreach (Edge edge in result.FinishedEdges)
+            for (int j = 0; j < result.FinishedEdges.Count; j++)
             {
+                Edge edge = result.FinishedEdges[j];
+
                 Assert.IsTrue(edge.StartingPoint.x >= 0);
                 Assert.IsTrue(edge.EndingPoint.x >= 0);
                 Assert.IsTrue(edge.StartingPoint.x <= 400);

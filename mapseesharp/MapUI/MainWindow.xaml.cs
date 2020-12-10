@@ -113,39 +113,45 @@ namespace MapUI
             myLinew.StrokeThickness = 3;
             myGrid.Children.Add(myLinew);
 
-           
 
-            if (drawParabolas) { 
-            foreach (BeachArc ba in result.BeachArcs)
+
+            if (drawParabolas)
             {
-                for (int i = 0; i < canvasWidth; i++)
-                //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
+
+                for (int j = 0; j < result.BeachArcs.Count; j++)
                 {
-                    var myLine = new Line();
+                    BeachArc ba = result.BeachArcs[j];
+
+
+                    for (int i = 0; i < canvasWidth; i++)
+                    //  for (int i = Math.Max(0, (int)ba.LeftLimit); i < Math.Min(canvasWidth, (int)ba.RightLimit); i++)
+                    {
+                        var myLine = new Line();
                         myLine.StrokeThickness = 1;
                         myLine.Stroke = System.Windows.Media.Brushes.Beige;
                         //myLine.Stroke = System.Windows.Media.Brushes.Silver;
                         if (i > ba.LeftLimit && i < ba.RightLimit) { myLine.Stroke = Brushes.Violet; myLine.StrokeThickness = 3; }
 
-                    double yf = ba.Homesite.Y;
-                    double xf = ba.Homesite.X;
-                    double yd = currentY;
-                    double x = i;
-                    double yCoordinate = (1.0 / (2.0 * (yf - yd)))
-                        * (x - xf) * (x - xf)
-                        + ((yf + yd) / 2.0);
-                    double distance = yCoordinate - yd;
+                        double yf = ba.Homesite.Y;
+                        double xf = ba.Homesite.X;
+                        double yd = currentY;
+                        double x = i;
+                        double yCoordinate = (1.0 / (2.0 * (yf - yd)))
+                            * (x - xf) * (x - xf)
+                            + ((yf + yd) / 2.0);
+                        double distance = yCoordinate - yd;
 
-                    if (double.IsInfinity(yCoordinate) || yf == yd) { continue; }
+                        if (double.IsInfinity(yCoordinate) || yf == yd) { continue; }
 
-                    myLine.X1 = x + xSiirto;
-                    myLine.Y1 = yCoordinate + ySiirto;
-                    myLine.X2 = x + xSiirto + 1;
-                    myLine.Y2 = yCoordinate + ySiirto + 1;
-                    
-                    myGrid.Children.Add(myLine);
+                        myLine.X1 = x + xSiirto;
+                        myLine.Y1 = yCoordinate + ySiirto;
+                        myLine.X2 = x + xSiirto + 1;
+                        myLine.Y2 = yCoordinate + ySiirto + 1;
+
+                        myGrid.Children.Add(myLine);
+                    }
                 }
-            } }
+            }
 
             List<Edge> canvasedges = new List<Edge>();
 
@@ -154,9 +160,10 @@ namespace MapUI
             canvasedges.Add(new Edge(new Mapseesharp.Point(canvasWidth, 0), new Mapseesharp.Point(canvasWidth, canvasHeight)));
             canvasedges.Add(new Edge(new Mapseesharp.Point(0, canvasHeight), new Mapseesharp.Point(canvasWidth, canvasHeight)));
 
-
-            foreach (Edge p in result.FinishedEdges)
+            for (int i = 0; i < result.FinishedEdges.Count; i++)
             {
+                Edge p = result.FinishedEdges[i];
+
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.LightBlue;
                 myLine.X1 = p.StartingPoint.x + xSiirto;
@@ -179,8 +186,11 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
-            foreach (BeachHalfEdge p in result.BeachHalfEdges)
+
+            for (int i = 0; i < result.BeachHalfEdges.Count; i++)
             {
+                BeachHalfEdge p = result.BeachHalfEdges[i];
+
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.Red;
                 myLine.X1 = p.startingX + xSiirto;
@@ -249,8 +259,10 @@ namespace MapUI
                 myGrid.Children.Add(myLine);
             }
 
-            foreach (EvntCircle ce in result.OldCircleEvents)
+            for (int i = 0; i < result.OldCircleEvents.Count; i++)
             {
+                EvntCircle ce = result.OldCircleEvents[i];
+
                 Canvas canvas = new Canvas();
                 myGrid.Children.Add(canvas);
 
@@ -346,7 +358,7 @@ namespace MapUI
 
         private void toEnd_Click(object sender, RoutedEventArgs e)
         {
-            while(result.Ready == false)
+            while (result.Ready == false)
             {
                 iterateResult();
             }
@@ -357,7 +369,7 @@ namespace MapUI
         {
             string message = "Input: \n";
 
-            foreach(Site site in inputSites)
+            foreach (Site site in inputSites)
             {
                 message += site + "\n";
             }
