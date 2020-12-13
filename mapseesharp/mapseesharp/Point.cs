@@ -12,30 +12,28 @@ namespace Mapseesharp
         public double x { get; set; }
         public double y { get; set; }
 
-        //Does not work with vertical lines
+        //D oes not work with vertical lines
         public Point(BeachHalfEdge intersectingLineFromLeft, BeachHalfEdge intersectingLineFromRight)
         {
-            //kulmakerroin
+            // kulmakerroin
             double k1 = (intersectingLineFromLeft.directionY - intersectingLineFromLeft.startingY) / (intersectingLineFromLeft.directionX - intersectingLineFromLeft.startingX);
             double k2 = (intersectingLineFromRight.startingY - intersectingLineFromRight.directionY) / (intersectingLineFromRight.startingX - intersectingLineFromRight.directionX);
-            //vakiotermi
+            // vakiotermi
             double b1 = ((intersectingLineFromLeft.startingY * intersectingLineFromLeft.directionX) - (intersectingLineFromLeft.startingX * intersectingLineFromLeft.directionY))
                 / (intersectingLineFromLeft.directionX - intersectingLineFromLeft.startingX);
             double b2 = ((intersectingLineFromRight.startingY * intersectingLineFromRight.directionX) - (intersectingLineFromRight.startingX * intersectingLineFromRight.directionY))
     / (intersectingLineFromRight.directionX - intersectingLineFromRight.startingX);
 
-            //double b1 = (intersectingLineFromLeft.startingY - k1 * intersectingLineFromLeft.startingX);
-            //double b2 = (intersectingLineFromRight.startingY - k1 * intersectingLineFromRight.startingX);
 
             // x @ leikkaus
             x = (b2 - b1) / (k1 - k2);
-            //y @ leikkaus
-            y = k1 * x + b1;
+            // y @ leikkaus
+            y = (k1 * x) + b1;
         }
 
         internal bool OnMap(int width, int height)
         {
-            return (x > 0 && x < width && y > 0 && y < height);
+            return x > 0 && x < width && y > 0 && y < height;
         }
 
         public Point(double x, double y)
@@ -44,42 +42,60 @@ namespace Mapseesharp
             this.y = y;
         }
 
-        //Does not work if edge is vertical (halfedge can be)
-        public Point(Edge edge, BeachHalfEdge halfedge) : this()
+        // Does not work if edge is vertical (halfedge can be)
+        public Point(Edge edge, BeachHalfEdge halfedge)
+            : this()
         {
             if (halfedge.startingX == halfedge.directionX)
             {
-                //kulmakerroin
+                // kulmakerroin
                 double k1 = (edge.EndingPoint.y - edge.StartingPoint.y) / (edge.EndingPoint.x - edge.StartingPoint.x);
-                //vakiotermi
+
+                // vakiotermi
                 double b1 = ((edge.StartingPoint.y * edge.EndingPoint.x) - (edge.StartingPoint.x * edge.EndingPoint.y))
                     / (edge.EndingPoint.x - edge.StartingPoint.x);
 
-                //vakio y = n
+                // vakio y = n
                 double n = halfedge.startingX;
 
                 // x @ leikkaus
                 x = n;
-                //y @ leikkaus
-                y = k1 * x + b1;
+
+                // y @ leikkaus
+                y = (k1 * x) + b1;
             }
             else
             {
-                //kulmakerroin
+                // kulmakerroin
                 double k1 = (edge.EndingPoint.y - edge.StartingPoint.y) / (edge.EndingPoint.x - edge.StartingPoint.x);
                 double k2 = (halfedge.startingY - halfedge.directionY) / (halfedge.startingX - halfedge.directionX);
-                //vakiotermi
+
+                // vakiotermi
                 double b1 = ((edge.StartingPoint.y * edge.EndingPoint.x) - (edge.StartingPoint.x * edge.EndingPoint.y))
                     / (edge.EndingPoint.x - edge.StartingPoint.x);
                 double b2 = ((halfedge.startingY * halfedge.directionX) - (halfedge.startingX * halfedge.directionY))
         / (halfedge.directionX - halfedge.startingX);
 
-
                 // x @ leikkaus
                 x = (b2 - b1) / (k1 - k2);
-                //y @ leikkaus
-                y = k1 * x + b1;
+
+                // y @ leikkaus
+                y = (k1 * x) + b1;
             }
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            /*if(obj is Point)
+            {
+                Point p = (Point)obj;
+                bool samex = this.x == p.x;
+                bool samey = this.y == p.y;
+                return samex && samey;
+            }*/
+
+            return base.Equals(obj);
         }
     }
 }

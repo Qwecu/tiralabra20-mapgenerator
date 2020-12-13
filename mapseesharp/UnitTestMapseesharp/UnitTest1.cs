@@ -89,5 +89,34 @@ namespace UnitTestMapseesharp
                 Assert.IsTrue(edge.EndingPoint.y <= 400);
             }
         }
+
+        [TestMethod]
+        public void TestMethodSmallInput()
+        {
+            Site[] testsites = new Site[] {
+                new Site(110, 162),
+                new Site(331, 200),
+                new Site(146, 266)};
+
+
+            var pr = new Mapseesharp.Program();
+            ResultObject result = pr.Calculate(testsites, 400, 400);
+
+            while (!result.Ready)
+            {
+                result = pr.Calculate(result);
+            }
+
+            Assert.AreEqual(3, result.FinishedEdges.Count);
+
+            Point middle = new Point(220.32068837897856, 182.04283863804591);
+            Assert.AreEqual(middle, result.FinishedEdges[0].StartingPoint);
+            Assert.AreEqual(middle, result.FinishedEdges[1].StartingPoint);
+            Assert.AreEqual(middle, result.FinishedEdges[2].StartingPoint);
+
+            Assert.AreEqual(new Point(0, 258.30769230769226), result.FinishedEdges[0].EndingPoint);
+            Assert.AreEqual(new Point(298.07837837837837, 400), result.FinishedEdges[1].EndingPoint);
+            Assert.AreEqual(new Point(251.62217194569681, 0), result.FinishedEdges[2].EndingPoint);
+        }
     }
 }
