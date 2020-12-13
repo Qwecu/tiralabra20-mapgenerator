@@ -175,6 +175,8 @@
                     double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
 
                     BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
+
+                    // Mirrored to the opposite direction if pointing upwards
                     if (singleHalfEdge.startingY < singleHalfEdge.directionY)
                     {
                         singleHalfEdge = new BeachHalfEdge(
@@ -289,7 +291,14 @@
 
         private ResultObject TrimLastHalfEdges(MaxHeap<Evnt> events, VoronoiList<Edge> finishedEdges, VoronoiList<BeachObj> beachline, VoronoiList<EvntCircle> oldCircleEvents, int width, int height)
         {
-            // var edges = finishedEdges;
+            // Halfedges are added to the finished pool for trimming
+            var halfEdges = beachline.GetElementsOfTypeBeachHalfEdge();
+            for (int i = 0; i < halfEdges.Count; i++)
+            {
+                var he = halfEdges[i];
+                finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), new Point(he.directionX, he.directionY)));
+            }
+
             Dictionary<Point, int> count = new Dictionary<Point, int>();
 
             for (int j = 0; j < finishedEdges.Count; j++)
