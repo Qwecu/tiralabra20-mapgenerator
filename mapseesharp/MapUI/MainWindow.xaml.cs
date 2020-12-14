@@ -37,7 +37,7 @@ namespace MapUI
 
         bool drawParabolas = true;
 
-        private bool randomStart = true;
+        private bool randomStart = false;
 
         double currentY = 0;
 
@@ -45,7 +45,7 @@ namespace MapUI
 
         Stack<ResultObject> history = new Stack<ResultObject>();
 
-        Site[] inputSites = new Site[] {
+        Site[] inputSites1 = new Site[] {
                 new Site(12,36),
                 new Site(172,360),
                 new Site(302,196),
@@ -61,7 +61,17 @@ namespace MapUI
         new Site(331, 200),
         new Site(146, 266)};
 
-    private void DrawEverything()
+        Site[] inputSitesq = new Site[] {
+        new Site(328, 96),
+        new Site(319, 258),
+        new Site(395, 33)};
+
+        Site[] inputSites = new Site[] {
+        new Site(28, 96),
+        new Site(19, 258),
+        new Site(95, 33)};
+
+        private void DrawEverything()
     {
         //myGrid.Children.Clear();
 

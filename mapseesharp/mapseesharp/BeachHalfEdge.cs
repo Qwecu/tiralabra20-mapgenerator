@@ -26,9 +26,26 @@ namespace Mapseesharp
             return "HalfEdge (" + startingX + "; " + startingY + ") (" + directionX + "; " + directionY + ")";
         }
 
-        public bool PointingLeft { get { return (directionX < startingX); } }
+        public bool PointingLeft { get { return (directionX < this.startingX); } }
+
         public bool PointingRight { get { return (directionX > startingX); } }
+
         public bool PointingUp { get { return (directionY > startingY); } }
+
         public bool PointingDown { get { return (directionY < startingY); } }
+
+        /// <summary>
+        /// Returns a new half edge with the same length and starting point as input, pointing to opposite direction.
+        /// </summary>
+        /// <param name="singleHalfEdge">Input.</param>
+        /// <returns>Mirrored half edge.</returns>
+        internal static BeachHalfEdge MirrorKeepStartingPoint(BeachHalfEdge singleHalfEdge)
+        {
+            return new BeachHalfEdge(
+                            singleHalfEdge.startingX,
+                            singleHalfEdge.startingY,
+                            singleHalfEdge.startingX - (singleHalfEdge.directionX - singleHalfEdge.startingX),
+                            singleHalfEdge.startingY - (singleHalfEdge.directionY - singleHalfEdge.startingY));
+        }
     }
 }

@@ -179,11 +179,7 @@
                     // Mirrored to the opposite direction if pointing upwards
                     if (singleHalfEdge.startingY < singleHalfEdge.directionY)
                     {
-                        singleHalfEdge = new BeachHalfEdge(
-                            singleHalfEdge.startingX,
-                            singleHalfEdge.startingY,
-                            singleHalfEdge.startingX - (singleHalfEdge.directionX - singleHalfEdge.startingX),
-                            singleHalfEdge.startingY - (singleHalfEdge.directionY - singleHalfEdge.startingY));
+                        singleHalfEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
                     }
 
                     beachline.Insert((int)indexOnBeach, singleHalfEdge);

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="9a8eac5c-c0bd-4e95-8e0c-2d7be2a3d95a" name="Aubergine@LAPTOP-3PIKHS2C 2020-12-14 15:55:03" runUser="LAPTOP-3PIKHS2C\Aubergine" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2020-12-14T15:55:03.7261310+02:00" queuing="2020-12-14T15:55:03.7311185+02:00" start="2020-12-14T15:55:02.6260770+02:00" finish="2020-12-14T15:55:03.8687483+02:00" />
+  <TestSettings name="default" id="83a26083-d9a7-4a97-8a12-5cdabb1da9ff">
+    <Execution>
+      <TestTypeSpecific />
+    </Execution>
+    <Deployment runDeploymentRoot="Aubergine_LAPTOP-3PIKHS2C 2020-12-14 15_55_03" />
+    <Properties />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="1694a4cf-19ad-43a2-9ba8-7ada2c1a0cde" testId="19e6784b-c808-75f9-53b4-be986275b2dd" testName="TestMethod1" computerName="LAPTOP-3PIKHS2C" duration="00:00:00.4413557" startTime="2020-12-14T15:55:02.6260770+02:00" endTime="2020-12-14T15:55:03.3022632+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1694a4cf-19ad-43a2-9ba8-7ada2c1a0cde" />
+    <UnitTestResult executionId="a2958a13-0ad8-4d09-b004-f098ba10fb0a" testId="6d74aaf8-ce91-b64f-aef6-c10077b26499" testName="TestMethod2" computerName="LAPTOP-3PIKHS2C" duration="00:00:00.2220183" startTime="2020-12-14T15:55:03.3182201+02:00" endTime="2020-12-14T15:55:03.5406238+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2958a13-0ad8-4d09-b004-f098ba10fb0a" />
+    <UnitTestResult executionId="5d068416-9de4-4756-b1a3-e33472ed8f3f" testId="8d50f88a-4a13-8485-6555-110bedac9522" testName="TestMethodSmallInput" computerName="LAPTOP-3PIKHS2C" duration="00:00:00.0427581" startTime="2020-12-14T15:55:03.5416223+02:00" endTime="2020-12-14T15:55:03.5845079+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d068416-9de4-4756-b1a3-e33472ed8f3f" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TestMethod1" storage="c:\users\aubergine\documents\yliopisto\tiralabra\tiralabra20-mapgenerator\mapseesharp\unittestmapseesharp\bin\debug\unittestmapseesharp.dll" id="19e6784b-c808-75f9-53b4-be986275b2dd">
+      <Execution id="1694a4cf-19ad-43a2-9ba8-7ada2c1a0cde" />
+      <TestMethod codeBase="C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Debug\UnitTestMapseesharp.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="UnitTestMapseesharp.UnitTest1" name="TestMethod1" />
+    </UnitTest>
+    <UnitTest name="TestMethod2" storage="c:\users\aubergine\documents\yliopisto\tiralabra\tiralabra20-mapgenerator\mapseesharp\unittestmapseesharp\bin\debug\unittestmapseesharp.dll" id="6d74aaf8-ce91-b64f-aef6-c10077b26499">
+      <Execution id="a2958a13-0ad8-4d09-b004-f098ba10fb0a" />
+      <TestMethod codeBase="C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Debug\UnitTestMapseesharp.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="UnitTestMapseesharp.UnitTest1" name="TestMethod2" />
+    </UnitTest>
+    <UnitTest name="TestMethodSmallInput" storage="c:\users\aubergine\documents\yliopisto\tiralabra\tiralabra20-mapgenerator\mapseesharp\unittestmapseesharp\bin\debug\unittestmapseesharp.dll" id="8d50f88a-4a13-8485-6555-110bedac9522">
+      <Execution id="5d068416-9de4-4756-b1a3-e33472ed8f3f" />
+      <TestMethod codeBase="C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Debug\UnitTestMapseesharp.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="UnitTestMapseesharp.UnitTest1" name="TestMethodSmallInput" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="19e6784b-c808-75f9-53b4-be986275b2dd" executionId="1694a4cf-19ad-43a2-9ba8-7ada2c1a0cde" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d74aaf8-ce91-b64f-aef6-c10077b26499" executionId="a2958a13-0ad8-4d09-b004-f098ba10fb0a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8d50f88a-4a13-8485-6555-110bedac9522" executionId="5d068416-9de4-4756-b1a3-e33472ed8f3f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>
