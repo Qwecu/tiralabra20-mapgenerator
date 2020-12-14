@@ -45,7 +45,7 @@ namespace MapUI
 
         Stack<ResultObject> history = new Stack<ResultObject>();
 
-        Site[] inputSites1 = new Site[] {
+        Site[] inputSites2 = new Site[] {
                 new Site(12,36),
                 new Site(172,360),
                 new Site(302,196),
@@ -209,10 +209,10 @@ namespace MapUI
 
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.Red;
-            myLine.X1 = p.startingX + xSiirto;
-            myLine.Y1 = p.startingY + ySiirto;
-            myLine.X2 = p.directionX + xSiirto;
-            myLine.Y2 = p.directionY + ySiirto;
+            myLine.X1 = p.StartingX + xSiirto;
+            myLine.Y1 = p.StartingY + ySiirto;
+            myLine.X2 = p.DirectionX + xSiirto;
+            myLine.Y2 = p.DirectionY + ySiirto;
             myLine.StrokeThickness = 1;
             myGrid.Children.Add(myLine);
         }

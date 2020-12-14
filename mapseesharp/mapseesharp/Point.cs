@@ -16,13 +16,13 @@ namespace Mapseesharp
         public Point(BeachHalfEdge intersectingLineFromLeft, BeachHalfEdge intersectingLineFromRight)
         {
             // kulmakerroin
-            double k1 = (intersectingLineFromLeft.directionY - intersectingLineFromLeft.startingY) / (intersectingLineFromLeft.directionX - intersectingLineFromLeft.startingX);
-            double k2 = (intersectingLineFromRight.startingY - intersectingLineFromRight.directionY) / (intersectingLineFromRight.startingX - intersectingLineFromRight.directionX);
+            double k1 = (intersectingLineFromLeft.DirectionY - intersectingLineFromLeft.StartingY) / (intersectingLineFromLeft.DirectionX - intersectingLineFromLeft.StartingX);
+            double k2 = (intersectingLineFromRight.StartingY - intersectingLineFromRight.DirectionY) / (intersectingLineFromRight.StartingX - intersectingLineFromRight.DirectionX);
             // vakiotermi
-            double b1 = ((intersectingLineFromLeft.startingY * intersectingLineFromLeft.directionX) - (intersectingLineFromLeft.startingX * intersectingLineFromLeft.directionY))
-                / (intersectingLineFromLeft.directionX - intersectingLineFromLeft.startingX);
-            double b2 = ((intersectingLineFromRight.startingY * intersectingLineFromRight.directionX) - (intersectingLineFromRight.startingX * intersectingLineFromRight.directionY))
-    / (intersectingLineFromRight.directionX - intersectingLineFromRight.startingX);
+            double b1 = ((intersectingLineFromLeft.StartingY * intersectingLineFromLeft.DirectionX) - (intersectingLineFromLeft.StartingX * intersectingLineFromLeft.DirectionY))
+                / (intersectingLineFromLeft.DirectionX - intersectingLineFromLeft.StartingX);
+            double b2 = ((intersectingLineFromRight.StartingY * intersectingLineFromRight.DirectionX) - (intersectingLineFromRight.StartingX * intersectingLineFromRight.DirectionY))
+    / (intersectingLineFromRight.DirectionX - intersectingLineFromRight.StartingX);
 
 
             // x @ leikkaus
@@ -46,7 +46,7 @@ namespace Mapseesharp
         public Point(Edge edge, BeachHalfEdge halfedge)
             : this()
         {
-            if (halfedge.startingX == halfedge.directionX)
+            if (halfedge.StartingX == halfedge.DirectionX)
             {
                 // kulmakerroin
                 double k1 = (edge.EndingPoint.y - edge.StartingPoint.y) / (edge.EndingPoint.x - edge.StartingPoint.x);
@@ -56,7 +56,7 @@ namespace Mapseesharp
                     / (edge.EndingPoint.x - edge.StartingPoint.x);
 
                 // vakio y = n
-                double n = halfedge.startingX;
+                double n = halfedge.StartingX;
 
                 // x @ leikkaus
                 x = n;
@@ -68,13 +68,13 @@ namespace Mapseesharp
             {
                 // kulmakerroin
                 double k1 = (edge.EndingPoint.y - edge.StartingPoint.y) / (edge.EndingPoint.x - edge.StartingPoint.x);
-                double k2 = (halfedge.startingY - halfedge.directionY) / (halfedge.startingX - halfedge.directionX);
+                double k2 = (halfedge.StartingY - halfedge.DirectionY) / (halfedge.StartingX - halfedge.DirectionX);
 
                 // vakiotermi
                 double b1 = ((edge.StartingPoint.y * edge.EndingPoint.x) - (edge.StartingPoint.x * edge.EndingPoint.y))
                     / (edge.EndingPoint.x - edge.StartingPoint.x);
-                double b2 = ((halfedge.startingY * halfedge.directionX) - (halfedge.startingX * halfedge.directionY))
-        / (halfedge.directionX - halfedge.startingX);
+                double b2 = ((halfedge.StartingY * halfedge.DirectionX) - (halfedge.StartingX * halfedge.DirectionY))
+        / (halfedge.DirectionX - halfedge.StartingX);
 
                 // x @ leikkaus
                 x = (b2 - b1) / (k1 - k2);
@@ -96,6 +96,22 @@ namespace Mapseesharp
             }*/
 
             return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Returns a new point equidistant to the two given points.
+        /// </summary>
+        /// <param name="first">The first point.</param>
+        /// <param name="second">The secont point.</param>
+        /// <returns>The midway point.</returns>
+        internal static Point GetPointAtMidway(Point first, Point second)
+        {
+            return new Point((first.x + second.x) / 2, (first.y + second.y) / 2);
+        }
+
+        internal static double DistanceBetweenPoints(Point midpoint, Point directionPoint)
+        {
+            return Math.Sqrt(Math.Pow(midpoint.x - directionPoint.x, 2) + Math.Pow(midpoint.y - directionPoint.y, 2));
         }
     }
 }

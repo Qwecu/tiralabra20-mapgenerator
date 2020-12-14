@@ -204,5 +204,14 @@ namespace Mapseesharp
 
             this.Count++;
         }
+
+        /// <summary>
+        /// Empties the list.
+        /// </summary>
+        internal void Clear()
+        {
+            this.items = new T[this.items.Length];
+            this.Count = 0;
+        }
     }
 }

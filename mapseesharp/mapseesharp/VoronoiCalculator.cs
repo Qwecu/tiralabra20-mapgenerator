@@ -171,16 +171,27 @@
                     // -add new single half-edge starting from intersection point
                     BeachArc futureLeft = (BeachArc)beachline[(int)indexOnBeach - 2];
                     BeachArc futureRight = (BeachArc)beachline[(int)indexOnBeach + 1];
+
+                    BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[(int)indexOnBeach - 1];
+                    BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[(int)indexOnBeach];
+                    Point midpoint = Point.GetPointAtMidway(leftEdge.StartingPoint, rightEdge.StartingPoint);
+
                     double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
                     double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
 
                     BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
+                    BeachHalfEdge mirroredEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
 
-                    // Mirrored to the opposite direction if pointing upwards
-                    if (singleHalfEdge.startingY < singleHalfEdge.directionY)
+                    if(Point.DistanceBetweenPoints(midpoint, singleHalfEdge.DirectionPoint) < Point.DistanceBetweenPoints(midpoint, mirroredEdge.DirectionPoint))
+                    {
+                        singleHalfEdge = mirroredEdge;
+                    }
+
+                    // Mirrored to the opposite direction if pointing upwards WRONG!!
+                    /*if (singleHalfEdge.startingY < singleHalfEdge.directionY)
                     {
                         singleHalfEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
-                    }
+                    }*/
 
                     beachline.Insert((int)indexOnBeach, singleHalfEdge);
 
@@ -189,8 +200,8 @@
                     beachline.Remove(currentCircEv.RightEdge);
 
                     // add finished edges
-                    finishedEdges.Add(new Edge(new Point(currentCircEv.LeftEdge.startingX, currentCircEv.LeftEdge.startingY), currentCircEv.CircleCentre));
-                    finishedEdges.Add(new Edge(new Point(currentCircEv.RightEdge.startingX, currentCircEv.RightEdge.startingY), currentCircEv.CircleCentre));
+                    finishedEdges.Add(new Edge(new Point(currentCircEv.LeftEdge.StartingX, currentCircEv.LeftEdge.StartingY), currentCircEv.CircleCentre));
+                    finishedEdges.Add(new Edge(new Point(currentCircEv.RightEdge.StartingX, currentCircEv.RightEdge.StartingY), currentCircEv.CircleCentre));
 
                     // -check both arcs for new future intersections
                     BeachArc[] noobs = new BeachArc[] { futureLeft, futureRight };
@@ -243,7 +254,7 @@
                             Point isct = new Point(he, leftWall);
                             if (isct.y <= height && isct.y >= 0)
                             {
-                                finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                                finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
                         }
 
@@ -253,7 +264,7 @@
                             Point isct = new Point(he, rightWall);
                             if (isct.y <= height && isct.y >= 0)
                             {
-                                finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                                finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
                         }
 
@@ -263,7 +274,7 @@
                             Point isct = new Point(he, ceiling);
                             if (isct.x <= width && isct.x >= 0)
                             {
-                                finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                                finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
                         }
 
@@ -273,7 +284,7 @@
                             Point isct = new Point(he, floor);
                             if (isct.x <= width && isct.x >= 0)
                             {
-                                finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), isct));
+                                finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
                         }
                     }
@@ -292,7 +303,8 @@
             for (int i = 0; i < halfEdges.Count; i++)
             {
                 var he = halfEdges[i];
-                finishedEdges.Add(new Edge(new Point(he.startingX, he.startingY), new Point(he.directionX, he.directionY)));
+                finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), new Point(he.DirectionX, he.DirectionY)));
+                beachline.Remove(he);
             }
 
             Dictionary<Point, int> count = new Dictionary<Point, int>();
