@@ -9,10 +9,23 @@ namespace Mapseesharp
     public struct Point
     {
 
-        public double x { get; set; }
-        public double y { get; set; }
+        /// <summary>
+        /// Gets or sets the x coordinate.
+        /// </summary>
+        public double X { get; set; }
 
-        //D oes not work with vertical lines
+        /// <summary>
+        /// Gets or sets the y coordinate.
+        /// </summary>
+        public double Y { get; set; }
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Point"/> struct.
+        /// Returns the intersection point between two lines. Does not work with vertical lines.
+        /// </summary>
+        /// <param name="intersectingLineFromLeft">Line 1.</param>
+        /// <param name="intersectingLineFromRight">Line 2.</param>
         public Point(BeachHalfEdge intersectingLineFromLeft, BeachHalfEdge intersectingLineFromRight)
         {
             // kulmakerroin
@@ -26,20 +39,20 @@ namespace Mapseesharp
 
 
             // x @ leikkaus
-            x = (b2 - b1) / (k1 - k2);
+            this.X = (b2 - b1) / (k1 - k2);
             // y @ leikkaus
-            y = (k1 * x) + b1;
+            this.Y = (k1 * this.X) + b1;
         }
 
-        internal bool OnMap(int width, int height)
-        {
-            return x > 0 && x < width && y > 0 && y < height;
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Point"/> struct.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
         public Point(double x, double y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
 
         // Does not work if edge is vertical (halfedge can be)
@@ -49,38 +62,38 @@ namespace Mapseesharp
             if (halfedge.StartingX == halfedge.DirectionX)
             {
                 // kulmakerroin
-                double k1 = (edge.EndingPoint.y - edge.StartingPoint.y) / (edge.EndingPoint.x - edge.StartingPoint.x);
+                double k1 = (edge.EndingPoint.Y - edge.StartingPoint.Y) / (edge.EndingPoint.X - edge.StartingPoint.X);
 
                 // vakiotermi
-                double b1 = ((edge.StartingPoint.y * edge.EndingPoint.x) - (edge.StartingPoint.x * edge.EndingPoint.y))
-                    / (edge.EndingPoint.x - edge.StartingPoint.x);
+                double b1 = ((edge.StartingPoint.Y * edge.EndingPoint.X) - (edge.StartingPoint.X * edge.EndingPoint.Y))
+                    / (edge.EndingPoint.X - edge.StartingPoint.X);
 
                 // vakio y = n
                 double n = halfedge.StartingX;
 
                 // x @ leikkaus
-                x = n;
+                this.X = n;
 
                 // y @ leikkaus
-                y = (k1 * x) + b1;
+                this.Y = (k1 * this.X) + b1;
             }
             else
             {
                 // kulmakerroin
-                double k1 = (edge.EndingPoint.y - edge.StartingPoint.y) / (edge.EndingPoint.x - edge.StartingPoint.x);
+                double k1 = (edge.EndingPoint.Y - edge.StartingPoint.Y) / (edge.EndingPoint.X - edge.StartingPoint.X);
                 double k2 = (halfedge.StartingY - halfedge.DirectionY) / (halfedge.StartingX - halfedge.DirectionX);
 
                 // vakiotermi
-                double b1 = ((edge.StartingPoint.y * edge.EndingPoint.x) - (edge.StartingPoint.x * edge.EndingPoint.y))
-                    / (edge.EndingPoint.x - edge.StartingPoint.x);
+                double b1 = ((edge.StartingPoint.Y * edge.EndingPoint.X) - (edge.StartingPoint.X * edge.EndingPoint.Y))
+                    / (edge.EndingPoint.X - edge.StartingPoint.X);
                 double b2 = ((halfedge.StartingY * halfedge.DirectionX) - (halfedge.StartingX * halfedge.DirectionY))
         / (halfedge.DirectionX - halfedge.StartingX);
 
                 // x @ leikkaus
-                x = (b2 - b1) / (k1 - k2);
+                this.X = (b2 - b1) / (k1 - k2);
 
                 // y @ leikkaus
-                y = (k1 * x) + b1;
+                this.Y = (k1 * this.X) + b1;
             }
         }
 
@@ -99,6 +112,17 @@ namespace Mapseesharp
         }
 
         /// <summary>
+        /// Returns true if the point is inside the given coordinates.
+        /// </summary>
+        /// <param name="width">Width of canvas.</param>
+        /// <param name="height">Height of canvas.</param>
+        /// <returns>True if the point is on the canvas.</returns>
+        internal bool OnMap(int width, int height)
+        {
+            return this.X > 0 && this.X < width && this.Y > 0 && this.Y < height;
+        }
+
+        /// <summary>
         /// Returns a new point equidistant to the two given points.
         /// </summary>
         /// <param name="first">The first point.</param>
@@ -106,12 +130,18 @@ namespace Mapseesharp
         /// <returns>The midway point.</returns>
         internal static Point GetPointAtMidway(Point first, Point second)
         {
-            return new Point((first.x + second.x) / 2, (first.y + second.y) / 2);
+            return new Point((first.X + second.X) / 2, (first.Y + second.Y) / 2);
         }
 
+        /// <summary>
+        /// Returns the distance between two points.
+        /// </summary>
+        /// <param name="midpoint">Point 1.</param>
+        /// <param name="directionPoint">Point 2.</param>
+        /// <returns>Distance between the points.</returns>
         internal static double DistanceBetweenPoints(Point midpoint, Point directionPoint)
         {
-            return Math.Sqrt(Math.Pow(midpoint.x - directionPoint.x, 2) + Math.Pow(midpoint.y - directionPoint.y, 2));
+            return Math.Sqrt(Math.Pow(midpoint.X - directionPoint.X, 2) + Math.Pow(midpoint.Y - directionPoint.Y, 2));
         }
     }
 }

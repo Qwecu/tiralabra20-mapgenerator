@@ -11,10 +11,10 @@ namespace Mapseesharp
         public Point StartingPoint { get; set; }
         public Point EndingPoint { get; set; }
 
-        public bool PointingLeft { get { return (EndingPoint.x < StartingPoint.x); } }
-        public bool PointingRight { get { return (EndingPoint.x > StartingPoint.x); } }
-        public bool PointingUp { get { return (EndingPoint.y > StartingPoint.y); } }
-        public bool PointingDown { get { return (EndingPoint.y < StartingPoint.y); } }
+        public bool PointingLeft { get { return (EndingPoint.X < StartingPoint.X); } }
+        public bool PointingRight { get { return (EndingPoint.X > StartingPoint.X); } }
+        public bool PointingUp { get { return (EndingPoint.Y > StartingPoint.Y); } }
+        public bool PointingDown { get { return (EndingPoint.Y < StartingPoint.Y); } }
 
         public Edge(Point startingPoint, Point endingPoint)
         {
@@ -24,7 +24,7 @@ namespace Mapseesharp
 
         public override string ToString()
         {
-            return "Edge (" + StartingPoint.x + "; " + StartingPoint.y + ") (" + EndingPoint.x + "; " + EndingPoint.y + ")";
+            return "Edge (" + StartingPoint.X + "; " + StartingPoint.Y + ") (" + EndingPoint.X + "; " + EndingPoint.Y + ")";
         }
 
         internal bool BothEndpointsOutsideMap(int width, int height)

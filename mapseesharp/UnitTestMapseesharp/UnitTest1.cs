@@ -46,7 +46,7 @@ namespace UnitTestMapseesharp
             Assert.AreEqual(true, result.Ready);
             Assert.AreEqual(19, result.FinishedEdges.Count);
 
-            Assert.AreEqual(92, result.FinishedEdges[0].StartingPoint.x);
+            Assert.AreEqual(92, result.FinishedEdges[0].StartingPoint.X);
             //Assert.AreEqual(335.62962962963, result.FinishedEdges[0].StartingPoint.y);
         }
 
@@ -78,15 +78,15 @@ namespace UnitTestMapseesharp
             {
                 Edge edge = result.FinishedEdges[j];
 
-                Assert.IsTrue(edge.StartingPoint.x >= 0);
-                Assert.IsTrue(edge.EndingPoint.x >= 0);
-                Assert.IsTrue(edge.StartingPoint.x <= 400);
-                Assert.IsTrue(edge.EndingPoint.x <= 400);
+                Assert.IsTrue(edge.StartingPoint.X >= 0);
+                Assert.IsTrue(edge.EndingPoint.X >= 0);
+                Assert.IsTrue(edge.StartingPoint.X <= 400);
+                Assert.IsTrue(edge.EndingPoint.X <= 400);
 
-                Assert.IsTrue(edge.StartingPoint.y >= 0);
-                Assert.IsTrue(edge.EndingPoint.y >= 0);
-                Assert.IsTrue(edge.StartingPoint.y <= 400);
-                Assert.IsTrue(edge.EndingPoint.y <= 400);
+                Assert.IsTrue(edge.StartingPoint.Y >= 0);
+                Assert.IsTrue(edge.EndingPoint.Y >= 0);
+                Assert.IsTrue(edge.StartingPoint.Y <= 400);
+                Assert.IsTrue(edge.EndingPoint.Y <= 400);
             }
         }
 

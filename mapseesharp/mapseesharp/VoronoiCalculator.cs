@@ -179,7 +179,7 @@
                     double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
                     double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
 
-                    BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.x, currentCircEv.CircleCentre.y, xDirPoint, yDirPoint);
+                    BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.X, currentCircEv.CircleCentre.Y, xDirPoint, yDirPoint);
                     BeachHalfEdge mirroredEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
 
                     if(Point.DistanceBetweenPoints(midpoint, singleHalfEdge.DirectionPoint) < Point.DistanceBetweenPoints(midpoint, mirroredEdge.DirectionPoint))
@@ -252,7 +252,7 @@
                         {
                             BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
                             Point isct = new Point(he, leftWall);
-                            if (isct.y <= height && isct.y >= 0)
+                            if (isct.Y <= height && isct.Y >= 0)
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -262,7 +262,7 @@
                         {
                             BeachHalfEdge rightWall = new BeachHalfEdge(width, 0, width, height);
                             Point isct = new Point(he, rightWall);
-                            if (isct.y <= height && isct.y >= 0)
+                            if (isct.Y <= height && isct.Y >= 0)
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -272,7 +272,7 @@
                         {
                             BeachHalfEdge ceiling = new BeachHalfEdge(0, height, width, height);
                             Point isct = new Point(he, ceiling);
-                            if (isct.x <= width && isct.x >= 0)
+                            if (isct.X <= width && isct.X >= 0)
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -282,7 +282,7 @@
                         {
                             BeachHalfEdge floor = new BeachHalfEdge(0, 0, width, 0);
                             Point isct = new Point(he, floor);
-                            if (isct.x <= width && isct.x >= 0)
+                            if (isct.X <= width && isct.X >= 0)
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -381,9 +381,9 @@
                 {
                     BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
                     Point isct = new Point(he, leftWall);
-                    if (isct.y <= height && isct.y >= 0)
+                    if (isct.Y <= height && isct.Y >= 0)
                     {
-                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.X, he.StartingPoint.Y), isct));
                         continue;
                     }
                 }
@@ -392,9 +392,9 @@
                 {
                     BeachHalfEdge rightWall = new BeachHalfEdge(width, 0, width, height);
                     Point isct = new Point(he, rightWall);
-                    if (isct.y <= height && isct.y >= 0)
+                    if (isct.Y <= height && isct.Y >= 0)
                     {
-                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.X, he.StartingPoint.Y), isct));
                         continue;
                     }
                 }
@@ -403,9 +403,9 @@
                 {
                     BeachHalfEdge ceiling = new BeachHalfEdge(0, height, width, height);
                     Point isct = new Point(he, ceiling);
-                    if (isct.x <= width && isct.x >= 0)
+                    if (isct.X <= width && isct.X >= 0)
                     {
-                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.X, he.StartingPoint.Y), isct));
                         continue;
                     }
                 }
@@ -414,9 +414,9 @@
                 {
                     BeachHalfEdge floor = new BeachHalfEdge(0, 0, width, 0);
                     Point isct = new Point(he, floor);
-                    if (isct.x <= width && isct.x >= 0)
+                    if (isct.X <= width && isct.X >= 0)
                     {
-                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.x, he.StartingPoint.y), isct));
+                        finishedEdges.Add(new Edge(new Point(he.StartingPoint.X, he.StartingPoint.Y), isct));
                         continue;
                     }
                 }
@@ -481,16 +481,16 @@
 
                 VoronoiList<BeachArc> arcs = beachline.GetElementsOfTypeBeachArc();
 
-                var aboves = this.GetArcAbove(arcs, new Site(intersection.x, directrixY));
+                var aboves = this.GetArcAbove(arcs, new Site(intersection.X, directrixY));
 
                 // -if yes, add circle event to queue
                 // -y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
                 // tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
-                if (intersection.y < directrixY + aboves.Item2)
+                if (intersection.Y < directrixY + aboves.Item2)
                 {
                     // pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
-                    double distFromFocus = Math.Sqrt(Math.Pow(newarc.HomeX - intersection.x, 2) + Math.Pow(newarc.HomeY - intersection.y, 2));
-                    var circleEvent = new EvntCircle(intersection.y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
+                    double distFromFocus = Math.Sqrt(Math.Pow(newarc.HomeX - intersection.X, 2) + Math.Pow(newarc.HomeY - intersection.Y, 2));
+                    var circleEvent = new EvntCircle(intersection.Y - distFromFocus, newarc, leftEdge, rightEdge, intersection);
 
                     res = circleEvent;
                 }

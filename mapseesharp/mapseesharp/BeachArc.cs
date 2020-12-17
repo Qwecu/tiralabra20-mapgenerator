@@ -49,8 +49,8 @@ namespace Mapseesharp
         {
             double yf = Homesite.Y;
             double xf = Homesite.X;
-            double yd = intersection.y;
-            double x = intersection.x;
+            double yd = intersection.Y;
+            double x = intersection.X;
             double yCoordinate = (1.0 / (2.0 * (yf - yd)))
                 * (x - xf) * (x - xf)
                 + ((yf + yd) / 2.0);
