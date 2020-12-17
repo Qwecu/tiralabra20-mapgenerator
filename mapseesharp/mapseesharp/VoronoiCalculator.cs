@@ -187,12 +187,6 @@
                         singleHalfEdge = mirroredEdge;
                     }
 
-                    // Mirrored to the opposite direction if pointing upwards WRONG!!
-                    /*if (singleHalfEdge.startingY < singleHalfEdge.directionY)
-                    {
-                        singleHalfEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
-                    }*/
-
                     beachline.Insert((int)indexOnBeach, singleHalfEdge);
 
                     // -the half-edges become finished edges, remove from beachline
@@ -485,8 +479,9 @@
 
                 // -if yes, add circle event to queue
                 // -y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
-                // tsekataan että löytyy "tulevaisuudesta" (tämä lienee turha, tarkistaa siis että viivat kohtaavat paraabelin polttopisteen alapuolella)
-                if (intersection.Y < directrixY + aboves.Item2)
+                // tsekataan että löytyy "tulevaisuudesta", vakio pyöristysvirheiden takia mukana
+                var test = directrixY + aboves.Item2;
+                if (intersection.Y < directrixY + aboves.Item2 - 0.001)
                 {
                     // pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
                     double distFromFocus = Math.Sqrt(Math.Pow(newarc.HomeX - intersection.X, 2) + Math.Pow(newarc.HomeY - intersection.Y, 2));

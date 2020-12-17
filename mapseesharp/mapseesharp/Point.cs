@@ -97,20 +97,6 @@ namespace Mapseesharp
             }
         }
 
-        /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            /*if(obj is Point)
-            {
-                Point p = (Point)obj;
-                bool samex = this.x == p.x;
-                bool samey = this.y == p.y;
-                return samex && samey;
-            }*/
-
-            return base.Equals(obj);
-        }
-
         /// <summary>
         /// Returns true if the point is inside the given coordinates.
         /// </summary>
