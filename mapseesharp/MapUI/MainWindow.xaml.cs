@@ -31,7 +31,7 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
-        int siteAmount = 10;
+        int siteAmount = 5;
 
         bool showCircles = true;
 
@@ -44,10 +44,15 @@ namespace MapUI
         ResultObject result;
 
         Stack<ResultObject> history = new Stack<ResultObject>();
-
-
-
         Site[] inputSites = new Site[] {
+            new Site (286.495503171578, 316.132950929987),
+            new Site (173.292616090408, 65.7614119657136),
+            new Site (170.727663194168, 187.629477022043),
+            new Site (28.1769460198362, 164.523097204288),
+            new Site (277.523186745831, 100.890021445644)
+};
+
+        Site[] inputSites33y53 = new Site[] {
             new Site(384.479184814021, 357.929195257802),
             new Site(32.3431411908675, 159.159172400441),
             new Site(278.816659878388, 14.6447282352693),

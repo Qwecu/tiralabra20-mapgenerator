@@ -333,7 +333,7 @@ namespace Mapseesharp
                 }
             }
 
-           beachline = cleanedbeach;
+            beachline = cleanedbeach;
         }
 
         private ResultObject TrimLastHalfEdges(MaxHeap<Evnt> events, VoronoiList<Edge> finishedEdges, VoronoiList<BeachObj> beachline, VoronoiList<EvntCircle> oldCircleEvents, int width, int height)
