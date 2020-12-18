@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,12 @@ namespace Mapseesharp
 
         public Point DirectionPoint => new Point(DirectionX, DirectionY);
 
+        public double deltaX => DirectionX - StartingX;
+
+        public double deltaY => DirectionY - StartingY;
+
+        public string Name { get; set; }
+
         public BeachHalfEdge(double startingX, double startingY, double directionX, double directionY)
         {
             this.StartingX = startingX;
@@ -30,7 +37,7 @@ namespace Mapseesharp
 
         public override string ToString()
         {
-            return "HalfEdge (" + this.StartingX + "; " + this.StartingY + ") (" + this.DirectionX + "; " + this.DirectionY + ")";
+            return Name + " HalfEdge (" + this.StartingX + ", " + this.StartingY + ") (" + this.DirectionX + ", " + this.DirectionY + ")";
         }
 
         public bool PointingLeft { get { return this.DirectionX < this.StartingX; } }
@@ -60,7 +67,7 @@ namespace Mapseesharp
         /// </summary>
         /// <param name="he">Input half edge.</param>
         /// <returns>The unit vector.</returns>
-        internal static BeachHalfEdge MakeUnitVectorKeepEndingPoint(BeachHalfEdge he)
+        internal static BeachHalfEdge MakeUnitVectorKeepEndingPoint(BeachHalfEdge he, bool keepEndingPoint = true)
         {
             if (he.StartingX == he.DirectionX)
             {
@@ -76,7 +83,46 @@ namespace Mapseesharp
                 double xLengthNew = (he.DirectionX - he.StartingX) / lengthOld;
                 double yLengthNew = (he.DirectionY - he.StartingY) / lengthOld;
 
-                return new BeachHalfEdge(he.DirectionX - xLengthNew, he.DirectionY - yLengthNew, he.DirectionX, he.DirectionY);
+                if (keepEndingPoint)
+                {
+                    return new BeachHalfEdge(he.DirectionX - xLengthNew, he.DirectionY - yLengthNew, he.DirectionX, he.DirectionY);
+                }
+                else
+                {
+                    return new BeachHalfEdge(he.StartingX, he.StartingY, he.StartingX + xLengthNew, he.StartingY + yLengthNew);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Returns true if the two halfedges are going to intersect at some point.
+        /// </summary>
+        /// <param name="a">Edge starting from the left.</param>
+        /// <param name="b">Esge starting from the right.</param>
+        /// <returns>True if intersection is possible.</returns>
+        internal static bool FutureIntersectionPossible(BeachHalfEdge a, BeachHalfEdge b)
+        {
+
+            Point intersection = new Point(a, b);
+
+            return BeachHalfEdge.PointInFuture(a, intersection) && BeachHalfEdge.PointInFuture(b, intersection);
+        }
+
+        private static bool PointInFuture(BeachHalfEdge a, Point intersection)
+        {
+            bool xDominant = Math.Abs(a.deltaX) > Math.Abs(a.deltaY);
+
+            BeachHalfEdge vectorToIntersection = new BeachHalfEdge(a.StartingX, a.StartingY, intersection.X, intersection.Y);
+
+            if (xDominant)
+            {
+                return (a.deltaX > 0) == (vectorToIntersection.deltaX > 0);
+
+            }
+            else
+            {
+                return (a.deltaY > 0) == (vectorToIntersection.deltaY > 0);
             }
         }
     }

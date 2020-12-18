@@ -26,6 +26,8 @@ namespace Mapseesharp
         public double LeftLimit { get; set; }
         public double RightLimit { get; set; }
 
+        public string Name { get; set; }
+
         //Paraabelin etäisyys annetusta pisteestä swipelinella
         //kaava johdettu kauniisti sivulla https://jacquesheunis.com/post/fortunes-algorithm/
         internal double DistFromDirectrixX(Site newsite)
@@ -46,7 +48,7 @@ namespace Mapseesharp
 
         public override string ToString()
         {
-            return "BeachArc homesite (" + HomeX + "; " + HomeY + "), limits: Left " + LeftLimit + ", right " + RightLimit;
+            return Name + " BeachArc homesite (" + HomeX + ", " + HomeY + "), limits: Left " + LeftLimit + ", right " + RightLimit;
         }
 
         internal double DistFromDirectrixX(Point intersection)

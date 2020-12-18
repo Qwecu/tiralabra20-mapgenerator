@@ -238,7 +238,7 @@ namespace Mapseesharp
                 BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.X, currentCircEv.CircleCentre.Y, xDirPoint, yDirPoint);
                 BeachHalfEdge mirroredEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
 
-                if(Point.DistanceBetweenPoints(midpoint, singleHalfEdge.DirectionPoint) < Point.DistanceBetweenPoints(midpoint, mirroredEdge.DirectionPoint))
+                if (Point.DistanceBetweenPoints(midpoint, singleHalfEdge.DirectionPoint) < Point.DistanceBetweenPoints(midpoint, mirroredEdge.DirectionPoint))
                 {
                     singleHalfEdge = mirroredEdge;
                 }
@@ -333,13 +333,11 @@ namespace Mapseesharp
                 }
             }
 
-            beachline = cleanedbeach;
+           beachline = cleanedbeach;
         }
 
         private ResultObject TrimLastHalfEdges(MaxHeap<Evnt> events, VoronoiList<Edge> finishedEdges, VoronoiList<BeachObj> beachline, VoronoiList<EvntCircle> oldCircleEvents, int width, int height)
         {
-            return new ResultObject(events, finishedEdges, beachline, oldCircleEvents, width, height, ready: true);
-
             // Halfedges are added to the finished pool for trimming
             var halfEdges = beachline.GetAllElementsOfTypeBeachHalfEdge();
             for (int i = 0; i < halfEdges.Count; i++)
@@ -514,6 +512,12 @@ namespace Mapseesharp
             {
                 BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[noobindex - 1];
                 BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[noobindex + 1];
+
+                if (!BeachHalfEdge.FutureIntersectionPossible(leftEdge, rightEdge))
+                {
+                    return res;
+                }
+
                 Point intersection = new Point(leftEdge, rightEdge);
 
                 VoronoiList<BeachArc> arcs = beachline.GetAllElementsOfTypeBeachArc();
