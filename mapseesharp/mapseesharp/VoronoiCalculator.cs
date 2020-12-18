@@ -294,7 +294,7 @@ namespace Mapseesharp
                         {
                             BeachHalfEdge leftWall = new BeachHalfEdge(0, 0, 0, height);
                             Point isct = new Point(he, leftWall);
-                            if (isct.Y <= height && isct.Y >= 0)
+                            if (isct.Y <= height && isct.Y >= 0 && BeachHalfEdge.PointInFuture(he, isct))
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -304,7 +304,7 @@ namespace Mapseesharp
                         {
                             BeachHalfEdge rightWall = new BeachHalfEdge(width, 0, width, height);
                             Point isct = new Point(he, rightWall);
-                            if (isct.Y <= height && isct.Y >= 0)
+                            if (isct.Y <= height && isct.Y >= 0 && BeachHalfEdge.PointInFuture(he, isct))
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -314,7 +314,7 @@ namespace Mapseesharp
                         {
                             BeachHalfEdge ceiling = new BeachHalfEdge(0, height, width, height);
                             Point isct = new Point(he, ceiling);
-                            if (isct.X <= width && isct.X >= 0)
+                            if (isct.X <= width && isct.X >= 0 && BeachHalfEdge.PointInFuture(he, isct))
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }
@@ -324,7 +324,7 @@ namespace Mapseesharp
                         {
                             BeachHalfEdge floor = new BeachHalfEdge(0, 0, width, 0);
                             Point isct = new Point(he, floor);
-                            if (isct.X <= width && isct.X >= 0)
+                            if (isct.X <= width && isct.X >= 0 && BeachHalfEdge.PointInFuture(he, isct))
                             {
                                 finishedEdges.Add(new Edge(new Point(he.StartingX, he.StartingY), isct));
                             }

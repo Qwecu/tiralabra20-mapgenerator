@@ -22,26 +22,46 @@ namespace Mapseesharp
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point"/> struct.
-        /// Returns the intersection point between two lines. Does not work with vertical lines.
+        /// Returns the intersection point between two lines.
         /// </summary>
         /// <param name="intersectingLineFromLeft">Line 1.</param>
         /// <param name="intersectingLineFromRight">Line 2.</param>
         public Point(BeachHalfEdge intersectingLineFromLeft, BeachHalfEdge intersectingLineFromRight)
         {
-            // kulmakerroin
-            double k1 = (intersectingLineFromLeft.DirectionY - intersectingLineFromLeft.StartingY) / (intersectingLineFromLeft.DirectionX - intersectingLineFromLeft.StartingX);
-            double k2 = (intersectingLineFromRight.StartingY - intersectingLineFromRight.DirectionY) / (intersectingLineFromRight.StartingX - intersectingLineFromRight.DirectionX);
-            // vakiotermi
-            double b1 = ((intersectingLineFromLeft.StartingY * intersectingLineFromLeft.DirectionX) - (intersectingLineFromLeft.StartingX * intersectingLineFromLeft.DirectionY))
-                / (intersectingLineFromLeft.DirectionX - intersectingLineFromLeft.StartingX);
-            double b2 = ((intersectingLineFromRight.StartingY * intersectingLineFromRight.DirectionX) - (intersectingLineFromRight.StartingX * intersectingLineFromRight.DirectionY))
-    / (intersectingLineFromRight.DirectionX - intersectingLineFromRight.StartingX);
+            if (intersectingLineFromLeft.IsVertical && intersectingLineFromRight.IsVertical)
+            {
+                throw new Exception("Two horizontal lines don't have an intersection point");
+            }
+            else if (intersectingLineFromLeft.IsVertical || intersectingLineFromRight.IsVertical)
+            {
+                BeachHalfEdge vertical = intersectingLineFromLeft.IsVertical ? intersectingLineFromLeft : intersectingLineFromRight;
+                BeachHalfEdge other = intersectingLineFromLeft.IsVertical ? intersectingLineFromRight : intersectingLineFromLeft;
+
+                this.X = vertical.StartingX;
+
+                double k = (other.DirectionY - other.StartingY) / (other.DirectionX - other.StartingX);
+                double b = ((other.StartingY * other.DirectionX) - (other.StartingX * other.DirectionY)) / (other.DirectionX - other.StartingX);
+
+                this.Y = (k * this.X) + b;
+            }
+            else
+            {
+                // kulmakerroin
+                double k1 = (intersectingLineFromLeft.DirectionY - intersectingLineFromLeft.StartingY) / (intersectingLineFromLeft.DirectionX - intersectingLineFromLeft.StartingX);
+                double k2 = (intersectingLineFromRight.StartingY - intersectingLineFromRight.DirectionY) / (intersectingLineFromRight.StartingX - intersectingLineFromRight.DirectionX);
+
+                // vakiotermi
+                double b1 = ((intersectingLineFromLeft.StartingY * intersectingLineFromLeft.DirectionX) - (intersectingLineFromLeft.StartingX * intersectingLineFromLeft.DirectionY))
+                    / (intersectingLineFromLeft.DirectionX - intersectingLineFromLeft.StartingX);
+                double b2 = ((intersectingLineFromRight.StartingY * intersectingLineFromRight.DirectionX) - (intersectingLineFromRight.StartingX * intersectingLineFromRight.DirectionY))
+        / (intersectingLineFromRight.DirectionX - intersectingLineFromRight.StartingX);
 
 
-            // x @ leikkaus
-            this.X = (b2 - b1) / (k1 - k2);
-            // y @ leikkaus
-            this.Y = (k1 * this.X) + b1;
+                // x @ leikkaus
+                this.X = (b2 - b1) / (k1 - k2);
+                // y @ leikkaus
+                this.Y = (k1 * this.X) + b1;
+            }
         }
 
         /// <summary>

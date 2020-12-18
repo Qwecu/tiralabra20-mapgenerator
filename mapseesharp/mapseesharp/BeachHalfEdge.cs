@@ -48,6 +48,10 @@ namespace Mapseesharp
 
         public bool PointingDown { get { return this.DirectionY < this.StartingY; } }
 
+        public bool IsVertical => this.StartingX == this.DirectionX;
+
+        public bool IsHorizontal => this.StartingY == this.DirectionY;
+
         /// <summary>
         /// Returns a new half edge with the same length and starting point as input, pointing to opposite direction.
         /// </summary>
@@ -109,7 +113,7 @@ namespace Mapseesharp
             return BeachHalfEdge.PointInFuture(a, intersection) && BeachHalfEdge.PointInFuture(b, intersection);
         }
 
-        private static bool PointInFuture(BeachHalfEdge a, Point intersection)
+        internal static bool PointInFuture(BeachHalfEdge a, Point intersection)
         {
             bool xDominant = Math.Abs(a.deltaX) > Math.Abs(a.deltaY);
 
