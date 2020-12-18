@@ -76,7 +76,7 @@ namespace Mapseesharp
         /// Returns elements of type BeachArc.
         /// </summary>
         /// <returns>List of elements of type BeachArc.</returns>
-        internal VoronoiList<BeachArc> GetElementsOfTypeBeachArc()
+        internal VoronoiList<BeachArc> GetAllElementsOfTypeBeachArc()
         {
             List<BeachArc> res = this.items.Where(x => x != null && x.GetType().Equals(typeof(BeachArc))).Select(x => x).Cast<BeachArc>().ToList();
             var newVoronoi = new VoronoiList<BeachArc>();
@@ -89,7 +89,7 @@ namespace Mapseesharp
         /// Returns elements of type BeachHalfEdge.
         /// </summary>
         /// <returns>List of elements of type BeachHalfEdge.</returns>
-        internal VoronoiList<BeachHalfEdge> GetElementsOfTypeBeachHalfEdge()
+        internal VoronoiList<BeachHalfEdge> GetAllElementsOfTypeBeachHalfEdge()
         {
             List<BeachHalfEdge> res = this.items.Where(x => x != null && x.GetType().Equals(typeof(BeachHalfEdge))).Select(x => x).Cast<BeachHalfEdge>().ToList();
             var newVoronoi = new VoronoiList<BeachHalfEdge>();

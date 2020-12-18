@@ -31,13 +31,13 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
-        int siteAmount = 30;
+        int siteAmount = 10;
 
         bool showCircles = true;
 
         bool drawParabolas = true;
 
-        private bool randomStart = true;
+        private bool randomStart = false;
 
         double currentY = 0;
 
@@ -46,6 +46,19 @@ namespace MapUI
         Stack<ResultObject> history = new Stack<ResultObject>();
 
 
+
+        Site[] inputSites = new Site[] {
+            new Site(384.479184814021, 357.929195257802),
+            new Site(32.3431411908675, 159.159172400441),
+            new Site(278.816659878388, 14.6447282352693),
+            new Site(378.752472055495, 122.734640037052),
+            new Site(272.814329281829, 99.7901252004272),
+            new Site(251.54211365224 , 161.06408488055 ),
+            new Site(144.701116413205, 174.285315617121),
+            new Site(170.901261535893, 176.174338989041),
+            new Site(235.785604378109, 13.9882715484073),
+            new Site(319.741718992471, 124.007045349109)
+        };
 
         Site[] inputSites5 = new Site[] {
         new Site(110, 162),
@@ -78,7 +91,7 @@ namespace MapUI
                 new Site(248,284)
             };
 
-        Site[] inputSites = new Site[] {
+        Site[] inputSites_ = new Site[] {
         new Site( 132.703772807822, 216.510730337589),
         new Site( 117.885699364303, 165.98259106557),
         new Site( 144.231118515241, 33.8614152902092),

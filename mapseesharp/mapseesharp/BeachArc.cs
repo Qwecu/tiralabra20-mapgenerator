@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,9 @@ namespace Mapseesharp
                 * (x - xf) * (x - xf)
                 + ((yf + yd) / 2.0);
             double distance = yCoordinate - yd;
+
+            Debug.Assert(distance >= 0f);
+
             return distance;
         }
 

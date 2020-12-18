@@ -22,7 +22,7 @@ namespace Mapseesharp
         public ResultObject Calculate(Site[] sites, int width, int height)
         {
             vCalc = new VoronoiCalculator();
-            return vCalc.Iterate(sites, width, height);
+            return vCalc.Setup(sites, width, height);
         }
 
         public ResultObject Calculate(ResultObject res)

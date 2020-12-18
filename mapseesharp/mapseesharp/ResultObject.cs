@@ -29,8 +29,8 @@ namespace Mapseesharp
 
             this.FinishedEdges = finishedEdges;
 
-            this.BeachArcs = beachline.GetElementsOfTypeBeachArc();
-            this.BeachHalfEdges = beachline.GetElementsOfTypeBeachHalfEdge();//beachline.Where(x => x.GetType().Equals(typeof(BeachHalfEdge))).Select(x => (BeachHalfEdge)x).ToList();
+            this.BeachArcs = beachline.GetAllElementsOfTypeBeachArc();
+            this.BeachHalfEdges = beachline.GetAllElementsOfTypeBeachHalfEdge();//beachline.Where(x => x.GetType().Equals(typeof(BeachHalfEdge))).Select(x => (BeachHalfEdge)x).ToList();
             this.OldCircleEvents = oldCircleEvents;
             this.Beachline = beachline;
             this.Width = width;
