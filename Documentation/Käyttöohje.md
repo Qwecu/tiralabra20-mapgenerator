@@ -1,1 +1,1 @@
-Ohjelmaa käytetään graafisen käyttöliittymän kautta.
+Ohjelmaa käytetään graafisen käyttöliittymän kautta. Oletuksena luodaan 50 satunnaista pistettä 400 x 400 ruudukkoon. Pisteiden määrää voi muuttaa koodista. Noin 800 pisteen syöte käsitellään sekunnissa, 3500 pisteellä aikaa menee jo 20 sekuntia.

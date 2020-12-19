@@ -1,5 +1,7 @@
 # tiralabra20-mapgenerator
 
+Performace test results: https://www.geogebra.org/calculator/xkypftfw
+
 Valmis exe löytyy polulta:
 
 tiralabra20-mapgenerator/mapseesharp/MapUI/bin/Debug/MapUI.exe
