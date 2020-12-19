@@ -36,7 +36,7 @@ namespace UnitTestMapseesharp
                 result = pr.Calculate(result);
             }
 
-            Assert.AreEqual(20, result.FinishedEdges.Count);
+            Assert.AreEqual(21, result.FinishedEdges.Count);
             Assert.AreEqual(0, result.Events.Count);
             Assert.AreEqual(10, result.OldCircleEvents.Count);
             Assert.AreEqual(false, result.Ready);

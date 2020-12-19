@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mapseesharp
+﻿namespace Mapseesharp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class VoronoiList<T>
     {
 
@@ -14,14 +11,14 @@ namespace Mapseesharp
 
         private T[] items;
 
-        public int Capacity => items.Length;
+        public int Capacity => this.items.Length;
 
 
 
         public VoronoiList(int initialCapacity = 20)
         {
-            items = new T[initialCapacity];
-            Count = 0;
+            this.items = new T[initialCapacity];
+            this.Count = 0;
         }
 
         /// <summary>
@@ -160,7 +157,7 @@ namespace Mapseesharp
         /// <param name="array">Array of items to add.</param>
         public void InsertRange(int index, T[] array)
         {
-            T[] newlist = new T[Capacity + array.Length];
+            T[] newlist = new T[this.Capacity + array.Length];
             for (int i = 0; i < this.Count + array.Length; i++)
             {
                 if (i < index)
