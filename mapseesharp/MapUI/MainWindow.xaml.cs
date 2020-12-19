@@ -37,7 +37,7 @@ namespace MapUI
 
         bool drawParabolas = true;
 
-        private bool randomStart = false;
+        private bool randomStart = true;
 
         double currentY = 0;
 

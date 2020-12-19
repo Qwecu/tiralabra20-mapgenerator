@@ -535,7 +535,7 @@ namespace Mapseesharp
                 // -y-coordinate of event (sweepline location) is point of intersection minus distance to endpoint
                 // tsekataan että löytyy "tulevaisuudesta", vakio pyöristysvirheiden takia mukana
                 var test = directrixY + aboves.Item2;
-                if (intersection.Y < directrixY + aboves.Item2 - 0.001)
+                if (intersection.Y < directrixY + aboves.Item2)
                 {
                     // pisteen etäisyys focus pointista on sama kuin pisteen etäisyys swipelinesta eventin aikana
                     double distFromFocus = Math.Sqrt(Math.Pow(newarc.HomeX - intersection.X, 2) + Math.Pow(newarc.HomeY - intersection.Y, 2));
