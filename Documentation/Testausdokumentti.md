@@ -2,6 +2,8 @@ Testausdokumentti
 
 Testaus tapahtuu Visual Studion testaustyökalun avulla, ja testikattavuusraportin generoivat sen lisäosa OpenCover ja OpenCoverUI.
 
-Testaus sisältää tällä hetkellä testisyötteen, jonka lopputulosta tarkistetaan.
+Yksikkötestaus (algoritmi & tietorakenteet) sisältää testisyötteen, jonka lopputulosta tarkistetaan.
 
-Suorituskykytestejä on myös tarkoitus kirjoittaa: testataan, kuinka monella pisteellä ohjelma toimii edelleen järkevässä ajassa.
+Suorituskykytesteissä mitataan eri kokoisilla syötteillä (aina 1,5-kertaistaen edellinen syöte), kuinka kauan algoritmin läpikäymiseen menee. Testaus lopetetaan, kun 10 minuutin raja ylittyy.
+
+Suorituskykytestien visualisointi: https://www.geogebra.org/calculator/xkypftfw
