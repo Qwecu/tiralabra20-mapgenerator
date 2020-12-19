@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Mapseesharp
+﻿namespace Mapseesharp
 {
     using System;
     using System.Collections.Generic;
@@ -66,18 +64,16 @@ namespace Mapseesharp
             Evnt next = events.PeakMax();
             double nextKey = next.YToHappen;
 
-            CheckBeach(beachline);
-
             // If the next event on the queue is a site event:
             if (next.IsSiteEvent)
             {
-                DoSiteEvent(next, nextKey, events, beachline);
+                this.DoSiteEvent(next, nextKey, events, beachline);
             }
 
             // Otherwise it must be an edge-intersection (circle) event:
             else
             {
-                DoCircleEvent(next, nextKey, events, beachline, oldCircleEvents, finishedEdges);
+                this.DoCircleEvent(next, nextKey, events, beachline, oldCircleEvents, finishedEdges);
             }
 
             var gone = events.PopMax();
@@ -86,37 +82,9 @@ namespace Mapseesharp
                 throw new Exception("key mismatch");
             }
 
-            CheckBeach(beachline);
-
-            CleanBeach(ref beachline, finishedEdges, nextKey, width, height);
-
-            CheckBeach(beachline);
+            this.CleanBeach(ref beachline, finishedEdges, nextKey, width, height);
 
             return new ResultObject(events, finishedEdges, beachline, oldCircleEvents, width, height);
-        }
-
-        private void CheckBeach(VoronoiList<BeachObj> beachline)
-        {
-            VoronoiList<BeachArc> arcs = beachline.GetAllElementsOfTypeBeachArc();
-            VoronoiList<BeachHalfEdge> edges = beachline.GetAllElementsOfTypeBeachHalfEdge();
-
-            Debug.Assert(arcs.Count == edges.Count + 1);
-
-            //for (int i = 0; i < beachline.Count; ++i)
-            //{
-            //    BeachObj bo = beachline[i];
-            //
-            //    if (bo is BeachArc)
-            //    {
-            //        BeachArc arc = (BeachArc) bo;
-            //
-            //        arc.
-            //    }
-            //    else
-            //    {
-            //        BeachHalfEdge he = (BeachHalfEdge) bo;
-            //    }
-            //}
         }
 
         private void DoSiteEvent(Evnt next, double nextKey, MaxHeap<Evnt> events, VoronoiList<BeachObj> beachline)
@@ -230,14 +198,11 @@ namespace Mapseesharp
 
                 BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[(int)indexOnBeach - 1];
                 BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[(int)indexOnBeach];
-                // Point midpoint = Point.GetPointAtMidway(leftEdge.StartingPoint, rightEdge.StartingPoint);
 
                 BeachHalfEdge thirdTriangleEdge = new BeachHalfEdge(leftEdge.StartingPoint, rightEdge.StartingPoint);
 
                 double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
                 double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
-
-
 
                 BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.X, currentCircEv.CircleCentre.Y, xDirPoint, yDirPoint);
                 BeachHalfEdge mirroredEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);

@@ -1,24 +1,38 @@
 ﻿namespace Mapseesharp
 {
+    /// <summary>
+    /// Program.
+    /// </summary>
     public class Program
     {
         private VoronoiCalculator vCalc;
 
+        /// <summary>
+        /// Iterates the algorithm.
+        /// </summary>
+        /// <param name="sites">Sites.</param>
+        /// <param name="width">Width of canvas.</param>
+        /// <param name="height">Height of canvas.</param>
+        /// <returns>Next iteration.</returns>
         public ResultObject Calculate(Site[] sites, int width, int height)
         {
-            vCalc = new VoronoiCalculator();
-            return vCalc.Setup(sites, width, height);
+            this.vCalc = new VoronoiCalculator();
+            return this.vCalc.Setup(sites, width, height);
         }
 
+        /// <summary>
+        /// Iterates the algorithm.
+        /// </summary>
+        /// <param name="res">Next iteration object.</param>
+        /// <returns>Next iteration.</returns>
         public ResultObject Calculate(ResultObject res)
         {
-            vCalc = new VoronoiCalculator();
-            return vCalc.Iterate(res.Events, res.FinishedEdges, res.Beachline, res.OldCircleEvents, res.Width, res.Height);
+            this.vCalc = new VoronoiCalculator();
+            return this.vCalc.Iterate(res.Events, res.FinishedEdges, res.Beachline, res.OldCircleEvents, res.Width, res.Height);
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            
         }
     }
 }
