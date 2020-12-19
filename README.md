@@ -8,4 +8,4 @@ Kansion https://github.com/Qwecu/tiralabra20-mapgenerator/tree/main/mapseesharp/
 
 Varsinainen ohjelmakoodi on hakemistossa https://github.com/Qwecu/tiralabra20-mapgenerator/tree/main/mapseesharp/mapseesharp (VoronoiCalculator.cs sisältää varsinaisen algoritmin, muut ovat apuluokkia)
 
-Projekti on ollut tarkoitus toteuttaa Javalla, mutta käytännön haasteiden takia Java-kansiot ovat vielä tyhjiä ja tosiasiallinen toteutuskieli on tällä hetkellä C#...
+Pääasiallinen lähde: https://jacquesheunis.com/post/fortunes-algorithm/
