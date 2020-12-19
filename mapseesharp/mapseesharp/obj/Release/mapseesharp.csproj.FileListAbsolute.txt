@@ -1,0 +1,5 @@
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\mapseesharp\bin\Release\mapseesharp.exe.config
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\mapseesharp\bin\Release\mapseesharp.exe
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\mapseesharp\bin\Release\mapseesharp.pdb
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\mapseesharp\obj\Release\mapseesharp.exe
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\mapseesharp\obj\Release\mapseesharp.pdb

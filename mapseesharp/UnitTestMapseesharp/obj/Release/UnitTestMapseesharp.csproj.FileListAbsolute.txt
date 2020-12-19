@@ -1,0 +1,8 @@
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Release\UnitTestMapseesharp.dll
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Release\UnitTestMapseesharp.pdb
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Release\mapseesharp.exe
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\bin\Release\mapseesharp.pdb
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\obj\Release\UnitTestMapseesharp.csprojResolveAssemblyReference.cache
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\obj\Release\UnitTestMapseesharp.dll
+C:\Users\Aubergine\Documents\Yliopisto\Tiralabra\tiralabra20-mapgenerator\mapseesharp\UnitTestMapseesharp\obj\Release\UnitTestMapseesharp.pdb
