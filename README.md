@@ -2,9 +2,9 @@
 
 Performace test results: https://www.geogebra.org/calculator/xkypftfw
 
-Valmis exe löytyy polulta:
+Suoritettava tiedosto:
 
-tiralabra20-mapgenerator/mapseesharp/MapUI/bin/Debug/MapUI.exe
+Kansion https://github.com/Qwecu/tiralabra20-mapgenerator/tree/main/mapseesharp/MapUI/bin/Release sisältö tarvitaan ja exen voi suorittaa sieltä.
 
 Varsinainen ohjelmakoodi on hakemistossa https://github.com/Qwecu/tiralabra20-mapgenerator/tree/main/mapseesharp/mapseesharp (VoronoiCalculator.cs sisältää varsinaisen algoritmin, muut ovat apuluokkia)
 
