@@ -480,5 +480,35 @@ namespace MapUI
             drawParabolas = !drawParabolas;
             DrawEverything();
         }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            siteAmount = 5;
+            SetUp();
+        }
+
+        private void button50_Click(object sender, RoutedEventArgs e)
+        {
+            siteAmount = 50;
+            SetUp();
+        }
+
+        private void button100_Click(object sender, RoutedEventArgs e)
+        {
+            siteAmount = 100;
+            SetUp();
+        }
+
+        private void button200_Click(object sender, RoutedEventArgs e)
+        {
+            siteAmount = 200;
+            SetUp();
+        }
+
+        private void button500_Click(object sender, RoutedEventArgs e)
+        {
+            siteAmount = 500;
+            SetUp();
+        }
     }
 }

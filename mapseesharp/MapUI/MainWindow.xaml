@@ -33,7 +33,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="back" Content="Back (not working!)" HorizontalAlignment="Left" Margin="20,43,0,0" VerticalAlignment="Top" Width="115" Click="back_Click" RenderTransformOrigin="0.5,0.5">
+        <!--<Button x:Name="back" Content="Back (not working!)" HorizontalAlignment="Left" Margin="20,43,0,0" VerticalAlignment="Top" Width="115" Click="back_Click" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -42,7 +42,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Button.RenderTransform>
-        </Button>
+        </Button>-->
         <Button x:Name="toggleCircles" Content="Toggle circles" HorizontalAlignment="Left" Margin="192,73,0,0" VerticalAlignment="Top" Width="74" Click="toggleCircles_Click" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
@@ -74,6 +74,56 @@
             </Button.RenderTransform>
         </Button>
         <Button x:Name="showParabolas" Content="Toggle parabolas" HorizontalAlignment="Left" Margin="282,72,0,0" VerticalAlignment="Top" Width="107" Click="showParabolas_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="button5" Content="5" HorizontalAlignment="Left" Margin="406,72,0,0" VerticalAlignment="Top" Width="50" Click="button5_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="button50" Content="50" HorizontalAlignment="Left" Margin="456,72,0,0" VerticalAlignment="Top" Width="50" Click="button50_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="button100" Content="100" HorizontalAlignment="Left" Margin="506,72,0,0" VerticalAlignment="Top" Width="50" Click="button100_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="button200" Content="200" HorizontalAlignment="Left" Margin="556,72,0,0" VerticalAlignment="Top" Width="50" Click="button200_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="button500" Content="500" HorizontalAlignment="Left" Margin="606,72,0,0" VerticalAlignment="Top" Width="50" Click="button500_Click" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
