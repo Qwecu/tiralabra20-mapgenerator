@@ -35,6 +35,14 @@ namespace Mapseesharp
             this.DirectionY = directionY;
         }
 
+        public BeachHalfEdge(Point a, Point b)
+        {
+            this.StartingX = a.X;
+            this.StartingY = a.Y;
+            this.DirectionX = b.X;
+            this.DirectionY = b.Y;
+        }
+
         public override string ToString()
         {
             return Name + " HalfEdge (" + this.StartingX + ", " + this.StartingY + ") (" + this.DirectionX + ", " + this.DirectionY + ")";

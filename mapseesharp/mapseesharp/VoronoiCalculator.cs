@@ -230,15 +230,22 @@ namespace Mapseesharp
 
                 BeachHalfEdge leftEdge = (BeachHalfEdge)beachline[(int)indexOnBeach - 1];
                 BeachHalfEdge rightEdge = (BeachHalfEdge)beachline[(int)indexOnBeach];
-                Point midpoint = Point.GetPointAtMidway(leftEdge.StartingPoint, rightEdge.StartingPoint);
+                // Point midpoint = Point.GetPointAtMidway(leftEdge.StartingPoint, rightEdge.StartingPoint);
+
+                BeachHalfEdge thirdTriangleEdge = new BeachHalfEdge(leftEdge.StartingPoint, rightEdge.StartingPoint);
 
                 double xDirPoint = (futureLeft.HomeX + futureRight.HomeX) / 2;
                 double yDirPoint = (futureLeft.HomeY + futureRight.HomeY) / 2;
 
+
+
                 BeachHalfEdge singleHalfEdge = new BeachHalfEdge(currentCircEv.CircleCentre.X, currentCircEv.CircleCentre.Y, xDirPoint, yDirPoint);
                 BeachHalfEdge mirroredEdge = BeachHalfEdge.MirrorKeepStartingPoint(singleHalfEdge);
 
-                if (Point.DistanceBetweenPoints(midpoint, singleHalfEdge.DirectionPoint) < Point.DistanceBetweenPoints(midpoint, mirroredEdge.DirectionPoint))
+                Point intersectionWithThirdTriangleEdge = new Point(thirdTriangleEdge, singleHalfEdge);
+
+                // if (Point.DistanceBetweenPoints(midpoint, singleHalfEdge.DirectionPoint) < Point.DistanceBetweenPoints(midpoint, mirroredEdge.DirectionPoint))
+                if (BeachHalfEdge.PointInFuture(singleHalfEdge, intersectionWithThirdTriangleEdge))
                 {
                     singleHalfEdge = mirroredEdge;
                 }
