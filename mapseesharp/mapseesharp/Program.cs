@@ -1,20 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mapseesharp
+﻿namespace Mapseesharp
 {
-
-
-    public class ReverseComparer : IComparer<double>
-    {
-        int IComparer<double>.Compare(double x, double y)
-        {
-            return -x.CompareTo(y);
-        }
-    }
     public class Program
     {
         private VoronoiCalculator vCalc;

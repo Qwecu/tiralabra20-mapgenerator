@@ -28,8 +28,8 @@ namespace MapUI
         int canvasWidth = 400;
         int canvasHeight = 400;
 
-        int windowWidth = 700;
-        int windowHeight = 700;
+        // int windowWidth = 700;
+        // int windowHeight = 700;
 
         int siteAmount = 50;
 

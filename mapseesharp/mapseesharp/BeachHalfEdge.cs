@@ -1,32 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mapseesharp
+﻿namespace Mapseesharp
 {
+    using System;
+
+    /// <summary>
+    /// Represents a growing edge with a starting point and direction.
+    /// </summary>
     public class BeachHalfEdge : BeachObj
     {
-        public double StartingX { get; set; }
-
-        public double StartingY { get; set; }
-
-        public double DirectionX { get; set; }
-
-        public double DirectionY { get; set; }
-
-        public Point StartingPoint => new Point(StartingX, StartingY);
-
-        public Point DirectionPoint => new Point(DirectionX, DirectionY);
-
-        public double deltaX => DirectionX - StartingX;
-
-        public double deltaY => DirectionY - StartingY;
-
-        public string Name { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BeachHalfEdge"/> class.
+        /// </summary>
+        /// <param name="startingX">Starting x coordinate.</param>
+        /// <param name="startingY">Starting y coordinate.</param>
+        /// <param name="directionX">Direction x coordinate.</param>
+        /// <param name="directionY">Direction y coordinate.</param>
         public BeachHalfEdge(double startingX, double startingY, double directionX, double directionY)
         {
             this.StartingX = startingX;
@@ -35,6 +22,11 @@ namespace Mapseesharp
             this.DirectionY = directionY;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BeachHalfEdge"/> class.
+        /// </summary>
+        /// <param name="a">Starting point.</param>
+        /// <param name="b">Direction point.</param>
         public BeachHalfEdge(Point a, Point b)
         {
             this.StartingX = a.X;
@@ -43,22 +35,93 @@ namespace Mapseesharp
             this.DirectionY = b.Y;
         }
 
-        public override string ToString()
+        /// <summary>
+        /// Gets or sets the starting x coordinate.
+        /// </summary>
+        public double StartingX { get; set; }
+
+        /// <summary>
+        /// Gets or sets the starting y coordinate.
+        /// </summary>
+        public double StartingY { get; set; }
+
+        /// <summary>
+        /// Gets or sets the direction x coordinate.
+        /// </summary>
+        public double DirectionX { get; set; }
+
+        /// <summary>
+        /// Gets or sets the direction y coordinate.
+        /// </summary>
+        public double DirectionY { get; set; }
+
+        /// <summary>
+        /// Gets the starting point.
+        /// </summary>
+        public Point StartingPoint => new Point(this.StartingX, this.StartingY);
+
+        /// <summary>
+        /// Gets the direction point.
+        /// </summary>
+        public Point DirectionPoint => new Point(this.DirectionX, this.DirectionY);
+
+        /// <summary>
+        /// Gets the difference between starting and direction x coordinates.
+        /// </summary>
+        public double DeltaX => this.DirectionX - this.StartingX;
+
+        /// <summary>
+        /// Gets the difference between starting and direction y coordinates.
+        /// </summary>
+        public double DeltaY => this.DirectionY - this.StartingY;
+
+        /// <summary>
+        /// Gets a value indicating whether the edge is pointing left.
+        /// </summary>
+        public bool PointingLeft
         {
-            return Name + " HalfEdge (" + this.StartingX + ", " + this.StartingY + ") (" + this.DirectionX + ", " + this.DirectionY + ")";
+            get { return this.DirectionX < this.StartingX; }
         }
 
-        public bool PointingLeft { get { return this.DirectionX < this.StartingX; } }
+        /// <summary>
+        /// Gets a value indicating whether the edge is pointing right.
+        /// </summary>
+        public bool PointingRight
+        {
+            get { return this.DirectionX > this.StartingX; }
+        }
 
-        public bool PointingRight { get { return this.DirectionX > this.StartingX; } }
+        /// <summary>
+        /// Gets a value indicating whether the edge is pointing up.
+        /// </summary>
+        public bool PointingUp
+        {
+            get { return this.DirectionY > this.StartingY; }
+        }
 
-        public bool PointingUp { get { return this.DirectionY > this.StartingY; } }
+        /// <summary>
+        /// Gets a value indicating whether the edge is pointing down.
+        /// </summary>
+        public bool PointingDown
+        {
+            get { return this.DirectionY < this.StartingY; }
+        }
 
-        public bool PointingDown { get { return this.DirectionY < this.StartingY; } }
-
+        /// <summary>
+        /// Gets a value indicating whether the edge is vertical.
+        /// </summary>
         public bool IsVertical => this.StartingX == this.DirectionX;
 
+        /// <summary>
+        /// Gets a value indicating whether the edge is horizontal.
+        /// </summary>
         public bool IsHorizontal => this.StartingY == this.DirectionY;
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return "HalfEdge (" + this.StartingX + ", " + this.StartingY + ") (" + this.DirectionX + ", " + this.DirectionY + ")";
+        }
 
         /// <summary>
         /// Returns a new half edge with the same length and starting point as input, pointing to opposite direction.
@@ -78,6 +141,7 @@ namespace Mapseesharp
         /// Returns a new vector with the same ending point and direction but length of 1.
         /// </summary>
         /// <param name="he">Input half edge.</param>
+        /// /// <param name="keepEndingPoint">If true, ending point is kept.</param>
         /// <returns>The unit vector.</returns>
         internal static BeachHalfEdge MakeUnitVectorKeepEndingPoint(BeachHalfEdge he, bool keepEndingPoint = true)
         {
@@ -106,7 +170,6 @@ namespace Mapseesharp
             }
         }
 
-
         /// <summary>
         /// Returns true if the two halfedges are going to intersect at some point.
         /// </summary>
@@ -115,26 +178,30 @@ namespace Mapseesharp
         /// <returns>True if intersection is possible.</returns>
         internal static bool FutureIntersectionPossible(BeachHalfEdge a, BeachHalfEdge b)
         {
-
             Point intersection = new Point(a, b);
 
             return BeachHalfEdge.PointInFuture(a, intersection) && BeachHalfEdge.PointInFuture(b, intersection);
         }
 
+        /// <summary>
+        /// Returns true if the edge is pointing to the direction of the point.
+        /// </summary>
+        /// <param name="a">A half edge.</param>
+        /// <param name="intersection">A point that has to be on the same line as the edge.</param>
+        /// <returns>A value indicating whether the edge is pointing to the point.</returns>
         internal static bool PointInFuture(BeachHalfEdge a, Point intersection)
         {
-            bool xDominant = Math.Abs(a.deltaX) > Math.Abs(a.deltaY);
+            bool xDominant = Math.Abs(a.DeltaX) > Math.Abs(a.DeltaY);
 
             BeachHalfEdge vectorToIntersection = new BeachHalfEdge(a.StartingX, a.StartingY, intersection.X, intersection.Y);
 
             if (xDominant)
             {
-                return (a.deltaX > 0) == (vectorToIntersection.deltaX > 0);
-
+                return (a.DeltaX > 0) == (vectorToIntersection.DeltaX > 0);
             }
             else
             {
-                return (a.deltaY > 0) == (vectorToIntersection.deltaY > 0);
+                return (a.DeltaY > 0) == (vectorToIntersection.DeltaY > 0);
             }
         }
     }

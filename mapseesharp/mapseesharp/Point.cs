@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mapseesharp
+﻿namespace Mapseesharp
 {
+    using System;
+
+    /// <summary>
+    /// Represents a point.
+    /// </summary>
     public struct Point
     {
-
-        /// <summary>
-        /// Gets or sets the x coordinate.
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        /// Gets or sets the y coordinate.
-        /// </summary>
-        public double Y { get; set; }
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Point"/> struct.
         /// Returns the intersection point between two lines.
@@ -56,9 +43,9 @@ namespace Mapseesharp
                 double b2 = ((intersectingLineFromRight.StartingY * intersectingLineFromRight.DirectionX) - (intersectingLineFromRight.StartingX * intersectingLineFromRight.DirectionY))
         / (intersectingLineFromRight.DirectionX - intersectingLineFromRight.StartingX);
 
-
                 // x @ leikkaus
                 this.X = (b2 - b1) / (k1 - k2);
+
                 // y @ leikkaus
                 this.Y = (k1 * this.X) + b1;
             }
@@ -75,7 +62,12 @@ namespace Mapseesharp
             this.Y = y;
         }
 
-        // Does not work if edge is vertical (halfedge can be)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Point"/> struct at intersection.
+        /// Does not work if edge is vertical (halfedge can be).
+        /// </summary>
+        /// <param name="edge">Edge.</param>
+        /// <param name="halfedge">Halfedge.</param>
         public Point(Edge edge, BeachHalfEdge halfedge)
             : this()
         {
@@ -118,14 +110,24 @@ namespace Mapseesharp
         }
 
         /// <summary>
-        /// Returns true if the point is inside the given coordinates.
+        /// Gets or sets the x coordinate.
         /// </summary>
-        /// <param name="width">Width of canvas.</param>
-        /// <param name="height">Height of canvas.</param>
-        /// <returns>True if the point is on the canvas.</returns>
-        internal bool OnMap(int width, int height)
+        public double X { get; set; }
+
+        /// <summary>
+        /// Gets or sets the y coordinate.
+        /// </summary>
+        public double Y { get; set; }
+
+        /// <summary>
+        /// Returns the distance between two points.
+        /// </summary>
+        /// <param name="midpoint">Point 1.</param>
+        /// <param name="directionPoint">Point 2.</param>
+        /// <returns>Distance between the points.</returns>
+        internal static double DistanceBetweenPoints(Point midpoint, Point directionPoint)
         {
-            return this.X > 0 && this.X < width && this.Y > 0 && this.Y < height;
+            return Math.Sqrt(Math.Pow(midpoint.X - directionPoint.X, 2) + Math.Pow(midpoint.Y - directionPoint.Y, 2));
         }
 
         /// <summary>
@@ -140,14 +142,14 @@ namespace Mapseesharp
         }
 
         /// <summary>
-        /// Returns the distance between two points.
+        /// Returns true if the point is inside the given coordinates.
         /// </summary>
-        /// <param name="midpoint">Point 1.</param>
-        /// <param name="directionPoint">Point 2.</param>
-        /// <returns>Distance between the points.</returns>
-        internal static double DistanceBetweenPoints(Point midpoint, Point directionPoint)
+        /// <param name="width">Width of canvas.</param>
+        /// <param name="height">Height of canvas.</param>
+        /// <returns>True if the point is on the canvas.</returns>
+        internal bool OnMap(int width, int height)
         {
-            return Math.Sqrt(Math.Pow(midpoint.X - directionPoint.X, 2) + Math.Pow(midpoint.Y - directionPoint.Y, 2));
+            return this.X > 0 && this.X < width && this.Y > 0 && this.Y < height;
         }
     }
 }
