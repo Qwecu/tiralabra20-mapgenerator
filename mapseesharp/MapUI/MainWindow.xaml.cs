@@ -31,7 +31,7 @@ namespace MapUI
         int windowWidth = 700;
         int windowHeight = 700;
 
-        int siteAmount = 20;
+        int siteAmount = 50;
 
         bool showCircles = true;
 
