@@ -13,3 +13,6 @@ Suorituskyky:
 
 Testikattavuus:
 ![](Testikattavuus.png)
+
+Koodin tyylitarkistus:
+![](StyleCop.png)
